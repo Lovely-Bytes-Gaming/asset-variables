@@ -19,5 +19,6 @@ public abstract class ValueType<T> : ScriptableObject where T : struct, IEquatab
         }
     }
     
+    [SerializeField]
     protected T m_Value;
 }

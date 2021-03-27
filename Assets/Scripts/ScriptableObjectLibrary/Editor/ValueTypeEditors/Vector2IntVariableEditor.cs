@@ -1,11 +1,9 @@
 using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(Vector2IntVariable))]
-public class Vector2IntVariableEditor : Editor
+public class Vector2IntVariableEditor : ValueTypeEditor<Vector2Int>
 {
-    public override void OnInspectorGUI()
-    {
-        Vector2IntVariable var = (Vector2IntVariable)target;
-        var.Value = EditorGUILayout.Vector2IntField("value: ", var.Value);
-    }
+    protected override Vector2Int GenericEditorField(string description, Vector2Int value)
+        => EditorGUILayout.Vector2IntField(description, value);
 }

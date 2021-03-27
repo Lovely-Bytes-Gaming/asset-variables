@@ -1,11 +1,8 @@
 using UnityEditor;
 
 [CustomEditor(typeof(LongVariable))]
-public class LongVariableEditor : Editor
+public class LongVariableEditor : ValueTypeEditor<long>
 {
-    public override void OnInspectorGUI()
-    {
-        LongVariable var = (LongVariable)target;
-        var.Value = EditorGUILayout.LongField("value: ", var.Value);
-    }
+    protected override long GenericEditorField(string description, long value)
+        => EditorGUILayout.LongField(description, value);
 }

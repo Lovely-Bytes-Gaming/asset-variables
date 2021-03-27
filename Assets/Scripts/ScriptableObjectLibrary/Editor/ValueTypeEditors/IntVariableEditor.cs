@@ -1,11 +1,8 @@
 using UnityEditor;
 
 [CustomEditor(typeof(IntVariable))]
-public class IntVariableEditor : Editor
+public class IntVariableEditor : ValueTypeEditor<int>
 {
-    public override void OnInspectorGUI()
-    {
-        IntVariable var = (IntVariable)target;
-        var.Value = EditorGUILayout.IntField("value: ", var.Value);
-    }
+    protected override int GenericEditorField(string description, int value)
+        => EditorGUILayout.IntField(description, value);
 }

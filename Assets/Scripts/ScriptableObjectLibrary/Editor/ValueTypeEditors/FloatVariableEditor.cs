@@ -1,11 +1,8 @@
 using UnityEditor;
 
 [CustomEditor(typeof(FloatVariable))]
-public class FloatVariableEditor : Editor
+public class FloatVariableEditor : ValueTypeEditor<float>
 {
-    public override void OnInspectorGUI()
-    {
-        FloatVariable var = (FloatVariable)target;
-        var.Value = EditorGUILayout.FloatField("value: ", var.Value);
-    }
+    protected override float GenericEditorField(string description, float value)
+        => EditorGUILayout.FloatField(description, value);
 }

@@ -1,11 +1,8 @@
 using UnityEditor;
 
 [CustomEditor(typeof(BoolVariable))]
-public class BoolVariableEditor : Editor
+public class BoolVariableEditor : ValueTypeEditor<bool>
 {
-    public override void OnInspectorGUI()
-    {
-        BoolVariable var = (BoolVariable)target;
-        var.Value = EditorGUILayout.Toggle("value: ", var.Value);
-    }
+    protected override bool GenericEditorField(string description, bool value)
+        => EditorGUILayout.Toggle(description, value);
 }

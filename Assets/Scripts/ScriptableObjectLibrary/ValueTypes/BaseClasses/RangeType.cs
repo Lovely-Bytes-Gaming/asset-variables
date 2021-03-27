@@ -25,8 +25,8 @@ public abstract class RangeType<T> : ValueType<T> where T : struct, IEquatable<T
         }
     }
 
-    protected T m_Min;
-    protected T m_Max;
+    [SerializeField]
+    protected T m_Min, m_Max;
 
     public override T Value
     {

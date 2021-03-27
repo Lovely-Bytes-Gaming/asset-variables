@@ -1,11 +1,9 @@
 using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(DoubleVariable))]
-public class DoubleVariableEditor : Editor
+public class DoubleVariableEditor : ValueTypeEditor<double>
 {
-    public override void OnInspectorGUI()
-    {
-        DoubleVariable var = (DoubleVariable)target;
-        var.Value = EditorGUILayout.DoubleField("value: ", var.Value);
-    }
+    protected override double GenericEditorField(string description, double value)
+        => EditorGUILayout.DoubleField(description, value);
 }

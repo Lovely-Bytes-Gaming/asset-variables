@@ -1,11 +1,9 @@
 using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(Vector3Variable))]
-public class Vector3VariableEditor : Editor
+public class Vector3VariableEditor : ValueTypeEditor<Vector3>
 {
-    public override void OnInspectorGUI()
-    {
-        Vector3Variable var = (Vector3Variable)target;
-        var.Value = EditorGUILayout.Vector3Field("value: ", var.Value);
-    }
+    protected override Vector3 GenericEditorField(string description, Vector3 value)
+        => EditorGUILayout.Vector3Field(description, value);
 }

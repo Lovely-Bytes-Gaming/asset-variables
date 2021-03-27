@@ -1,13 +1,11 @@
 using UnityEditor;
 
 [CustomEditor(typeof(IntRange))]
-public class IntRangeEditor : Editor
+public class IntRangeEditor : RangeTypeEditor<int>
 {
-    public override void OnInspectorGUI()
-    {
-        IntRange var = (IntRange)target;
-        var.Min = EditorGUILayout.IntField("Minimum: ", var.Min);
-        var.Max = EditorGUILayout.IntField("Maximum: ", var.Max);
-        var.Value = EditorGUILayout.IntSlider("Value: ", var.Value, var.Min, var.Max);
-    }
+    protected override int GenericEditorField(string description, int value)
+        => EditorGUILayout.IntField(description, value);
+
+    protected override int GenericSlider(string description, int value, int min, int max)
+        => EditorGUILayout.IntSlider(description, value, min, max);
 }
