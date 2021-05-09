@@ -12,6 +12,7 @@
 
 # exclude test scripts
 /[Aa]ssets/Scripts/[Tt]est
+/[Aa]ssets/Scripts/[Tt]est.meta
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
