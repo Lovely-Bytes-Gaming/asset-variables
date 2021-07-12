@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CustomLibs.Util.ScriptableVariables
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "Scriptable Objects/Event Types/Event")]
     public class ScriptableEvent : ScriptableObject
     {
         private List<EventListener> listeners =
