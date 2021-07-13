@@ -27,7 +27,7 @@ namespace CustomLibs.Util.ScriptableVariables
 
         protected override uint GenericEditorField(string description, uint value)
         {
-            EditorGUILayout.LabelField(value.ToString());
+            EditorGUILayout.LabelField(System.Convert.ToString(value, 2));
 
             flags = (FlagsEnumerator)value;
             return (uint)(FlagsEnumerator)EditorGUILayout.EnumFlagsField(flags);

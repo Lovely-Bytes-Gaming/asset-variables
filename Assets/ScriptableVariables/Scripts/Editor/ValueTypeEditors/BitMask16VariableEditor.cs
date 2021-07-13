@@ -20,7 +20,7 @@ namespace CustomLibs.Util.ScriptableVariables
 
         protected override ushort GenericEditorField(string description, ushort value)
         {
-            EditorGUILayout.LabelField(value.ToString());
+            EditorGUILayout.LabelField(System.Convert.ToString(value, 2));
 
             flags = (FlagsEnumerator)value;
             return (ushort)(FlagsEnumerator)EditorGUILayout.EnumFlagsField(flags);
