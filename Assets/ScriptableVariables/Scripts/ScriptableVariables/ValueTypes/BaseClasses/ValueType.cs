@@ -6,7 +6,7 @@ namespace CustomLibs.Util.ScriptableVariables
 {
     public abstract class ValueType<T> : ScriptableObject where T : struct, IEquatable<T>
     {
-        public delegate void ValueChangedEvent(T newValue);
+        public delegate void ValueChangedEvent();
         public ValueChangedEvent OnValueChanged;
 
         public T Value
@@ -17,7 +17,7 @@ namespace CustomLibs.Util.ScriptableVariables
                 if (!value.Equals(m_Value))
                 {
                     m_Value = value;
-                    OnValueChanged?.Invoke(m_Value);
+                    OnValueChanged?.Invoke();
                 }
             }
         }

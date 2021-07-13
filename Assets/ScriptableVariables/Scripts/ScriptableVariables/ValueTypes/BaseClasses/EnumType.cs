@@ -6,7 +6,7 @@ namespace CustomLibs.Util.ScriptableVariables
 {
     public abstract class EnumType<T> : ScriptableObject where T : Enum
     {
-        public delegate void ValueChangedEvent(T newValue);
+        public delegate void ValueChangedEvent();
         public ValueChangedEvent OnValueChanged;
 
         public T Value
@@ -17,7 +17,7 @@ namespace CustomLibs.Util.ScriptableVariables
                 if (!value.Equals(m_Value))
                 {
                     m_Value = value;
-                    OnValueChanged?.Invoke(m_Value);
+                    OnValueChanged?.Invoke();
                 }
             }
         }
