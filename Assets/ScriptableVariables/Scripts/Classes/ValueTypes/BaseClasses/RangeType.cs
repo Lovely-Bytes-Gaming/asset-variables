@@ -6,7 +6,7 @@ namespace CustomLibs.Util.ScriptableVariables
 {
     public abstract class RangeType<T> : ScriptableObject where T : struct, IEquatable<T>, IComparable<T>
     {
-        public delegate void ValueChangedEvent();
+        public delegate void ValueChangedEvent(T oldValue, T newValue);
         public ValueChangedEvent OnValueChanged;
 
         [SerializeField]
@@ -47,8 +47,9 @@ namespace CustomLibs.Util.ScriptableVariables
 
                 if (!value.Equals(m_Value))
                 {
+                    T tmp = m_Value;
                     m_Value = value;
-                    OnValueChanged?.Invoke();
+                    OnValueChanged?.Invoke(tmp, value);
                 }
             }
         }

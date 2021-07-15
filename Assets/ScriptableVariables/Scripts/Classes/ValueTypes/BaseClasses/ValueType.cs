@@ -16,8 +16,9 @@ namespace CustomLibs.Util.ScriptableVariables
             {
                 if (!value.Equals(m_Value))
                 {
-                    OnValueChanged?.Invoke(m_Value, value);
+                    T tmp = m_Value;
                     m_Value = value;
+                    OnValueChanged?.Invoke(tmp, value);
                 }
             }
         }
