@@ -1,0 +1,8 @@
+{0}
+
+using UnityEditor;
+namespace CustomLibs.Util.ScriptableVariables 
+{{
+    [CustomEditor(typeof({1}Variable))]
+    public class {1}Editor : EnumTypeEditor<{1}> {{ }}
+}};
