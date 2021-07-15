@@ -49,8 +49,8 @@ namespace CustomLibs.Util.ScriptableVariables
 
         private void OnBitMaskChanged(ushort oldValue, ushort newValue)
         {
-            bool oldBit = BitMask16Variable.GetBit(oldValue, _bitToWatch);
-            bool newBit = BitMask16Variable.GetBit(newValue, _bitToWatch);
+            bool oldBit = BitMask16Variable.IsBitSet(oldValue, _bitToWatch);
+            bool newBit = BitMask16Variable.IsBitSet(newValue, _bitToWatch);
 
             if (oldBit != newBit) OnBitChanged?.Invoke(newBit);
         }

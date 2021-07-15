@@ -8,7 +8,7 @@ namespace CustomLibs.Util.ScriptableVariables
     {
         public void SetBit(int position) => Value |= (ushort)(1 << (position & 0xf));
         public void ClearBit(int position) => Value &= (ushort)~(1 << (position & 0xf));
-        public static bool GetBit(ushort bitMask, int position) => (bitMask & (1 << (position & 0xf))) > 0;
+        public static bool IsBitSet(ushort bitMask, int position) => (bitMask & (1 << (position & 0xf))) > 0;
 
 
         private Dictionary<int, BitMask16Observer> observerPool;

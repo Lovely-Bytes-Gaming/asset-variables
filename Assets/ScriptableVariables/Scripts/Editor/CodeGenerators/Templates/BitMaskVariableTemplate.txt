@@ -1,0 +1,13 @@
+// 0: Header
+// 1: Name
+// 2: Places
+
+{0}
+
+using UnityEngine;
+namespace CustomLibs.Util.ScriptableVariables
+{{
+    [CreateAssetMenu(menuName = "Scriptable Objects/BitMasks/{1}")]
+    public class {1}BitMask : BitMask{2}Variable
+    {{}}
+}}
