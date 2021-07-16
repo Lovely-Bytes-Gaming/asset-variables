@@ -4,14 +4,26 @@ using System;
 
 namespace CustomLibrary.Util.ScriptableVariables
 {
+    /// <summary>
+    /// Base class for range types (int and float)
+    /// Instances can be created in the Asset menu via
+    /// Create -> Scriptable Objects -> Range Types -> desired type
+    /// </summary>
     public abstract class RangeType<T> : ScriptableObject where T : struct, IEquatable<T>, IComparable<T>
     {
         public delegate void ValueChangedEvent(T oldValue, T newValue);
-        public ValueChangedEvent OnValueChanged;
+        /// <summary>
+        /// Subscribe to this Event to get notified when the value of this object changes.
+        /// Provides the new value as parameter.
+        /// </summary>
+        public event ValueChangedEvent OnValueChanged;
 
         [SerializeField]
         protected T m_Value;
 
+        /// <summary>
+        /// Minimum value of this instance
+        /// </summary>
         public T Min
         {
             get => m_Min;
@@ -23,6 +35,9 @@ namespace CustomLibrary.Util.ScriptableVariables
             }
         }
 
+        /// <summary>
+        /// Maximum value of this instance
+        /// </summary>
         public T Max
         {
             get => m_Max;
@@ -37,6 +52,9 @@ namespace CustomLibrary.Util.ScriptableVariables
         [SerializeField]
         protected T m_Min, m_Max;
 
+        /// <summary>
+        /// Current value of this instance, clamped to fall between Min and Max.
+        /// </summary>
         public T Value
         {
             get => m_Value;

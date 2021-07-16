@@ -4,10 +4,19 @@ using System;
 
 namespace CustomLibrary.Util.ScriptableVariables
 {
+    /// <summary>
+    /// Base class for value types (Anything that is a struct)
+    /// Instances can be created in the Asset menu via
+    /// Create -> Scriptable Objects -> Value Types -> desired type
+    /// </summary>
     public abstract class ValueType<T> : ScriptableObject where T : struct, IEquatable<T>
     {
-        public delegate void ValueChangedEvent(T oldValue, T newValue);
-        public ValueChangedEvent OnValueChanged;
+        public delegate void ValueChangedEvent(T newValue);
+        /// <summary>
+        /// Subscribe to this Event to get notified when the value of this object changes.
+        /// Provides the new value as parameter.
+        /// </summary>
+        public event ValueChangedEvent OnValueChanged;
 
         public T Value
         {
@@ -16,9 +25,8 @@ namespace CustomLibrary.Util.ScriptableVariables
             {
                 if (!value.Equals(m_Value))
                 {
-                    T tmp = m_Value;
                     m_Value = value;
-                    OnValueChanged?.Invoke(tmp, value);
+                    OnValueChanged?.Invoke(value);
                 }
             }
         }

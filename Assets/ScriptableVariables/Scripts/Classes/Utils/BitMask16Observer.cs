@@ -4,11 +4,21 @@ namespace CustomLibrary.Util.ScriptableVariables
     public class BitMask16Observer
     {
         public delegate void BitChangedEvent(bool value);
-        public BitChangedEvent OnBitChanged;
+        /// <summary>
+        /// Subscribe to this event to get notified when the bit at the position
+        /// of this observer changes.
+        /// </summary>
+        public event BitChangedEvent OnBitChanged;
+        public bool HasListener => OnBitChanged == null;
 
         private int _bitToWatch = 0;
+        private bool _oldBit = false;
         private BitMask16Variable _bitMaskToWatch;
 
+        /// <summary>
+        /// Specifies which bit triggers the 'OnBitChanged' event of this class.
+        /// Clamps the specified bit to the range of the bit mask (0-15)
+        /// </summary>
         public int BitToWatch
         {
             get => _bitToWatch;
@@ -23,6 +33,9 @@ namespace CustomLibrary.Util.ScriptableVariables
             }
         }
 
+        /// <summary>
+        /// A reference to the bit mask variable this observer watches
+        /// </summary>
         public BitMask16Variable BitMaskToWatch
         {
             get => _bitMaskToWatch;
@@ -35,11 +48,16 @@ namespace CustomLibrary.Util.ScriptableVariables
             }
         }
 
+        /// <summary>
+        /// Expects a bit mask and a specific bit position to observe.
+        /// </summary>
         public BitMask16Observer(BitMask16Variable bitMaskToWatch, int bitToWatch)
         {
+            BitToWatch = bitToWatch;
+
             _bitMaskToWatch = bitMaskToWatch;
             _bitMaskToWatch.OnValueChanged += OnBitMaskChanged;
-            BitToWatch = bitToWatch;
+            _oldBit = BitMask16Variable.IsBitSet(bitMaskToWatch.Value, bitToWatch);
         }
 
         ~BitMask16Observer()
@@ -47,12 +65,12 @@ namespace CustomLibrary.Util.ScriptableVariables
             _bitMaskToWatch.OnValueChanged -= OnBitMaskChanged;
         }
 
-        private void OnBitMaskChanged(ushort oldValue, ushort newValue)
+        private void OnBitMaskChanged(ushort newValue)
         {
-            bool oldBit = BitMask16Variable.IsBitSet(oldValue, _bitToWatch);
             bool newBit = BitMask16Variable.IsBitSet(newValue, _bitToWatch);
 
-            if (oldBit != newBit) OnBitChanged?.Invoke(newBit);
+            if (_oldBit != newBit) OnBitChanged?.Invoke(newBit);
+            _oldBit = newBit;
         }
     }
 }
