@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/BitMasks/16")]
     public class BitMask16Variable : ValueType<ushort>

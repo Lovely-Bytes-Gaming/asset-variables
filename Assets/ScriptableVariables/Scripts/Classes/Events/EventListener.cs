@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     public class EventListener : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/Value Types/Int")]
     public class IntVariable : ValueType<int> 

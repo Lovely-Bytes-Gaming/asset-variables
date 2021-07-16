@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     public abstract class ValueType<T> : ScriptableObject where T : struct, IEquatable<T>
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/Event Types/Event")]
     public class ScriptableEvent : ScriptableObject

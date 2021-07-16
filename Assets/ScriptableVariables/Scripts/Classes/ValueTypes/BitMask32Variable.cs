@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/BitMasks/32")]
     public class BitMask32Variable : ValueType<uint>

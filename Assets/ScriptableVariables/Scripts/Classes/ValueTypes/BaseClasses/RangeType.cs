@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     public abstract class RangeType<T> : ScriptableObject where T : struct, IEquatable<T>, IComparable<T>
     {

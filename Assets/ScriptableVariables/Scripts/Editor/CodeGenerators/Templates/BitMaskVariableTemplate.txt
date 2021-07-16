@@ -5,7 +5,7 @@
 {0}
 
 using UnityEngine;
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {{
     [CreateAssetMenu(menuName = "Scriptable Objects/BitMasks/{1}")]
     public class {1}BitMask : BitMask{2}Variable

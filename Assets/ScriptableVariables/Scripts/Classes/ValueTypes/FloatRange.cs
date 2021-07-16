@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/Range/Float Range")]
     public class FloatRange : RangeType<float> 

@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using System;
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     public class EnumTypeEditor<T> : Editor where T : Enum
     {

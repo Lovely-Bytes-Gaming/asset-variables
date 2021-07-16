@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CustomEditor(typeof(Vector3Variable))]
     public class Vector3VariableEditor : ValueTypeEditor<Vector3>

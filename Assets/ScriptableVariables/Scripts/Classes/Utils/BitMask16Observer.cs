@@ -1,5 +1,5 @@
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     public class BitMask16Observer
     {

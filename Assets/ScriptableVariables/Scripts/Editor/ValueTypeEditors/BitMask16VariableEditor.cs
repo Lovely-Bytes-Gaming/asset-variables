@@ -1,7 +1,7 @@
 using UnityEditor;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CustomEditor(typeof(BitMask16Variable))]
     public class BitMask16VariableEditor : ValueTypeEditor<ushort>

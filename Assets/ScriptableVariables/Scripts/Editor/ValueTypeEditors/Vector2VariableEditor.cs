@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CustomEditor(typeof(Vector2Variable))]
     public class Vector2VariableEditor : ValueTypeEditor<Vector2>

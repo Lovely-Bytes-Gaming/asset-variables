@@ -1,8 +1,12 @@
 {0}
 
+// underscores are automatically added to the beginning of each value's name to avoid 
+// name conflicts with reserved keywords
+
 using UnityEngine;
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {{
+
     public enum {1} 
     {{ 
         {2} 
@@ -11,6 +15,6 @@ namespace CustomLibs.Util.ScriptableVariables
     [CreateAssetMenu(menuName = "Scriptable Objects/Enum Types/{1}")]
     public class {1}Variable : EnumType<{1}>
     {{
-        void Reset() => m_Value = {1}.{3};
+        void Reset() => m_Value = {1}._{3};
     }}
 }}

@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CustomEditor(typeof(BoolVariable))]
     public class BoolVariableEditor : ValueTypeEditor<bool>

@@ -7,7 +7,7 @@
 
 using UnityEditor;
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {{
     [CustomEditor(typeof({1}BitMask))]
     public class {1}Editor : ValueTypeEditor<{2}>

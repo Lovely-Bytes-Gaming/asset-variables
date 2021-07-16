@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CustomEditor(typeof(DoubleVariable))]
     public class DoubleVariableEditor : ValueTypeEditor<double>

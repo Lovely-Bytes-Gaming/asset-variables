@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CustomEditor(typeof(ScriptableEvent))]
     public class ScriptableEventEditor : Editor

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     public class BitMask32Observer
     {

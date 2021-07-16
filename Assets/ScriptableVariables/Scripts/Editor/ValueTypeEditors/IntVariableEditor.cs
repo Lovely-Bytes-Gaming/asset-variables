@@ -1,7 +1,7 @@
 using UnityEditor;
 
 
-namespace CustomLibs.Util.ScriptableVariables
+namespace CustomLibrary.Util.ScriptableVariables
 {
     [CustomEditor(typeof(IntVariable))]
     public class IntVariableEditor : ValueTypeEditor<int>
