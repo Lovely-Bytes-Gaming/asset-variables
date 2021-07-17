@@ -6,7 +6,7 @@ namespace CustomLibrary.Util.ScriptableVariables
     public class BitMask16Variable : BitMaskType<BitMask16>
     {
         protected override BitMask16 XOR(BitMask16 a, BitMask16 b)
-            => a ^ b;
+            => a.XOR(b);
 
         void Reset() => m_Value = 0;
     }

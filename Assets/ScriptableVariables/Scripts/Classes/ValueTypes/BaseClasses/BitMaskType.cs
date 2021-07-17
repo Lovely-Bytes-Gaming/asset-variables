@@ -5,7 +5,6 @@ namespace CustomLibrary.Util.ScriptableVariables
 {
     public abstract class BitMaskType<T> : ScriptableObject where T : IBitMask
     {
-
         public delegate void ValueChangedEvent(T newValue, T dirtyBits);
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.
