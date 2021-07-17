@@ -1,10 +1,11 @@
 using UnityEditor;
+using UnityEngine;
 
 
 namespace CustomLibrary.Util.ScriptableVariables
 {
     [CustomEditor(typeof(BitMask32Variable))]
-    public class BitMask32VariableEditor : ValueTypeEditor<uint>
+    public class BitMask32VariableEditor : Editor
     {
         private enum FlagsEnumerator
         {
@@ -25,12 +26,14 @@ namespace CustomLibrary.Util.ScriptableVariables
 
         FlagsEnumerator flags;
 
-        protected override uint GenericEditorField(string description, uint value)
+        public override void OnInspectorGUI()
         {
-            EditorGUILayout.LabelField(System.Convert.ToString(value, 2));
+            BitMask32Variable var = (BitMask32Variable)target;
+            EditorGUILayout.LabelField(var.Value.ToString());
+            flags = (FlagsEnumerator)(uint)var.Value;
+            var.Value = (uint)(FlagsEnumerator)EditorGUILayout.EnumFlagsField(flags);
 
-            flags = (FlagsEnumerator)value;
-            return (uint)(FlagsEnumerator)EditorGUILayout.EnumFlagsField(flags);
+            if (GUI.changed) EditorUtility.SetDirty(var);
         }
     }
 }

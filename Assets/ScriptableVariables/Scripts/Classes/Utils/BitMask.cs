@@ -1,6 +1,11 @@
 using System;
 
-public struct BitMask16 : IEquatable<BitMask16>
+// interface describing a bitmask
+public interface IBitMask 
+{}
+
+
+public struct BitMask16 : IEquatable<BitMask16>, IBitMask
 {
     private ushort value;
 
@@ -14,13 +19,13 @@ public struct BitMask16 : IEquatable<BitMask16>
         => (ushort)~bm.value;
 
     public static BitMask16 operator ^(BitMask16 a, BitMask16 b)
-    => (ushort)(a ^ b);
+    => (ushort)(a.value ^ b.value);
 
     public override string ToString()
         => Convert.ToString(value, 2);
 
     public bool Equals(BitMask16 other)
-        => this.value == other.value;
+        => value == other.value;
 
     public bool this[int i]
     {
@@ -31,7 +36,7 @@ public struct BitMask16 : IEquatable<BitMask16>
 }
 
 
-public struct BitMask32 : IEquatable<BitMask32>
+public struct BitMask32 : IEquatable<BitMask32>, IBitMask
 {
     private uint value;
 
@@ -44,11 +49,14 @@ public struct BitMask32 : IEquatable<BitMask32>
     public static BitMask32 operator ~(BitMask32 bm)
     => ~bm.value;
 
+    public static BitMask32 operator ^(BitMask32 a, BitMask32 b)
+        => (a.value ^ b.value);
+
     public override string ToString()
         => Convert.ToString(value, 2);
 
     public bool Equals(BitMask32 other)
-    => this.value == other.value;
+    => value == other.value;
 
     public bool this[int i]
     {

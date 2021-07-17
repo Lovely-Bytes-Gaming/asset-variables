@@ -22,10 +22,10 @@ namespace CustomLibrary.Util.ScriptableVariables
         public override void OnInspectorGUI()
         {
             BitMask16Variable var = (BitMask16Variable)target;
-            EditorGUILayout.LabelField(System.Convert.ToString(var.Value, 2));
-            flags = (FlagsEnumerator)var.Value;
+            EditorGUILayout.LabelField(var.Value.ToString());
+            flags = (FlagsEnumerator)(ushort)var.Value;
             var.Value = (ushort)(FlagsEnumerator)EditorGUILayout.EnumFlagsField(flags);
-
+            
             if (GUI.changed) EditorUtility.SetDirty(var);
         }
     }
