@@ -6,15 +6,14 @@
 using UnityEngine;
 namespace CustomLibrary.Util.ScriptableVariables
 {{
-
-    public enum {1} 
-    {{ 
-        {2} 
-    }}
-
     [CreateAssetMenu(menuName = "Scriptable Objects/Enum Types/{1}")]
-    public class {1}Variable : EnumType<{1}>
+    public class {1}Variable : EnumType<{1}Variable.{1}>
     {{
+        public enum {1} 
+        {{ 
+            {2} 
+        }}
+
         void Reset() => m_Value = {1}._{3};
     }}
 }}

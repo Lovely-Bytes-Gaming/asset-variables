@@ -4,5 +4,5 @@ using UnityEditor;
 namespace CustomLibrary.Util.ScriptableVariables 
 {{
     [CustomEditor(typeof({1}Variable))]
-    public class {1}Editor : EnumTypeEditor<{1}> {{ }}
+    public class {1}Editor : EnumTypeEditor<{1}Variable.{1}> {{ }}
 }};

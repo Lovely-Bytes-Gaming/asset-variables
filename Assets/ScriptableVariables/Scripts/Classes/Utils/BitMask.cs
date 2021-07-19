@@ -69,6 +69,8 @@ namespace CustomLibrary.Util.ScriptableVariables
     /// Uses a ushort as backing value
     /// and can be implicitly converted from and to ushort.
     /// </summary>
+
+    [Serializable]
     public struct BitMask16 : IEquatable<BitMask16>, IBitMask
     {
         private ushort value;
@@ -126,6 +128,7 @@ namespace CustomLibrary.Util.ScriptableVariables
     /// Uses a uint as backing value
     /// and can be implicitly converted from and to uint.
     /// </summary>
+    [Serializable]
     public struct BitMask32 : IEquatable<BitMask32>, IBitMask
     {
         private uint value;

@@ -1,0 +1,79 @@
+// 0: Header
+// 1: Name
+// 2: Enum Values
+// 3: Enum Length
+// 4: Bits (16 or 32)
+// 5: Default Value
+// 6: Backing Type
+
+{0}
+
+using UnityEngine;
+
+namespace CustomLibrary.Util.ScriptableVariables
+{{
+    [CreateAssetMenu(menuName = "Scriptable Objects/Enum Masks/{1}")]
+    public class {1}Mask : ScriptableObject
+    {{
+        public enum {1}
+        {{
+            {2}
+        }}
+
+        public delegate void ValueChangedEvent(int position, {1} newValue);
+        public event ValueChangedEvent OnValueChanged;
+
+        [SerializeField]
+        private {6}[] bms = new {6}[{3}];
+
+        public int Length() => bms.Length;
+
+        public {1} this[int position]
+        {{
+            get
+            {{
+                for(int i = 0; i < bms.Length; ++i)
+                {{
+                    BitMask{4} bm = bms[i];
+                    if (bm[position]) return ({1})i;
+                }}
+                return {1}._{5};
+            }}
+            set
+            {{
+                BitMask{4} bm = bms[(int)value];
+                if (!bm[position])
+                {{
+                    for(int i = 0; i < bms.Length; ++i)
+                    {{
+                        bm = bms[i];
+
+                        if (i == (int)value)
+                            bm[position] = true;
+                        else 
+                            bm[position] = false;
+
+                        bms[i] = bm;
+                    }}
+
+                    OnValueChanged?.Invoke(position, value);
+                }}
+            }}
+        }}
+
+        void Reset() 
+        {{
+            for(int i = 0; i < bms.Length; ++i) 
+            {{
+                bms[i] = 0;
+                if(i == (int){1}._{5})
+                {{
+                    BitMask{4} bm = bms[i];
+                    bm.Invert();
+                    bms[i] = bm;
+                }}
+            }}
+        }}
+    }}
+}}
+
