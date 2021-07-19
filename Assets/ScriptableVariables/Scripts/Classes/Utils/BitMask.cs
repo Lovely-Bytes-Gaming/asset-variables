@@ -3,8 +3,6 @@ using System;
 
 namespace CustomLibrary.Util.ScriptableVariables
 {
-    // TODO: more elegant solution maybe?
-
     /// <summary>
     /// Interface describing bitmasks
     /// </summary>

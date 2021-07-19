@@ -61,6 +61,37 @@ namespace CustomLibrary.Util.ScriptableVariables
             }}
         }}
 
+
+        /// <summary>
+        /// Grants access to the {6} values that are used
+        /// to describe the current state of the mask.
+        /// When set, invokes OnValueChanged for all enum positions
+        /// that are not set to the default value.
+        /// </summary>
+        public {6}[] BackingField
+        {{
+            get => bms.Clone() as {6}[];
+            set
+            {{
+                bms = value;
+                BroadcastEveryNewState();
+            }}
+        }}
+
+        private void BroadcastEveryNewState()
+        {{
+            for (int i = 0; i < {3}; ++i)
+            {{
+                BitMask{4} bm = bms[i];
+                for(int j = 0; j < {4}; ++j)
+                {{
+                    if(bm[j] && i != (int){1}._{5})
+                        OnValueChanged?.Invoke(j, ({1})i);
+                }}
+            }}
+        }}
+
+
         void Reset() 
         {{
             for(int i = 0; i < bms.Length; ++i) 

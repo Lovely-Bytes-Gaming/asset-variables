@@ -79,7 +79,7 @@ public class EnumMaskGenerator : EditorWindow
             GUILayout.Label($"({lastKnownValues[defaultValue]})");
         }
 
-        if (GUILayout.Button("Generate Enum Mask"))
+        if (GUILayout.Button("Generate Scripts"))
         {
             if(!IsScriptNameValid(nameStr))
             {
@@ -206,11 +206,11 @@ public class EnumMaskGenerator : EditorWindow
             }
             catch(System.Exception e)
             {
-                EditorUtility.DisplayDialog("Error (Create)", e.Message, "Sad");
+                EditorUtility.DisplayDialog("Error", e.Message, "Sad");
             }
         }
 
-        else if (GUILayout.Button("Delete"))
+        else if (GUILayout.Button("Find and Delete"))
         {
             try
             {
@@ -219,10 +219,19 @@ public class EnumMaskGenerator : EditorWindow
 
                 file = new FileInfo(string.Format(editor_dest_path, nameStr));
                 file.Delete();
+
+                EditorUtility.DisplayDialog(
+                    "Success",
+                    $"deleted class script\n\n{string.Format(class_dest_path, nameStr)}\n\n" +
+                    $"and editor script\n\n{string.Format(editor_dest_path, nameStr)}",
+                    "They had it coming"
+                );
+
+                AssetDatabase.Refresh();
             }
             catch (System.Exception e)
             {
-                EditorUtility.DisplayDialog("Error (Delete)", e.Message, "Sad");
+                EditorUtility.DisplayDialog("Error", e.Message, "Sad");
             }
         }
     }

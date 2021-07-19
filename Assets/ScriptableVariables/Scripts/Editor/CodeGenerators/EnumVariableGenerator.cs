@@ -73,7 +73,7 @@ public class EnumVariableGenerator : EditorWindow
         }
 
 
-        if (GUILayout.Button("Generate Enum"))
+        if (GUILayout.Button("Generate Scripts"))
         {
             if(!IsScriptNameValid(nameStr))
             {
@@ -198,10 +198,19 @@ public class EnumVariableGenerator : EditorWindow
 
                 file = new FileInfo(string.Format(editor_dest_path, nameStr));
                 file.Delete();
+
+                EditorUtility.DisplayDialog(
+                    "Success",
+                    $"deleted class script\n\n{string.Format(class_dest_path, nameStr)}\n\n" +
+                    $"and editor script\n\n{string.Format(editor_dest_path, nameStr)}",
+                    "They had it coming"
+                );
+
+                AssetDatabase.Refresh();
             }
             catch (System.Exception e)
             {
-                EditorUtility.DisplayDialog("Error (Delete)", e.Message, "Sad");
+                EditorUtility.DisplayDialog("Error", e.Message, "Sad");
             }
         }
     }
