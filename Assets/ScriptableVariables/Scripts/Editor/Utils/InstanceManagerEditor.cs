@@ -16,7 +16,7 @@ namespace CustomLibrary.Util.ScriptableVariables
 
             foreach (var item in typedTarget.referenceDictionary)
             {
-                EditorGUILayout.ObjectField($"Item {item.Key}: ", item.Value, typeof(ScriptableObject), true);
+                EditorGUILayout.ObjectField($"Item {item.Key}: ", item.Value.value, typeof(ScriptableObject), true);
             }
         }
     }
