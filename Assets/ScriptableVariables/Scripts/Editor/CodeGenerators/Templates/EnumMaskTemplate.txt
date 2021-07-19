@@ -20,7 +20,7 @@ namespace CustomLibrary.Util.ScriptableVariables
             {2}
         }}
 
-        public delegate void ValueChangedEvent(int position, {1} newValue);
+        public delegate void ValueChangedEvent(BitMask{4} dirty);
         public event ValueChangedEvent OnValueChanged;
 
         [SerializeField]
@@ -56,7 +56,9 @@ namespace CustomLibrary.Util.ScriptableVariables
                         bms[i] = bm;
                     }}
 
-                    OnValueChanged?.Invoke(position, value);
+                    BitMask{4} dirty = 0;
+                    dirty[position] = true;
+                    OnValueChanged?.Invoke(dirty);
                 }}
             }}
         }}
@@ -73,36 +75,28 @@ namespace CustomLibrary.Util.ScriptableVariables
             get => bms.Clone() as {6}[];
             set
             {{
-                bms = value;
-                BroadcastEveryNewState();
-            }}
-        }}
-
-        private void BroadcastEveryNewState()
-        {{
-            for (int i = 0; i < {3}; ++i)
-            {{
-                BitMask{4} bm = bms[i];
-                for(int j = 0; j < {4}; ++j)
+                BitMask{4} dirty = 0;
+                for (int i = 0; i < Length(); ++i)
                 {{
-                    if(bm[j] && i != (int){1}._{5})
-                        OnValueChanged?.Invoke(j, ({1})i);
+                    BitMask{4} left = bms[i], right = value[i];
+                    dirty = left.XOR(right).OR(dirty);
                 }}
+                bms = value;
+                OnValueChanged.Invoke(dirty);
             }}
         }}
 
+        public void SetDirty(BitMask{4} dirtyMask)
+            => OnValueChanged?.Invoke(dirtyMask);
 
         void Reset() 
         {{
             for(int i = 0; i < bms.Length; ++i) 
             {{
                 bms[i] = 0;
+
                 if(i == (int){1}._{5})
-                {{
-                    BitMask{4} bm = bms[i];
-                    bm.Invert();
-                    bms[i] = bm;
-                }}
+                    bms[i] = ((BitMask{4})bms[i]).Inverse();
             }}
         }}
     }}

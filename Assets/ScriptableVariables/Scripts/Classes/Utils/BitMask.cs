@@ -69,7 +69,7 @@ namespace CustomLibrary.Util.ScriptableVariables
     /// </summary>
 
     [Serializable]
-    public struct BitMask16 : IEquatable<BitMask16>, IBitMask
+    public struct BitMask16 : IEquatable<BitMask16>//, IBitMask
     {
         private ushort value;
 
@@ -85,13 +85,13 @@ namespace CustomLibrary.Util.ScriptableVariables
         public bool Equals(BitMask16 other)
             => value == other.value;
 
-        public void Invert()
-            => value = (ushort)~value;
+        public BitMask16 Inverse()
+            => (ushort)~value;
 
-        public void ShiftLeft(int count)
-            => value = (ushort)(value << count);
+        public BitMask16 ShiftLeft(int count)
+            => (ushort)(value << count);
 
-        public void ShiftRight(int count)
+        public BitMask16 ShiftRight(int count)
             => value = (ushort)(value >> count);
 
         public BitMask16 AND(BitMask16 other)
@@ -103,14 +103,7 @@ namespace CustomLibrary.Util.ScriptableVariables
         public BitMask16 XOR(BitMask16 other)
             => (ushort)(value ^ other);
 
-        public BitMask32 AND(BitMask32 other)
-            => value & other;
-
-        public BitMask32 OR(BitMask32 other)
-            => value | other;
-
-        public BitMask32 XOR(BitMask32 other)
-            => value ^ other;
+        
 
         public bool this[int i]
         {
@@ -127,7 +120,7 @@ namespace CustomLibrary.Util.ScriptableVariables
     /// and can be implicitly converted from and to uint.
     /// </summary>
     [Serializable]
-    public struct BitMask32 : IEquatable<BitMask32>, IBitMask
+    public struct BitMask32 : IEquatable<BitMask32>//, IBitMask
     {
         private uint value;
 
@@ -149,23 +142,14 @@ namespace CustomLibrary.Util.ScriptableVariables
         public bool Equals(BitMask32 other)
         => value == other.value;
 
-        public void Invert()
-            => value = ~value;
+        public BitMask32 Invert()
+            => ~value;
 
-        public void ShiftLeft(int count)
-            => value <<= count;
+        public BitMask32 ShiftLeft(int count)
+            => value << count;
 
-        public void ShiftRight(int count)
-            => value >>= count;
-
-        public BitMask16 AND(BitMask16 other)
-            => (ushort)(value & other);
-
-        public BitMask16 OR(BitMask16 other)
-            => (ushort)(value | other);
-
-        public BitMask16 XOR(BitMask16 other)
-            => (ushort)(value | other);
+        public BitMask32 ShiftRight(int count)
+            => value >> count;
 
         public BitMask32 AND(BitMask32 other)
             => value & other;
