@@ -12,6 +12,11 @@ using UnityEngine;
 
 namespace CustomLibrary.Util.ScriptableVariables
 {{
+    /// <summary>
+    /// Variable that represents an array of {1} values.
+    /// Internally, it uses {3} arrays of {6}s to represent the states for each bit position.
+    /// Can represent {4} states at a time.
+    /// </summary>
     [CreateAssetMenu(menuName = "Scriptable Objects/Enum Masks/{1}")]
     public class {1}Mask : ScriptableObject
     {{
@@ -20,82 +25,123 @@ namespace CustomLibrary.Util.ScriptableVariables
             {2}
         }}
 
-        public delegate void ValueChangedEvent(BitMask{4} dirty);
+        public delegate void MaskChangedEvent(BitMask{4} dirty);
+        /// <summary>
+        /// This event is fired when the BackingField property of this variable is set.
+        /// The parameter is a BitMask{4}, showing all positions that have changed.
+        /// </summary>
+        public event MaskChangedEvent OnMaskChanged;
+
+        public delegate void ValueChangedEvent({1} newValue, int position);
+        /// <summary>
+        /// Fires when a single value of the mask is changed by using the [] operator.
+        /// First parameter: new value. Second parameter: bit position that has changed.
+        /// </summary>
         public event ValueChangedEvent OnValueChanged;
 
         [SerializeField]
         private {6}[] bms = new {6}[{3}];
 
-        public int Length() => bms.Length;
-
+        /// <summary>
+        /// Array like getter/setter.
+        /// Use this operator to get/set single enum values in the array.
+        /// The setter invokes the OnValueChanged event.
+        /// </summary>
         public {1} this[int position]
         {{
             get
             {{
-                for(int i = 0; i < bms.Length; ++i)
+                int outValue = 0;
+                BitMask{4} bm;
+                for(int i = 0; i < {3}; ++i)
                 {{
-                    BitMask{4} bm = bms[i];
-                    if (bm[position]) return ({1})i;
+                    bm = bms[i];
+                    outValue += (bm[position]) ? 1 << i : 0;
                 }}
-                return {1}._{5};
+                return ({1})outValue;
             }}
             set
             {{
-                BitMask{4} bm = bms[(int)value];
-                if (!bm[position])
+                {1} currentValue = this[position];
+                if (currentValue != value)
                 {{
-                    for(int i = 0; i < bms.Length; ++i)
+                    BitMask{4} from = (BitMask{4})(int)value;
+
+                    for(int i = 0; i < {3}; ++i)
                     {{
-                        bm = bms[i];
-
-                        if (i == (int)value)
-                            bm[position] = true;
-                        else 
-                            bm[position] = false;
-
-                        bms[i] = bm;
+                        BitMask{4} to = bms[i];
+                        to[position] = from[i];
+                        bms[i] = to;
                     }}
 
                     BitMask{4} dirty = 0;
                     dirty[position] = true;
-                    OnValueChanged?.Invoke(dirty);
+                    OnValueChanged?.Invoke(value, position);
                 }}
             }}
         }}
 
-
         /// <summary>
         /// Grants access to the {6} values that are used
         /// to describe the current state of the mask.
-        /// When set, invokes OnValueChanged for all enum positions
-        /// that are not set to the default value.
+        /// When set, invokes the OnMaskChanged event.
         /// </summary>
         public {6}[] BackingField
         {{
-            get => bms.Clone() as {6}[];
+            get 
+            {{
+                {6}[] copy = new {6}[bms.Length];
+                bms.CopyTo(copy, 0);
+                return copy;
+            }}
             set
             {{
                 BitMask{4} dirty = 0;
-                for (int i = 0; i < Length(); ++i)
+                for (int i = 0; i < {3}; ++i)
                 {{
                     BitMask{4} left = bms[i], right = value[i];
                     dirty = left.XOR(right).OR(dirty);
                 }}
                 bms = value;
-                OnValueChanged.Invoke(dirty);
+                OnMaskChanged?.Invoke(dirty);
             }}
         }}
 
+        /// <summary>
+        /// Use to broadcast a change in the mask, even though it hasn't actually changed.
+        /// Invokes the OnMaskChanged event.
+        /// </summary>
         public void SetDirty(BitMask{4} dirtyMask)
-            => OnValueChanged?.Invoke(dirtyMask);
+            => OnMaskChanged?.Invoke(dirtyMask);
+        
+        /// <summary>
+        /// Returns a mask that is set to true for every position that currently is in the given state.
+        /// </summary>
+        public BitMask{4} GetAllWithState({1} state)
+        {{
+            BitMask{4} outBm = 0;
+            BitMask{4} stateBm = (BitMask{4})(int)(state);
+            BitMask{4} cmp;
+
+            for (int i = 0; i < {3}; ++i)
+            {{
+                cmp = 0;
+                cmp = (stateBm[i]) ? cmp.Inverse() : cmp;
+                outBm = cmp.AND(bms[i]).OR(outBm);
+            }}
+            return outBm;
+        }}
+
 
         void Reset() 
         {{
-            for(int i = 0; i < bms.Length; ++i) 
+            BitMask{4} bm = (BitMask{4})(int){1}._{5};
+
+            for(int i = 0; i < {3}; ++i) 
             {{
                 bms[i] = 0;
 
-                if(i == (int){1}._{5})
+                if(bm[i])
                     bms[i] = ((BitMask{4})bms[i]).Inverse();
             }}
         }}

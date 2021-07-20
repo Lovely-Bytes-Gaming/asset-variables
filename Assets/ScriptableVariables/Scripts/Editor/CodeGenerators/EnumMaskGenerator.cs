@@ -169,12 +169,17 @@ public class EnumMaskGenerator : EditorWindow
                 string scriptTemplate = File.ReadAllText(class_src_path);
                 string editorTemplate = File.ReadAllText(editor_src_path);
 
+                int numBackingFields = lastKnownValues.Length % 2;
+                for (int i = lastKnownValues.Length >> 1; i > 0; i >>= 1)
+                {
+                    ++numBackingFields;
+                }
                 string scriptStr = string.Format(
                     scriptTemplate, 
                     header, 
                     nameStr, 
-                    valuesStr, 
-                    lastKnownValues.Length, 
+                    valuesStr,
+                    numBackingFields, 
                     (int)places, 
                     lastKnownValues[defaultValue],
                     (places == Places._16) ? "ushort" : "uint"

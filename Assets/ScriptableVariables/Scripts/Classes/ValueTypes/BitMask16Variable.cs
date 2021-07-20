@@ -5,7 +5,7 @@ namespace CustomLibrary.Util.ScriptableVariables
     [CreateAssetMenu(menuName = "Scriptable Objects/BitMasks/16")]
     public class BitMask16Variable : ScriptableObject
     {
-        public delegate void ValueChangedEvent(BitMask16 dirtyBits);
+        public delegate void ValueChangedEvent(BitMask16 newMask, BitMask16 dirtyBits);
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.
         /// First Parameter: New BitMask    Second Parameter: Dirty Bits (Bits that have changed)
@@ -24,7 +24,7 @@ namespace CustomLibrary.Util.ScriptableVariables
                 {
                     BitMask16 dirty = ((BitMask16)m_Value).XOR(value);
                     m_Value = value;
-                    OnValueChanged?.Invoke(dirty);
+                    OnValueChanged?.Invoke(value, dirty);
                 }
             }
         }
@@ -44,7 +44,7 @@ namespace CustomLibrary.Util.ScriptableVariables
                 {
                     BitMask16 dirty = bm.XOR(m_Value);
                     m_Value = bm;
-                    OnValueChanged?.Invoke(dirty);
+                    OnValueChanged?.Invoke(bm, dirty);
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace CustomLibrary.Util.ScriptableVariables
         /// Use to broadcast a change in the mask, even though it hasn't actually changed.
         /// </summary>
         public void SetDirty(BitMask16 dirtyMask)
-            => OnValueChanged?.Invoke(dirtyMask);
+            => OnValueChanged?.Invoke(m_Value, dirtyMask);
 
         [SerializeField]
         private ushort m_Value;
