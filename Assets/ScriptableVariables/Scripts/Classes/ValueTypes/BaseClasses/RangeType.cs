@@ -17,6 +17,10 @@ namespace CustomLibrary.Util.ScriptableVariables
         /// Provides the new value as parameter.
         /// </summary>
         public event ValueChangedEvent OnValueChanged;
+        /// <summary>
+        /// You can optionally define a function here that checks whether this value can be edited.
+        /// </summary>
+        public bool isLocked =  false;
 
         [SerializeField]
         protected T m_Value;
@@ -63,7 +67,7 @@ namespace CustomLibrary.Util.ScriptableVariables
                 value = value.CompareTo(m_Min) < 0 ? m_Min : value;
                 value = value.CompareTo(m_Max) > 0 ? m_Max : value;
 
-                if (!value.Equals(m_Value))
+                if (!value.Equals(m_Value) && !isLocked)
                 {
                     T tmp = m_Value;
                     m_Value = value;

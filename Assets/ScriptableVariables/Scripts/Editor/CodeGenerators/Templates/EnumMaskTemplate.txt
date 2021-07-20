@@ -9,6 +9,7 @@
 {0}
 
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -42,6 +43,10 @@ namespace CustomLibrary.Util.ScriptableVariables
         /// First parameter: new value. Second parameter: bit position that has changed.
         /// </summary>
         public event ValueChangedEvent OnValueChanged;
+        /// <summary>
+        /// You can optionally define a function here that checks whether this value can be edited.
+        /// </summary>
+        public bool isLocked =  false;
 
         [SerializeField]
         private {6}[] bms = new {6}[{3}];
@@ -67,7 +72,7 @@ namespace CustomLibrary.Util.ScriptableVariables
             set
             {{
                 {1} currentValue = this[position];
-                if (currentValue != value)
+                if (currentValue != value && !isLocked)
                 {{
                     BitMask{4} from = (BitMask{4})(uint)value;
 
@@ -106,14 +111,19 @@ namespace CustomLibrary.Util.ScriptableVariables
                     BitMask{4} left = bms[i], right = value[i];
                     dirty = left.XOR(right).OR(dirty);
                 }}
-                bms = value;
-                OnMaskChanged?.Invoke(dirty);
+
+                if(dirty > 0 && !isLocked) 
+                {{
+                    bms = value;
+                    OnMaskChanged?.Invoke(dirty);
+                }}
             }}
         }}
 
         /// <summary>
         /// Use to broadcast a change in the mask, even though it hasn't actually changed.
         /// Invokes the OnMaskChanged event.
+        /// Still works when the variable is locked, as the actual value doesn't change.
         /// </summary>
         public void SetDirty(BitMask{4} dirtyMask)
             => OnMaskChanged?.Invoke(dirtyMask);
@@ -151,7 +161,7 @@ namespace CustomLibrary.Util.ScriptableVariables
         /// </summary>
         public void Reset() 
         {{
-            ushort[] bms_cpy = bms.BackingField;
+            ushort[] bms_cpy = BackingField;
             BitMask{4} bm = (BitMask{4})(uint)defaultValue;
 
             for(int i = 0; i < {3}; ++i) 

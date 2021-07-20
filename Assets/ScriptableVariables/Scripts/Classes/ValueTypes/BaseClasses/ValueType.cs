@@ -11,6 +11,11 @@ namespace CustomLibrary.Util.ScriptableVariables
     /// </summary>
     public abstract class ValueType<T> : ScriptableObject where T : struct, IEquatable<T>
     {
+        /// <summary>
+        /// You can optionally define a function here that checks whether this value can be edited.
+        /// </summary>
+        public bool isLocked =  false;
+
         public delegate void ValueChangedEvent(T newValue);
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.
@@ -23,7 +28,7 @@ namespace CustomLibrary.Util.ScriptableVariables
             get => m_Value;
             set
             {
-                if (!value.Equals(m_Value))
+                if (!value.Equals(m_Value) && !isLocked)
                 {
                     m_Value = value;
                     OnValueChanged?.Invoke(value);

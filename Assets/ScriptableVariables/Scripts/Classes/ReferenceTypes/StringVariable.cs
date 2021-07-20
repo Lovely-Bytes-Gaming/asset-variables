@@ -15,13 +15,17 @@ namespace CustomLibrary.Util.ScriptableVariables
         /// Provides the new value as parameter.
         /// </summary>
         public event ValueChangedEvent OnValueChanged;
+        /// <summary>
+        /// You can optionally define a function here that checks whether this value can be edited.
+        /// </summary>
+        public bool isLocked =  false;
 
         public string Value
         {
             get => m_Value;
             set
             {
-                if (!value.Equals(m_Value))
+                if (!value.Equals(m_Value) && !isLocked)
                 {
                     m_Value = value;
                     OnValueChanged?.Invoke(value);

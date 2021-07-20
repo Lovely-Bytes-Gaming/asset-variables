@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 namespace CustomLibrary.Util.ScriptableVariables
 {
@@ -11,7 +12,10 @@ namespace CustomLibrary.Util.ScriptableVariables
         /// First Parameter: New BitMask    Second Parameter: Dirty Bits (Bits that have changed)
         /// </summary>
         public event ValueChangedEvent OnValueChanged;
-
+        /// <summary>
+        /// You can optionally define a function here that checks whether this value can be edited.
+        /// </summary>
+        public bool isLocked =  false;
         /// <summary>
         /// Use this when you want to read / change the whole bit mask
         /// </summary>
@@ -20,7 +24,7 @@ namespace CustomLibrary.Util.ScriptableVariables
             get => m_Value;
             set
             {
-                if (!value.Equals(m_Value))
+                if (!value.Equals(m_Value) && !isLocked)
                 {
                     BitMask32 dirty = ((BitMask32)m_Value).XOR(value);
                     m_Value = value;
@@ -40,7 +44,7 @@ namespace CustomLibrary.Util.ScriptableVariables
                 BitMask32 bm = m_Value;
                 bm[position] = value;
 
-                if (bm.Equals(m_Value))
+                if (!bm.Equals(m_Value) && !isLocked)
                 {
                     BitMask32 dirty = bm.XOR(m_Value);
                     m_Value = bm;
@@ -51,6 +55,7 @@ namespace CustomLibrary.Util.ScriptableVariables
 
         /// <summary>
         /// Use to broadcast a change in the mask, even though it hasn't actually changed.
+        /// Still works when the variable is locked, as the actual value doesn't change.
         /// </summary>
         public void SetDirty(BitMask32 dirty)
             => OnValueChanged?.Invoke(m_Value, dirty);
