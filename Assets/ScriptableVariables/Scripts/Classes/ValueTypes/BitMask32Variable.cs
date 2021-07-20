@@ -58,7 +58,7 @@ namespace CustomLibrary.Util.ScriptableVariables
         [SerializeField]
         private uint m_Value;
 
-        void Reset() => m_Value = 0;
+        public void Reset() => Value = 0;
     }
 }
 

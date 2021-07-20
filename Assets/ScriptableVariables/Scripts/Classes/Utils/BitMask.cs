@@ -6,71 +6,11 @@ using System.Collections.Generic;
 namespace CustomLibrary.Util.ScriptableVariables
 {
     /// <summary>
-    /// Interface describing bitmasks
-    /// </summary>
-    public interface IBitMask 
-    {
-        /// <summary>
-        /// Logical NOT: flips all bits (0 -> 1 and vice versa)
-        /// </summary>
-        public void Invert();
-        /// <summary>
-        /// Shift bits to the left, inserting 0 from the right
-        /// </summary>
-        public void ShiftLeft(int count);
-        /// <summary>
-        /// Shift bits to the right, inserting 0 from the left
-        /// </summary>
-        public void ShiftRight(int count);
-
-
-        /// <summary>
-        /// Logical AND: returns bit masks with all bits set to 1 where both masks have a value of 1.
-        /// Sets the rest to 0.
-        /// The type of the returned bitmask is the type of the input operand 'other'.
-        /// </summary>
-        public BitMask16 AND(BitMask16 other);
-        /// <summary>
-        /// Logical OR: returns bit masks with all bits set to 1 where either mask has a value of 1.
-        /// Sets the rest to 0.
-        /// The type of the returned bitmask is the type of the input operand 'other'.
-        /// </summary>
-        public BitMask16 OR(BitMask16 other);
-        /// <summary>
-        /// Logical XOR: returns bit masks with all bits set to 1 where the masks have different values.
-        /// Sets the rest to 0.
-        /// The type of the returned bitmask is the type of the input operand 'other'.
-        /// </summary>
-        public BitMask16 XOR(BitMask16 other);
-        /// <summary>
-        /// Logical AND: returns bit masks with all bits set to 1 where both masks have a value of 1.
-        /// Sets the rest to 0.
-        /// The type of the returned bitmask is the type of the input operand 'other'.
-        /// </summary>
-        public BitMask32 AND(BitMask32 other);
-        /// <summary>
-        /// Logical OR: returns bit masks with all bits set to 1 where either mask has a value of 1.
-        /// Sets the rest to 0.
-        /// The type of the returned bitmask is the type of the input operand 'other'.
-        /// </summary>
-        public BitMask32 OR(BitMask32 other);
-        /// <summary>
-        /// Logical XOR: returns bit masks with all bits set to 1 where the masks have different values.
-        /// Sets the rest to 0.
-        /// The type of the returned bitmask is the type of the input operand 'other'.
-        /// </summary>
-        public BitMask32 XOR(BitMask32 other);
-
-    }
-
-    /// <summary>
     /// Represents a mask with 16 bits.
     /// Single bits can be accessed like an array.
     /// Uses a ushort as backing value
     /// and can be implicitly converted from and to ushort.
     /// </summary>
-
-    [Serializable]
     public struct BitMask16 : IEquatable<BitMask16>, IEnumerable<bool>
     {
         private ushort value;
@@ -84,34 +24,55 @@ namespace CustomLibrary.Util.ScriptableVariables
         public override string ToString()
             => Convert.ToString(value, 2);
 
-        public bool Equals(BitMask16 other)
-            => value == other.value;
-
-        public BitMask16 Inverse()
-            => (ushort)~value;
-
-        public BitMask16 ShiftLeft(int count)
-            => (ushort)(value << count);
-
-        public BitMask16 ShiftRight(int count)
-            => value = (ushort)(value >> count);
-
-        public BitMask16 AND(BitMask16 other)
-            => (ushort)(value & other);
-
-        public BitMask16 OR(BitMask16 other)
-            => (ushort)(value | other);
-
-        public BitMask16 XOR(BitMask16 other)
-            => (ushort)(value ^ other);
-
-        public bool this[int i]
+        public BitMask16(ushort value)
         {
-            get => (this & 1 << i) > 0;
-            set => this = value ? (ushort)(this | (1 << i))
-                : (ushort)(this & ~(1 << i));
+            this.value = value;
         }
 
+        public bool Equals(BitMask16 other)
+            => value == other.value;
+        /// <summary>
+        /// Logical NOT: returns a copy of this mask with flipped bits (0 -> 1 and vice versa)
+        /// </summary>
+        public BitMask16 Inverse()
+            => (ushort)~value;
+        /// <summary>
+        /// returns a copy of this mask with bits shifted to the left, inserting 0 from the right
+        /// </summary>
+        public BitMask16 ShiftLeft(int count)
+            => (ushort)(value << count);
+        /// <summary>
+        /// returns a copy of this mask with bits shifted to the right, inserting 0 from the left
+        /// </summary>
+        public BitMask16 ShiftRight(int count)
+            => value = (ushort)(value >> count);
+        /// <summary>
+        /// Logical AND: returns a mask with all bits set to 1 where both masks have a value of 1.
+        /// Sets the rest to 0.
+        /// </summary>
+        public BitMask16 AND(BitMask16 other)
+            => (ushort)(value & other);
+        /// <summary>
+        /// Logical OR: returns a mask with all bits set to 1 where either mask has a value of 1.
+        /// Sets the rest to 0.
+        /// </summary>
+        public BitMask16 OR(BitMask16 other)
+            => (ushort)(value | other);
+        /// <summary>
+        /// Logical XOR: returns a bit mask with all bits set to 1 where the masks have different values.
+        /// Sets the rest to 0.
+        /// </summary>
+        public BitMask16 XOR(BitMask16 other)
+            => (ushort)(value ^ other);
+        /// <summary>
+        /// array-like getter/setter for individual bit positions.
+        /// </summary>
+        public bool this[int position]
+        {
+            get => (this & 1 << position) > 0;
+            set => this = value ? (ushort)(this | (1 << position))
+                : (ushort)(this & ~(1 << position));
+        }
         public IEnumerator<bool> GetEnumerator()
         {
             for (int i = 0; i < 16; ++i)
@@ -128,7 +89,6 @@ namespace CustomLibrary.Util.ScriptableVariables
     /// Uses a uint as backing value
     /// and can be implicitly converted from and to uint.
     /// </summary>
-    [Serializable]
     public struct BitMask32 : IEquatable<BitMask32>, IEnumerable<bool>
     {
         private uint value;
@@ -138,6 +98,11 @@ namespace CustomLibrary.Util.ScriptableVariables
 
         public static implicit operator uint(BitMask32 bm)
             => bm.value;
+
+        public BitMask32(uint value)
+        {
+            this.value = value;
+        }
 
         public static BitMask32 operator ~(BitMask32 bm)
         => ~bm.value;
@@ -150,25 +115,42 @@ namespace CustomLibrary.Util.ScriptableVariables
 
         public bool Equals(BitMask32 other)
         => value == other.value;
-
+        /// <summary>
+        /// Logical NOT: returns a copy of this mask with flipped bits (0 -> 1 and vice versa)
+        /// </summary>
         public BitMask32 Inverse()
             => ~value;
-
+        /// <summary>
+        /// returns a copy of this mask with bits shifted to the left, inserting 0 from the right
+        /// </summary>
         public BitMask32 ShiftLeft(int count)
             => value << count;
-
+        /// <summary>
+        /// returns a copy of this mask with bits shifted to the right, inserting 0 from the left
+        /// </summary>
         public BitMask32 ShiftRight(int count)
             => value >> count;
-
+        /// <summary>
+        /// Logical AND: returns a mask with all bits set to 1 where both masks have a value of 1.
+        /// Sets the rest to 0.
+        /// </summary>
         public BitMask32 AND(BitMask32 other)
             => value & other;
-
+        /// <summary>
+        /// Logical OR: returns a mask with all bits set to 1 where either mask has a value of 1.
+        /// Sets the rest to 0.
+        /// </summary>
         public BitMask32 OR(BitMask32 other)
             => value | other;
-
+        /// <summary>
+        /// Logical XOR: returns a bit mask with all bits set to 1 where the masks have different values.
+        /// Sets the rest to 0.
+        /// </summary>
         public BitMask32 XOR(BitMask32 other)
             => value ^ other;
-
+        /// <summary>
+        /// array-like getter/setter for individual bit positions.
+        /// </summary>
         public bool this[int i]
         {
             get => (this & 1 << i) > 0;

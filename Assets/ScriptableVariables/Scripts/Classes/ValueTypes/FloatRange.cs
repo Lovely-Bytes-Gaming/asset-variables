@@ -6,7 +6,7 @@ namespace CustomLibrary.Util.ScriptableVariables
     [CreateAssetMenu(menuName = "Scriptable Objects/Range/Float Range")]
     public class FloatRange : RangeType<float> 
     { 
-        void Reset()
+        public void Reset()
         {
             m_Min = 0f;
             m_Max = 1f;

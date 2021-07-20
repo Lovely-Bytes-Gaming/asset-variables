@@ -14,6 +14,6 @@ namespace CustomLibrary.Util.ScriptableVariables
             {2} 
         }}
 
-        void Reset() => m_Value = {1}._{3};
+        public void Reset() => m_Value = {1}._{3};
     }}
 }}
