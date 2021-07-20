@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 
 namespace CustomLibrary.Util.ScriptableVariables
@@ -69,7 +71,7 @@ namespace CustomLibrary.Util.ScriptableVariables
     /// </summary>
 
     [Serializable]
-    public struct BitMask16 : IEquatable<BitMask16>//, IBitMask
+    public struct BitMask16 : IEquatable<BitMask16>, IEnumerable<bool>
     {
         private ushort value;
 
@@ -103,14 +105,21 @@ namespace CustomLibrary.Util.ScriptableVariables
         public BitMask16 XOR(BitMask16 other)
             => (ushort)(value ^ other);
 
-        
-
         public bool this[int i]
         {
             get => (this & 1 << i) > 0;
             set => this = value ? (ushort)(this | (1 << i))
                 : (ushort)(this & ~(1 << i));
         }
+
+        public IEnumerator<bool> GetEnumerator()
+        {
+            for (int i = 0; i < 16; ++i)
+                yield return this[i];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
     }
 
     /// <summary>
@@ -120,7 +129,7 @@ namespace CustomLibrary.Util.ScriptableVariables
     /// and can be implicitly converted from and to uint.
     /// </summary>
     [Serializable]
-    public struct BitMask32 : IEquatable<BitMask32>//, IBitMask
+    public struct BitMask32 : IEquatable<BitMask32>, IEnumerable<bool>
     {
         private uint value;
 
@@ -142,7 +151,7 @@ namespace CustomLibrary.Util.ScriptableVariables
         public bool Equals(BitMask32 other)
         => value == other.value;
 
-        public BitMask32 Invert()
+        public BitMask32 Inverse()
             => ~value;
 
         public BitMask32 ShiftLeft(int count)
@@ -166,5 +175,14 @@ namespace CustomLibrary.Util.ScriptableVariables
             set => this = value ? this | (uint)(1 << i)
                 : this & ~(uint)(1 << i);
         }
+
+        public IEnumerator<bool> GetEnumerator()
+        {
+            for (int i = 0; i < 32; ++i)
+                yield return this[i];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
     }
 }

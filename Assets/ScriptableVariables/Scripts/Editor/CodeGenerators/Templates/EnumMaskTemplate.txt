@@ -9,6 +9,8 @@
 {0}
 
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CustomLibrary.Util.ScriptableVariables
 {{
@@ -18,7 +20,7 @@ namespace CustomLibrary.Util.ScriptableVariables
     /// Can represent {4} states at a time.
     /// </summary>
     [CreateAssetMenu(menuName = "Scriptable Objects/Enum Masks/{1}")]
-    public class {1}Mask : ScriptableObject
+    public class {1}Mask : ScriptableObject, IEnumerable<{1}Mask.{1}>
     {{
         public enum {1}
         {{
@@ -65,7 +67,7 @@ namespace CustomLibrary.Util.ScriptableVariables
                 {1} currentValue = this[position];
                 if (currentValue != value)
                 {{
-                    BitMask{4} from = (BitMask{4})(int)value;
+                    BitMask{4} from = (BitMask{4})(uint)value;
 
                     for(int i = 0; i < {3}; ++i)
                     {{
@@ -120,7 +122,7 @@ namespace CustomLibrary.Util.ScriptableVariables
         public BitMask{4} GetAllWithState({1} state)
         {{
             BitMask{4} outBm = 0;
-            BitMask{4} stateBm = (BitMask{4})(int)(state);
+            BitMask{4} stateBm = (BitMask{4})(uint)(state);
             BitMask{4} cmp;
 
             for (int i = 0; i < {3}; ++i)
@@ -132,10 +134,18 @@ namespace CustomLibrary.Util.ScriptableVariables
             return outBm;
         }}
 
+        public IEnumerator<{1}> GetEnumerator()
+        {{
+            for(int i = 0; i < {4}; ++i)
+                yield return this[i];
+        }}
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
 
         void Reset() 
         {{
-            BitMask{4} bm = (BitMask{4})(int){1}._{5};
+            BitMask{4} bm = (BitMask{4})(uint){1}._{5};
 
             for(int i = 0; i < {3}; ++i) 
             {{
