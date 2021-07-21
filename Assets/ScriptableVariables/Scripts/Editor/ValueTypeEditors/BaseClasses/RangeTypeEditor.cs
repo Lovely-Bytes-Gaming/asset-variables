@@ -16,6 +16,8 @@ namespace CustomLibrary.Util.ScriptableVariables
             var.Max = GenericEditorField("Maximum: ", var.Max);
             var.Value = GenericSlider("Value: ", var.Value, var.Min, var.Max);
 
+            var.isLocked = EditorGUILayout.Toggle("Locked: ", var.isLocked);
+
             if (GUI.changed) EditorUtility.SetDirty(var);
         }
     }

@@ -25,7 +25,9 @@ namespace CustomLibrary.Util.ScriptableVariables
             EditorGUILayout.LabelField(var.Value.ToString());
             flags = (FlagsEnumerator)(ushort)var.Value;
             var.Value = (ushort)(FlagsEnumerator)EditorGUILayout.EnumFlagsField(flags);
-            
+
+            var.isLocked = EditorGUILayout.Toggle("Locked: ", var.isLocked);
+
             if (GUI.changed) EditorUtility.SetDirty(var);
         }
     }

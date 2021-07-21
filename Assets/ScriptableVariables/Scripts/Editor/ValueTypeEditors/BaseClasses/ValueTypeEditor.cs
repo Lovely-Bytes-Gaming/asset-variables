@@ -13,6 +13,8 @@ namespace CustomLibrary.Util.ScriptableVariables
             ValueType<T> var = (ValueType<T>)target;
             var.Value = GenericEditorField("Value: ", var.Value);
 
+            var.isLocked = EditorGUILayout.Toggle("Locked: ", var.isLocked);
+
             if (GUI.changed) EditorUtility.SetDirty(var);
         }
     }

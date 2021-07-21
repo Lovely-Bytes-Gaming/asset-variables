@@ -20,6 +20,9 @@ namespace CustomLibrary.Util.ScriptableVariables
             {{
                 emv[i] = ({1}Mask.{1})EditorGUILayout.EnumPopup($"{{i}}: ", emv[i]);
             }}
+
+            emv.isLocked = EditorGUILayout.Toggle("Locked: ", emv.isLocked);
+
             if (GUI.changed) EditorUtility.SetDirty(emv);
         }}
     }}

@@ -33,6 +33,8 @@ namespace CustomLibrary.Util.ScriptableVariables
             flags = (FlagsEnumerator)(uint)var.Value;
             var.Value = (uint)(FlagsEnumerator)EditorGUILayout.EnumFlagsField(flags);
 
+            var.isLocked = EditorGUILayout.Toggle("Locked: ", var.isLocked);
+
             if (GUI.changed) EditorUtility.SetDirty(var);
         }
     }
