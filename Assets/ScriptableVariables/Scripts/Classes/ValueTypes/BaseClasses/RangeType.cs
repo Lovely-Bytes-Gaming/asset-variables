@@ -11,7 +11,7 @@ namespace CustomLibrary.Util.ScriptableVariables
     /// </summary>
     public abstract class RangeType<T> : ScriptableObject where T : struct, IEquatable<T>, IComparable<T>
     {
-        public delegate void ValueChangedEvent(T oldValue, T newValue);
+        public delegate void ValueChangedEvent(T newValue);
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.
         /// Provides the new value as parameter.
@@ -69,9 +69,8 @@ namespace CustomLibrary.Util.ScriptableVariables
 
                 if (!value.Equals(m_Value) && !isLocked)
                 {
-                    T tmp = m_Value;
                     m_Value = value;
-                    OnValueChanged?.Invoke(tmp, value);
+                    OnValueChanged?.Invoke(value);
                 }
             }
         }
