@@ -1,0 +1,19 @@
+// 0: Name
+// 1: Editor Fields
+
+using UnityEngine;
+using UnityEditor;
+
+namespace CustomLibrary.Util.ScriptableVariables
+{{
+    [CustomEditor(typeof({0}Variable))]
+    public class {0}VariableEditor : ValueTypeEditor<{0}>
+    {{
+        protected override {0} GenericEditorField(string description, {0} value)
+        {{
+            {1}
+    
+            return value;
+        }}
+    }}
+}}

@@ -1,0 +1,26 @@
+// 0: name
+// 1: fields
+// 2: equals
+
+using UnityEngine;
+
+namespace CustomLibrary.Util.ScriptableVariables
+{{
+    public struct {0} : System.IEquatable<{0}>
+    {{
+        {1}
+
+        public bool Equals({0} other)
+            => {2}
+
+        public override string ToString()
+            => JsonUtility.ToJson(this);
+    }}
+
+    [CreateAssetMenu(menuName = "Scriptable Objects/Value Types/{0}")]
+    public class {0}Variable : ValueType<{0}>
+    {{
+        public void Reset()
+            => Value = new {0}();
+    }}
+}}

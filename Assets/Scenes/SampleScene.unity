@@ -242,11 +242,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1119077382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2b4fb4445f0612428ae1bd22f9a8ab6, type: 3}
+  m_Script: {fileID: 11500000, guid: 2365314dfd1356f419c4b53ab9741ed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  t: {fileID: 11400000, guid: 67b700cf6437ff9479b35720078ad1ca, type: 2}
-  gate: 0
+  ctVar: {fileID: 11400000, guid: 7833a9c25af3b044484f71ebd09cdf9d, type: 2}
 --- !u!4 &1119077384
 Transform:
   m_ObjectHideFlags: 0
