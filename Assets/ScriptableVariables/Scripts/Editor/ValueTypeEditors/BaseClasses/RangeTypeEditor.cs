@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.DataManagement.ScriptableVariables
 {
     public abstract class RangeTypeEditor<T> : Editor where T : struct, IEquatable<T>, IComparable<T>
     {

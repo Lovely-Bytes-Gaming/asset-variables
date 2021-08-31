@@ -1,7 +1,7 @@
 using UnityEditor;
 
 
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.DataManagement.ScriptableVariables
 {
     [CustomEditor(typeof(FloatRange))]
     public class FloatRangeEditor : RangeTypeEditor<float>

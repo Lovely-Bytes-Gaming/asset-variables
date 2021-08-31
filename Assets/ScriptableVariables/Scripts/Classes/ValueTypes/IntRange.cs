@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.DataManagement.ScriptableVariables
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/Range/Int Range")]
     public class IntRange : RangeType<int> 

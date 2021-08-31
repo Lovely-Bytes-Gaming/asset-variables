@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.DataManagement.ScriptableVariables
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/Value Types/Vector2 Int")]
     public class Vector2IntVariable : ValueType<Vector2Int> 

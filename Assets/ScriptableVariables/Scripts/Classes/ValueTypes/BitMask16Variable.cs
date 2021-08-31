@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.DataManagement.ScriptableVariables
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/BitMasks/16")]
     public class BitMask16Variable : ScriptableObject

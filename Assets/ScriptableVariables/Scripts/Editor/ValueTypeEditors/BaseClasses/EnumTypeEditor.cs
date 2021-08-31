@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using System;
 
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.DataManagement.ScriptableVariables
 {
     public class EnumTypeEditor<T> : Editor where T : Enum
     {
