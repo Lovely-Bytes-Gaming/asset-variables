@@ -1,8 +1,7 @@
 using UnityEngine;
 using System;
 
-
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.DataManagement.ScriptableVariables
 {
     /// <summary>
     /// Base class for value types (Anything that is a struct)
