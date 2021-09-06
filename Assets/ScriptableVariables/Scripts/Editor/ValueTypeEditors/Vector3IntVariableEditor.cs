@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace InflamedGums.DataManagement.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {
     [CustomEditor(typeof(Vector3IntVariable))]
     public class Vector3IntVariableEditor : ValueTypeEditor<Vector3Int>

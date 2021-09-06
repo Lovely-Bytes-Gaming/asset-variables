@@ -4,7 +4,7 @@
 // name conflicts with reserved keywords
 
 using UnityEngine;
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {{
     [CreateAssetMenu(menuName = "Scriptable Objects/Enum Types/{1}")]
     public class {1}Variable : EnumType<{1}Variable.{1}>

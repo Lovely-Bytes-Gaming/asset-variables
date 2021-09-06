@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace InflamedGums.DataManagement.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {
     /// <summary>
     /// Scriptable Variable implementation for strings

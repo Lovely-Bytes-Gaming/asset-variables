@@ -1,7 +1,7 @@
 {0}
 
 using UnityEditor;
-namespace CustomLibrary.Util.ScriptableVariables 
+namespace InflamedGums.Util.ScriptableVariables
 {{
     [CustomEditor(typeof({1}Variable))]
     public class {1}Editor : EnumTypeEditor<{1}Variable.{1}> {{ }}

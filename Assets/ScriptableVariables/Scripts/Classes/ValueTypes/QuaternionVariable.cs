@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace InflamedGums.DataManagement.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/Value Types/Quaternion")]
     public class QuaternionVariable : ValueType<Quaternion> 

@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace InflamedGums.DataManagement.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {
     [CustomEditor(typeof(BitMask32Variable))]
     public class BitMask32VariableEditor : Editor

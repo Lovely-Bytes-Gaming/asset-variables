@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace InflamedGums.DataManagement.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {
     [CustomEditor(typeof(DoubleVariable))]
     public class DoubleVariableEditor : ValueTypeEditor<double>

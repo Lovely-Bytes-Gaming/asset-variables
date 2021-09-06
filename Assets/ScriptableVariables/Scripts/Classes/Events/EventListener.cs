@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-namespace InflamedGums.DataManagement.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {
     /// <summary>
     /// Game Objects with this component can listen to ScriptableEvent objects.

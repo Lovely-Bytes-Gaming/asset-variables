@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-namespace InflamedGums.DataManagement.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {
     [CustomEditor(typeof(ScriptableEvent))]
     public class ScriptableEventEditor : Editor

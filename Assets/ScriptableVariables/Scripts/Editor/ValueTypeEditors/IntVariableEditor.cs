@@ -1,7 +1,7 @@
 using UnityEditor;
 
 
-namespace InflamedGums.DataManagement.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {
     [CustomEditor(typeof(IntVariable))]
     public class IntVariableEditor : ValueTypeEditor<int>

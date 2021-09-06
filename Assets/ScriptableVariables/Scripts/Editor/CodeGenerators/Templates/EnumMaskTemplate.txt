@@ -13,7 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {{
     /// <summary>
     /// Variable that represents an array of {1} values.

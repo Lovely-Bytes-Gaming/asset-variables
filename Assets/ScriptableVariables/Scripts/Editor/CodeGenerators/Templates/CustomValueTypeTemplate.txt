@@ -4,7 +4,7 @@
 
 using UnityEngine;
 
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {{
     public struct {0} : System.IEquatable<{0}>
     {{

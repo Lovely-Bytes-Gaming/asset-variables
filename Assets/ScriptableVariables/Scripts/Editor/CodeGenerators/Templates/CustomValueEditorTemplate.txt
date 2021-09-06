@@ -4,7 +4,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace CustomLibrary.Util.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {{
     [CustomEditor(typeof({0}Variable))]
     public class {0}VariableEditor : ValueTypeEditor<{0}>

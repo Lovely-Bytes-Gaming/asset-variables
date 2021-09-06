@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace InflamedGums.DataManagement.ScriptableVariables
+namespace InflamedGums.Util.ScriptableVariables
 {
     [CustomEditor(typeof(BoolVariable))]
     public class BoolVariableEditor : ValueTypeEditor<bool>
