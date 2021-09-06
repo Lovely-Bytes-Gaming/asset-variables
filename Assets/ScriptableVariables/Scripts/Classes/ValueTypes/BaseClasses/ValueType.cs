@@ -35,7 +35,13 @@ namespace CustomLibrary.Util.ScriptableVariables
                 }
             }
         }
-    
+
+        /// <summary>
+        /// Invoke this object's OnValueChanged event without actually changing it's value.
+        /// </summary>
+        public void Invoke()
+            => OnValueChanged?.Invoke(m_Value);
+
         [SerializeField]
         protected T m_Value;
     }

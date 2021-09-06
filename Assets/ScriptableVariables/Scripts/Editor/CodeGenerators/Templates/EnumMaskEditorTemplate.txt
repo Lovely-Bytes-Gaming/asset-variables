@@ -14,16 +14,21 @@ namespace CustomLibrary.Util.ScriptableVariables
     {{
         public override void OnInspectorGUI()
         {{
-            {1}Mask emv = ({1}Mask)target;
+            {1}Mask var = ({1}Mask)target;
 
             for (int i = 0; i < {2}; ++i)
             {{
-                emv[i] = ({1}Mask.{1})EditorGUILayout.EnumPopup($"{{i}}: ", emv[i]);
+                var[i] = ({1}Mask.{1})EditorGUILayout.EnumPopup($"{{i}}: ", var[i]);
+                EditorGUILayout.Space(5f);
             }}
 
-            emv.isLocked = EditorGUILayout.Toggle("Locked: ", emv.isLocked);
+            var.isLocked = EditorGUILayout.Toggle("Locked: ", var.isLocked);
 
-            if (GUI.changed) EditorUtility.SetDirty(emv);
+            EditorGUILayout.Space(20f);
+            if (GUILayout.Button("Invoke"))
+                var.SetDirty(new BitMask{2}(0).Inverse());
+
+            if (GUI.changed) EditorUtility.SetDirty(var);
         }}
     }}
 }}

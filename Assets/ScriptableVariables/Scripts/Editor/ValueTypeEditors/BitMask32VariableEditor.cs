@@ -35,6 +35,10 @@ namespace CustomLibrary.Util.ScriptableVariables
 
             var.isLocked = EditorGUILayout.Toggle("Locked: ", var.isLocked);
 
+            EditorGUILayout.Space(20f);
+            if (GUILayout.Button("Invoke"))
+                var.SetDirty(new BitMask32(0).Inverse());
+
             if (GUI.changed) EditorUtility.SetDirty(var);
         }
     }
