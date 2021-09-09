@@ -1,0 +1,36 @@
+{0}
+
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace InflamedGums.Util.ScriptableVariables
+{{
+    using eType = {1}Variable.{1};
+    
+    [AddComponentMenu("Scriptable Variables/Runtime Listener/{1} Listener")]
+    public class {1}Listener : MonoBehaviour
+    {{
+        [SerializeField]
+        private {1}Variable var;
+
+        [SerializeField]
+        private bool invokeOnAwake = false;
+
+        public UnityEvent<eType> ValueChangedListeners;
+
+        private void OnValueChanged(eType v)
+            => ValueChangedListeners.Invoke(v);
+
+        private void Awake()
+        {{
+            var.OnValueChanged += OnValueChanged;
+            
+            if (invokeOnAwake)
+                var.Invoke();
+        }}
+
+        private void OnDestroy()
+            => var.OnValueChanged -= OnValueChanged;
+    }}
+}}
+
