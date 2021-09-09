@@ -2,8 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-
-namespace InflamedGums.Util.ScriptableVariables
+namespace InflamedGums.Util.Types
 {
     /// <summary>
     /// Represents a mask with 16 bits.

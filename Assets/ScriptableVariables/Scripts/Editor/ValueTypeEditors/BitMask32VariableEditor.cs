@@ -1,6 +1,6 @@
 using UnityEditor;
 using UnityEngine;
-
+using InflamedGums.Util.Types;
 
 namespace InflamedGums.Util.ScriptableVariables
 {

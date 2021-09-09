@@ -1,4 +1,5 @@
 using UnityEngine;
+using InflamedGums.Util.Types;
 using UnityEngine.Events;
 
 namespace InflamedGums.Util.ScriptableVariables
