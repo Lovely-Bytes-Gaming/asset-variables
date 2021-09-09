@@ -176,7 +176,6 @@ public class CustomValueTypeGenerator : EditorWindow
             var eqEntries = entries.ToList().OrderByDescending(e => e.equals).ToArray();
 
             int k = 0;
-            string typeStr;
             for (; k + 1 < eqEntries.Count(); ++k)
             {
                 equalsConditions += $"{eqEntries[k].name}.Equals(other.{eqEntries[k].name}) &&\n\t\t\t";
@@ -184,7 +183,6 @@ public class CustomValueTypeGenerator : EditorWindow
             equalsConditions += $"{eqEntries[k].name}.Equals(other.{eqEntries[k].name});";
 
 
-            string fieldTemplate = "value.{0} = EditorGUILayout.{1}(\"{0}\", value.{0});";
             string editorFields = "";
 
             k = 0;

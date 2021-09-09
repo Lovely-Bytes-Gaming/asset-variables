@@ -7,5 +7,6 @@ namespace InflamedGums.Util.ScriptableVariables
     public class IntVariable : ValueType<int> 
     { 
         public void Reset() => Value = 0;
+
     };
 }
