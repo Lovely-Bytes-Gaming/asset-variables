@@ -28,7 +28,7 @@ public class PrefabPool : ScriptableObject
         else
             go = unusedObjects.Pop();
 
-        go.GetComponent<Poolable>().Spawn(this);
+        go.GetComponent<Poolable>().Spawn(DespawnCallback);
 
         return go;
     }
@@ -53,12 +53,12 @@ public class PrefabPool : ScriptableObject
             go = unusedObjects.Pop();
 
         go.transform.position = atPosition;
-        go.GetComponent<Poolable>().Spawn(this);
+        go.GetComponent<Poolable>().Spawn(DespawnCallback);
 
         return go;
     }
 
-    public void RemoveInstance(GameObject go)
+    private void DespawnCallback(GameObject go)
     {
         go.transform.parent = null;
         if(unusedObjects.Count >= maxCapacity)
@@ -69,7 +69,6 @@ public class PrefabPool : ScriptableObject
         {
             go.SetActive(false);
             unusedObjects.Push(go);
-
         }
     }
 }

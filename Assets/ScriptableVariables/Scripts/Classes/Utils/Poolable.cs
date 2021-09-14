@@ -1,19 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using System;
 
 public class Poolable : MonoBehaviour
 {
-    private PrefabPool parentPool;
+    private Action<GameObject> despawnCallback;
 
-    public void Spawn(PrefabPool parentPool)
+    public void Spawn(Action<GameObject> despawnCallback)
     {
-        // already spawned by another pool
-        if (this.parentPool) return;
+        this.despawnCallback = despawnCallback;
         
-        this.parentPool = parentPool;
         gameObject.SetActive(true);
 
         ISpawnCallbackReceiver[] spawnCallbackReceivers =
@@ -24,14 +21,13 @@ public class Poolable : MonoBehaviour
     }
     public void Despawn()
     {
-        IDespawnCallbackReceiver[] spawnCallbackReceivers =
+        IDespawnCallbackReceiver[] despawnCallbackReceivers =
             GetComponentsInChildren<IDespawnCallbackReceiver>();
 
-        for (int i = 0; i < spawnCallbackReceivers.Length; ++i)
-            spawnCallbackReceivers[i].OnDespawn();
-        
-        parentPool.RemoveInstance(gameObject);
-        parentPool = null;
+        for (int i = 0; i < despawnCallbackReceivers.Length; ++i)
+            despawnCallbackReceivers[i].OnDespawn();
+
+        despawnCallback(gameObject);
     }
     
     public interface ISpawnCallbackReceiver
