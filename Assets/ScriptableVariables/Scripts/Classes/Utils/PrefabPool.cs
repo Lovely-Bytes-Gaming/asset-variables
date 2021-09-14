@@ -10,65 +10,21 @@ public class PrefabPool : ScriptableObject
 
     [SerializeField]
     private int 
-        maxCapacity;
+        capacity;
 
-    private Stack<GameObject> unusedObjects;
+    private Poolable.SpawnHelper spawnHelper;
 
-    private void OnEnable()
+    public void Initialize()
     {
-        unusedObjects = new Stack<GameObject>();
+        spawnHelper = new Poolable.SpawnHelper(template.gameObject, capacity);
     }
 
-    public GameObject SpawnInstance()
-    {
-        GameObject go;
+    public GameObject SpawnInstance(Transform parent = null)
+        => spawnHelper.SpawnInstance(parent);
 
-        if (unusedObjects.Count < 1)
-            go = Instantiate(template.gameObject);
-        else
-            go = unusedObjects.Pop();
+    public GameObject SpawnInstance(Vector3 atPosition, Transform parent = null)
+        => spawnHelper.SpawnInstance(atPosition, parent);
 
-        go.GetComponent<Poolable>().Spawn(DespawnCallback);
-
-        return go;
-    }
-
-    public GameObject[] SpawnInstanceArray(int num)
-    {
-        GameObject[] outGOs = new GameObject[num];
-        for(int i = 0; i < num; ++i)
-        {
-            outGOs[i] = SpawnInstance();
-        }
-        return outGOs;
-    }
-
-    public GameObject SpawnInstance(Vector3 atPosition)
-    {
-        GameObject go;
-
-        if (unusedObjects.Count < 1)
-            go = Instantiate(template.gameObject);
-        else
-            go = unusedObjects.Pop();
-
-        go.transform.position = atPosition;
-        go.GetComponent<Poolable>().Spawn(DespawnCallback);
-
-        return go;
-    }
-
-    private void DespawnCallback(GameObject go)
-    {
-        go.transform.parent = null;
-        if(unusedObjects.Count >= maxCapacity)
-        {
-            Destroy(go);
-        }
-        else
-        {
-            go.SetActive(false);
-            unusedObjects.Push(go);
-        }
-    }
+    public GameObject[] SpawnInstanceArray(int count)
+        => spawnHelper.SpawnInstanceArray(count);
 }

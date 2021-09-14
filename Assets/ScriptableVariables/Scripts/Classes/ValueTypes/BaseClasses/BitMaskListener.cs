@@ -1,7 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using InflamedGums.Util.Types;
-using System;
 
 namespace InflamedGums.Util.ScriptableVariables
 {
