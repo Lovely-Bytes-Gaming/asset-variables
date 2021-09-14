@@ -85,7 +85,10 @@ public class Poolable : MonoBehaviour
             GameObject go;
 
             if (unusedObjects.Count < 1)
+            {
                 go = Instantiate(template.gameObject);
+                go.GetComponent<Poolable>().spawnHelper = this;
+            }
             else
                 go = unusedObjects.Pop();
 
