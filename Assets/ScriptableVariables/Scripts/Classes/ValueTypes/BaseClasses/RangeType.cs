@@ -9,22 +9,8 @@ namespace InflamedGums.Util.ScriptableVariables
     /// Instances can be created in the Asset menu via
     /// Create -> Scriptable Objects -> Range Types -> desired type
     /// </summary>
-    public abstract class RangeType<T> : ScriptableObject where T : struct, IEquatable<T>, IComparable<T>
+    public abstract class RangeType<T> : ValueType<T> where T : struct, IEquatable<T>, IComparable<T>
     {
-        public delegate void ValueChangedEvent(T newValue);
-        /// <summary>
-        /// Subscribe to this Event to get notified when the value of this object changes.
-        /// Provides the new value as parameter.
-        /// </summary>
-        public event ValueChangedEvent OnValueChanged;
-        /// <summary>
-        /// You can optionally define a function here that checks whether this value can be edited.
-        /// </summary>
-        public bool isLocked =  false;
-
-        [SerializeField]
-        protected T m_Value;
-
         /// <summary>
         /// Minimum value of this instance
         /// </summary>
@@ -59,9 +45,9 @@ namespace InflamedGums.Util.ScriptableVariables
         /// <summary>
         /// Current value of this instance, clamped to fall between Min and Max.
         /// </summary>
-        public T Value
+        public override T Value
         {
-            get => m_Value;
+            get => base.Value;
             set
             {
                 value = value.CompareTo(m_Min) < 0 ? m_Min : value;
@@ -70,15 +56,9 @@ namespace InflamedGums.Util.ScriptableVariables
                 if (!value.Equals(m_Value) && !isLocked)
                 {
                     m_Value = value;
-                    OnValueChanged?.Invoke(value);
+                    Invoke();
                 }
             }
         }
-
-        /// <summary>
-        /// Invoke this object's OnValueChanged event without actually changing it's value.
-        /// </summary>
-        public void Invoke()
-            => OnValueChanged?.Invoke(m_Value);
     }
 }

@@ -11,18 +11,17 @@ namespace InflamedGums.Util.ScriptableVariables
     public abstract class ValueType<T> : ScriptableObject where T : struct, IEquatable<T>
     {
         /// <summary>
-        /// You can optionally define a function here that checks whether this value can be edited.
+        /// set to true if you don't want to allow the current value to be changed
         /// </summary>
         public bool isLocked =  false;
 
-        public delegate void ValueChangedEvent(T newValue);
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.
         /// Provides the new value as parameter.
         /// </summary>
-        public event ValueChangedEvent OnValueChanged;
+        public event Action<T> OnValueChanged;
 
-        public T Value
+        public virtual T Value
         {
             get => m_Value;
             set
@@ -30,7 +29,7 @@ namespace InflamedGums.Util.ScriptableVariables
                 if (!value.Equals(m_Value) && !isLocked)
                 {
                     m_Value = value;
-                    OnValueChanged?.Invoke(value);
+                    Invoke();
                 }
             }
         }
