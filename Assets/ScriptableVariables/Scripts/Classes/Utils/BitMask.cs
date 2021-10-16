@@ -39,6 +39,75 @@ namespace InflamedGums.Util.Types
     }
 
     /// <summary>
+    /// Represents a mask with 8 bits.
+    /// Single bits can be accessed like an array.
+    /// Uses a byte as backing value
+    /// and can be implicitly converted from and to byte.
+    /// </summary>
+    public struct BitMask8
+        : IEquatable<BitMask8>,
+        IEnumerable<bool>,
+        IBitMask<BitMask8>
+    {
+        private byte value;
+
+        public static implicit operator BitMask8(byte val)
+            => new BitMask8 { value = val };
+
+        public static implicit operator byte(BitMask8 bm)
+            => bm.value;
+
+        public override string ToString()
+            => Convert.ToString(value, 2);
+
+        public BitMask8(byte value)
+            => this.value = value;
+
+        public bool Equals(BitMask8 other)
+            => value == other.value;
+        public BitMask8 Inverse()
+            => (byte)~value;
+        public BitMask8 ShiftLeft(int count)
+            => (byte)(value << count);
+        public BitMask8 ShiftRight(int count)
+            => value = (byte)(value >> count);
+        public BitMask8 AND(BitMask8 other)
+            => (byte)(value & other);
+        public BitMask8 OR(BitMask8 other)
+            => (byte)(value | other);
+        public BitMask8 XOR(BitMask8 other)
+            => (byte)(value ^ other);
+
+        /// <summary>
+        /// array-like getter/setter for individual bit positions.
+        /// </summary>
+        public bool this[int position]
+        {
+            get => (this & 1 << position) > 0;
+            set => this = value ? (byte)(this | (1 << position))
+                : (byte)(this & ~(1 << position));
+        }
+
+        public bool GetAt(int position)
+            => this[position];
+
+        public void SetAt(int position, bool value)
+            => this[position] = value;
+
+        public void Reset()
+            => value = 0;
+
+        public IEnumerator<bool> GetEnumerator()
+        {
+            for (int i = 0; i < 8; ++i)
+                yield return this[i];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
+    }
+
+    /// <summary>
     /// Represents a mask with 16 bits.
     /// Single bits can be accessed like an array.
     /// Uses a ushort as backing value
