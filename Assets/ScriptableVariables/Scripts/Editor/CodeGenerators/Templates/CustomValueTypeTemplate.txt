@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace InflamedGums.Util.ScriptableVariables
 {{
+    [System.Serializable]
     public struct {0} : System.IEquatable<{0}>
     {{
         {1}
