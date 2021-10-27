@@ -9,7 +9,7 @@ public class PrefabPool : ScriptableObject
     private Poolable template;
 
     [SerializeField]
-    private int 
+    private int
         capacity;
 
     private Poolable.SpawnHelper spawnHelper;
@@ -22,8 +22,8 @@ public class PrefabPool : ScriptableObject
     public GameObject SpawnInstance(Transform parent = null)
         => spawnHelper.SpawnInstance(parent);
 
-    public GameObject SpawnInstance(Vector3 atPosition, Transform parent = null)
-        => spawnHelper.SpawnInstance(atPosition, parent);
+    public GameObject SpawnInstance(Vector3 atPosition, Quaternion rotation, Transform parent = null)
+        => spawnHelper.SpawnInstance(atPosition, rotation, parent);
 
     public GameObject[] SpawnInstanceArray(int count)
         => spawnHelper.SpawnInstanceArray(count);

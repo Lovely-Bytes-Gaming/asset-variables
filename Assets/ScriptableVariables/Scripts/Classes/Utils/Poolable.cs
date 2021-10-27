@@ -25,7 +25,7 @@ public class Poolable : MonoBehaviour
 
         spawnHelper.Despawn(this);
     }
-    
+
     public interface ISpawnCallbackReceiver
     {
         void OnSpawn();
@@ -35,7 +35,6 @@ public class Poolable : MonoBehaviour
     {
         void OnDespawn();
     }
-
 
     public class SpawnHelper
     {
@@ -80,7 +79,7 @@ public class Poolable : MonoBehaviour
             return outGOs;
         }
 
-        public GameObject SpawnInstance(Vector3 atPosition, Transform parent = null)
+        public GameObject SpawnInstance(Vector3 atPosition, Quaternion rotation, Transform parent = null)
         {
             GameObject go;
 
@@ -93,6 +92,7 @@ public class Poolable : MonoBehaviour
                 go = unusedObjects.Pop();
 
             go.transform.position = atPosition;
+            go.transform.rotation = rotation;
             go.transform.parent = parent;
             go.SetActive(true);
             go.GetComponent<Poolable>().Spawn();
@@ -105,7 +105,8 @@ public class Poolable : MonoBehaviour
             GameObject go = p.gameObject;
             if (unusedObjects.Count >= capacity)
             {
-                Destroy(go);
+                if (go)
+                    Destroy(go);
             }
             else
             {

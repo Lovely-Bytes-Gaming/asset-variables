@@ -23,6 +23,8 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
         }
     }
 
+    public static T ReadButDontCreate => instance;
+
     protected virtual void Awake()
     {
         if (instance == null)
