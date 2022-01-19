@@ -3,117 +3,121 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Poolable : MonoBehaviour
+namespace InflamedGums.Util
 {
-    private SpawnHelper spawnHelper;
-
-    private void Spawn()
+    public class Poolable : MonoBehaviour
     {
-        ISpawnCallbackReceiver[] spawnCallbackReceivers =
-            GetComponentsInChildren<ISpawnCallbackReceiver>();
+        private SpawnHelper spawnHelper;
 
-        for (int i = 0; i < spawnCallbackReceivers.Length; ++i)
-            spawnCallbackReceivers[i].OnSpawn();
-    }
-    public void Despawn()
-    {
-        IDespawnCallbackReceiver[] despawnCallbackReceivers =
-            GetComponentsInChildren<IDespawnCallbackReceiver>();
-
-        for (int i = 0; i < despawnCallbackReceivers.Length; ++i)
-            despawnCallbackReceivers[i].OnDespawn();
-
-        spawnHelper.Despawn(this);
-    }
-
-    public interface ISpawnCallbackReceiver
-    {
-        void OnSpawn();
-    }
-
-    public interface IDespawnCallbackReceiver
-    {
-        void OnDespawn();
-    }
-
-    public class SpawnHelper
-    {
-        private readonly Stack<GameObject> unusedObjects;
-        private readonly GameObject template;
-        private readonly int capacity;
-
-        public SpawnHelper(GameObject template, int capacity)
+        private void Spawn()
         {
-            this.template = template;
-            unusedObjects = new Stack<GameObject>(capacity);
-            this.capacity = capacity;
+            ISpawnCallbackReceiver[] spawnCallbackReceivers =
+                GetComponentsInChildren<ISpawnCallbackReceiver>();
+
+            for (int i = 0; i < spawnCallbackReceivers.Length; ++i)
+                spawnCallbackReceivers[i].OnSpawn();
+        }
+        public void Despawn()
+        {
+            IDespawnCallbackReceiver[] despawnCallbackReceivers =
+                GetComponentsInChildren<IDespawnCallbackReceiver>();
+
+            for (int i = 0; i < despawnCallbackReceivers.Length; ++i)
+                despawnCallbackReceivers[i].OnDespawn();
+
+            spawnHelper.Despawn(this);
         }
 
-        public GameObject SpawnInstance(Transform parent = null)
+        public interface ISpawnCallbackReceiver
         {
-            GameObject go;
-
-            if (unusedObjects.Count < 1)
-            {
-                go = Instantiate(template.gameObject);
-                go.GetComponent<Poolable>().spawnHelper = this;
-            }
-            else
-                go = unusedObjects.Pop();
-
-            go.transform.parent = parent;
-            go.transform.localPosition = Vector3.zero;
-            go.SetActive(true);
-            go.GetComponent<Poolable>().Spawn();
-
-            return go;
+            void OnSpawn();
         }
 
-        public GameObject[] SpawnInstanceArray(int num)
+        public interface IDespawnCallbackReceiver
         {
-            GameObject[] outGOs = new GameObject[num];
-            for (int i = 0; i < num; ++i)
-            {
-                outGOs[i] = SpawnInstance();
-            }
-            return outGOs;
+            void OnDespawn();
         }
 
-        public GameObject SpawnInstance(Vector3 atPosition, Quaternion rotation, Transform parent = null)
+        public class SpawnHelper
         {
-            GameObject go;
+            private readonly Stack<GameObject> unusedObjects;
+            private readonly GameObject template;
+            private readonly int capacity;
 
-            if (unusedObjects.Count < 1)
+            public SpawnHelper(GameObject template, int capacity)
             {
-                go = Instantiate(template.gameObject);
-                go.GetComponent<Poolable>().spawnHelper = this;
+                this.template = template;
+                unusedObjects = new Stack<GameObject>(capacity);
+                this.capacity = capacity;
             }
-            else
-                go = unusedObjects.Pop();
 
-            go.transform.position = atPosition;
-            go.transform.rotation = rotation;
-            go.transform.parent = parent;
-            go.SetActive(true);
-            go.GetComponent<Poolable>().Spawn();
-
-            return go;
-        }
-
-        public void Despawn(Poolable p)
-        {
-            GameObject go = p.gameObject;
-            if (unusedObjects.Count >= capacity)
+            public GameObject SpawnInstance(Transform parent = null)
             {
-                if (go)
-                    Destroy(go);
+                GameObject go;
+
+                if (unusedObjects.Count < 1)
+                {
+                    go = Instantiate(template.gameObject);
+                    go.GetComponent<Poolable>().spawnHelper = this;
+                }
+                else
+                    go = unusedObjects.Pop();
+
+                go.transform.parent = parent;
+                go.transform.localPosition = Vector3.zero;
+                go.SetActive(true);
+                go.GetComponent<Poolable>().Spawn();
+
+                return go;
             }
-            else
+
+            public GameObject[] SpawnInstanceArray(int num)
             {
-                go.transform.parent = null;
-                go.SetActive(false);
-                unusedObjects.Push(go);
+                GameObject[] outGOs = new GameObject[num];
+                for (int i = 0; i < num; ++i)
+                {
+                    outGOs[i] = SpawnInstance();
+                }
+                return outGOs;
+            }
+
+            public GameObject SpawnInstance(Vector3 atPosition, Quaternion rotation, Transform parent = null)
+            {
+                GameObject go;
+
+                if (unusedObjects.Count < 1)
+                {
+                    go = Instantiate(template.gameObject);
+                    go.GetComponent<Poolable>().spawnHelper = this;
+                }
+                else
+                    go = unusedObjects.Pop();
+
+                go.transform.position = atPosition;
+                go.transform.rotation = rotation;
+                go.transform.parent = parent;
+                go.SetActive(true);
+                go.GetComponent<Poolable>().Spawn();
+
+                return go;
+            }
+
+            public void Despawn(Poolable p)
+            {
+                GameObject go = p.gameObject;
+                if (unusedObjects.Count >= capacity)
+                {
+                    if (go)
+                        Destroy(go);
+                }
+                else
+                {
+                    go.transform.parent = null;
+                    go.SetActive(false);
+                    unusedObjects.Push(go);
+                }
             }
         }
     }
 }
+

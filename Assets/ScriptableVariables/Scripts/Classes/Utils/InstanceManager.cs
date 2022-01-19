@@ -5,11 +5,12 @@ using System;
 namespace InflamedGums.Util.ScriptableVariables
 {
     /// <summary>
+    /// -----  WORK IN PROGRESS -----
     /// Instance Manager for Scriptable Variables.
     /// Useful when multiple Instances of a prefab are spawned,
     /// and where each of those instances also needs it's own instance
     /// of a scriptable variable.
-    /// Act's kind of like a poor man's c++ smart pointer.
+    /// Intended to work kind of like a poor man's c++ smart pointer.
     /// </summary>
     [CreateAssetMenu(menuName = "Scriptable Objects/Utils/Instance Manager")]
     public class InstanceManager : ScriptableObject

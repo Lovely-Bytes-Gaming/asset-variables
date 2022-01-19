@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SetupPrefabPool : MonoBehaviour
+namespace InflamedGums.Util
 {
-    [SerializeField]
-    private PrefabPool prefabPool;
-
-    private void Awake()
+    public class SetupPrefabPool : MonoBehaviour
     {
-        prefabPool.Initialize();
+        [SerializeField]
+        private PrefabPool prefabPool;
+
+        private void Awake()
+        {
+            prefabPool.Initialize();
+        }
     }
 }
+
