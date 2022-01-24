@@ -38,6 +38,16 @@ namespace InflamedGums.Util.Types
             {
                 instance = (T)Convert.ChangeType(this, typeof(T));
             }
+            else if (instance != this)
+            {
+                Debug.LogError($"[IFG::UTIL::TYPES] Destroying gameobject: {name}, since an instance of type {GetType()} already exists: {instance.name}");
+                Destroy(gameObject);
+            }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            instance = null;
         }
     }
 }
