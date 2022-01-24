@@ -25,7 +25,7 @@ public class ScriptableObjectSet : ScriptableObject, ISerializationCallbackRecei
         }
     }
 
-    public void GetObject<T>(string name, out T objRef) where T : ScriptableObject
+    public void Get<T>(string name, out T objRef) where T : ScriptableObject
     {
         if (!ObjectDict.TryGetValue(name, out ScriptableObject objHandle))
         {
@@ -34,11 +34,27 @@ public class ScriptableObjectSet : ScriptableObject, ISerializationCallbackRecei
         objRef = objHandle as T;
     }
 
+    public void Remove(string keyStr)
+    {
+        if(ObjectDict.ContainsKey(keyStr))
+            ObjectDict.Remove(keyStr);
+    }
+
+    public void Change(string keyStr, ScriptableObject newObj)
+    {
+        if (ObjectDict.ContainsKey(keyStr))
+            ObjectDict[keyStr] = newObj;
+    }
+
     public ICollection<ScriptableObject> GetAll()
     {
         return ObjectDict.Values;
     }
 
+
+    /////////////////////////////////////////////////////////
+    ////////// ISerializationCallbackReceiver ///////////////
+    /////////////////////////////////////////////////////////
     public void OnBeforeSerialize()
     {
         m_keys.Clear();

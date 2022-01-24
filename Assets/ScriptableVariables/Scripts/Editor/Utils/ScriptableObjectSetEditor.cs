@@ -6,21 +6,28 @@ using UnityEditor;
 [CustomEditor(typeof(ScriptableObjectSet))]
 public class ScriptableObjectSetEditor : Editor
 { 
-    private ScriptableObjectSet typedTarget;
+    private ScriptableObjectSet m_typedTarget;
+    private List<ScriptableObject> m_entries;
+    private bool m_foldout;
 
     public void OnEnable()
     {
-        typedTarget = target as ScriptableObjectSet;
+        m_typedTarget = target as ScriptableObjectSet;
+        m_entries = new List<ScriptableObject>();
+
+        m_entries.AddRange(m_typedTarget.GetAll());
     }
 
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
         EditorGUILayout.Space();
-        DropAreaGUI();
+        DrawDragAndDrop();
+        EditorGUILayout.Space();
+        DrawContentArray();
     }
 
-    public void DropAreaGUI()
+    private void DrawDragAndDrop()
     {
         Event evt = Event.current;
         Rect drop_area = GUILayoutUtility.GetRect(0.0f, 25.0f, GUILayout.ExpandWidth(true));
@@ -45,25 +52,42 @@ public class ScriptableObjectSetEditor : Editor
                     {
                         if(dragged_object.GetType().IsSubclassOf(typeof(ScriptableObject)))
                         {
-                            typedTarget.Add(dragged_object as ScriptableObject);
+                            m_typedTarget.Add(dragged_object as ScriptableObject);
                             modified = true;
                         }
                     }
                     if (modified)
                     {
-                        EditorUtility.SetDirty(typedTarget);
+                        EditorUtility.SetDirty(m_typedTarget);
                     }
                 }
                 break;
         }
+    }
 
-        EditorGUILayout.LabelField("Registered Objects", EditorStyles.boldLabel);
+    private void DrawContentArray()
+    {
+        m_entries.Clear();
+        m_entries.AddRange(m_typedTarget.GetAll());
 
-        EditorGUI.BeginDisabledGroup(true);
-        foreach(var obj in typedTarget.GetAll())
+        m_foldout = EditorGUILayout.Foldout(m_foldout, "Content");
+
+        if (m_foldout)
         {
-            EditorGUILayout.ObjectField(obj, typeof(ScriptableObject), false);
+            for (int i = 0; i < m_entries.Count; i++)
+            {
+                var newValue = EditorGUILayout.ObjectField(m_entries[i], typeof(ScriptableObject), false);
+                if (!newValue)
+                {
+                    var keyStr = m_entries[i].name;
+                    m_typedTarget.Remove(keyStr);
+                }
+                else if (newValue != m_entries[i])
+                {
+                    var keyStr = m_entries[i].name;
+                    m_typedTarget.Change(keyStr, newValue as ScriptableObject);
+                }
+            }
         }
-        EditorGUI.EndDisabledGroup();
     }
 }
