@@ -16,10 +16,21 @@ namespace InflamedGums.Util.ScriptableVariables
         [SerializeField]
         private bool invokeOnAwake = false;
 
-        public UnityEvent<eType> ValueChangedListeners;
+#if UNITY_2020_3_OR_NEWER
+
+        [SerializeField]
+        private UnityEvent<eType> ValueChangedListeners;
+#else
+        [System.Serializable]
+        private class TypedEvent : UnityEvent<eType> {{}}
+        
+        [SerializeField]
+        private TypedEvent ValueChangedListeners;
+
+#endif
 
         private void OnValueChanged(eType v)
-            => ValueChangedListeners.Invoke(v);
+            => ValueChangedListeners?.Invoke(v);
 
         private void Awake()
         {{
