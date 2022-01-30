@@ -17,7 +17,7 @@ namespace InflamedGums.Util.ScriptableVariables
 
 #if UNITY_2020_3_OR_NEWER
         [SerializeField]
-        private UnityEvent<TType, TType> ValueChangedListeners;
+        private UnityEvent<BitMaskType<TType>.UpdateInfo> ValueChangedListeners;
 #else
         [Serializable]
         private class TypedUnityEvent : UnityEvent<TType, TType> { }
@@ -25,8 +25,8 @@ namespace InflamedGums.Util.ScriptableVariables
         private TypedUnityEvent ValueChangedListeners;
 #endif
 
-        private void OnValueChanged(TType newMask, TType dirty)
-            => ValueChangedListeners.Invoke(newMask, dirty);
+        private void OnValueChanged(BitMaskType<TType>.UpdateInfo updateInfo)
+            => ValueChangedListeners?.Invoke(updateInfo);
 
         private void Awake()
         {

@@ -26,7 +26,7 @@ namespace InflamedGums.Util.ScriptableVariables
         private TypedUnityEvent ValueChangedListeners;
 #endif
         private void OnValueChanged(TType v)
-            => ValueChangedListeners.Invoke(v);
+            => ValueChangedListeners?.Invoke(v);
 
         private void Awake()
         {

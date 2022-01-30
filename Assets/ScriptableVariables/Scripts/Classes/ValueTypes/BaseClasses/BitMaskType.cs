@@ -3,14 +3,13 @@ using InflamedGums.Util.Types;
 
 namespace InflamedGums.Util.ScriptableVariables
 {
-    public class BitMaskType<T> : ValueType<T> where T : struct, IBitMask<T>, IEquatable<T>
+    public class BitMaskType<T> : ValueType<T> 
+        where T : struct, IBitMask<T>, IEquatable<T>
     {
-        public delegate void ValueChangedEvent(T newMask, T dirtyBits);
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.
-        /// First Parameter: New BitMask    Second Parameter: Dirty Bits (Bits that have changed)
         /// </summary>
-        public new event Action<T, T> OnValueChanged;
+        public new event Action<UpdateInfo> OnValueChanged;
 
         /// <summary>
         /// Use this when you want to read / change the whole bit mask
@@ -54,12 +53,34 @@ namespace InflamedGums.Util.ScriptableVariables
         /// Still works when the variable is locked, as the actual value doesn't change.
         /// </summary>
         public void SetDirty(T dirtyMask)
-            => OnValueChanged?.Invoke(m_Value, dirtyMask);
+            => OnValueChanged?.Invoke(new UpdateInfo(m_Value, dirtyMask));
 
         public new void Invoke()
             => SetDirty(new T().Inverse());
 
         public void Reset() 
             => m_Value.Reset();
+
+
+        /// <summary>
+        /// Data structure that carries information about a bitmask update.
+        /// </summary>
+        public struct UpdateInfo
+        {
+            /// <summary>
+            /// Bitmask state after the update
+            /// </summary>
+            public T newMask { get; private set; }
+            /// <summary>
+            /// Set to true for each bit position that has been changed in the update
+            /// </summary>
+            public T dirtyBits { get; private set; }
+
+            public UpdateInfo(T newMask, T dirtyBits)
+            {
+                this.newMask = newMask;
+                this.dirtyBits = dirtyBits;
+            }
+        }
     }
 }
