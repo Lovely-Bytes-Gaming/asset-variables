@@ -5,7 +5,7 @@ using InflamedGums.Util.Types;
 
 namespace InflamedGums.Util.ScriptableVariables
 {
-    public class BitMaskListener<TVar, TType> : MonoBehaviour 
+    public abstract class BitMaskListener<TVar, TType> : MonoBehaviour 
         where TVar : BitMaskType<TType> 
         where TType : struct, IBitMask<TType>, IEquatable<TType>
     {
@@ -19,10 +19,7 @@ namespace InflamedGums.Util.ScriptableVariables
         [SerializeField]
         private UnityEvent<BitMaskType<TType>.UpdateInfo> ValueChangedListeners;
 #else
-        [Serializable]
-        private class TypedUnityEvent : UnityEvent<TType, TType> { }
-        [SerializeField]
-        private TypedUnityEvent ValueChangedListeners;
+        protected abstract UnityEvent<BitMaskType<TType>.UpdateInfo> ValueChangedListeners { get; }
 #endif
 
         private void OnValueChanged(BitMaskType<TType>.UpdateInfo updateInfo)

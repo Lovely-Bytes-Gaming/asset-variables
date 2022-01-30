@@ -6,7 +6,7 @@ using System;
 
 namespace InflamedGums.Util.ScriptableVariables
 {
-    public class ValueTypeListener<TVar, TType> : MonoBehaviour 
+    public abstract class ValueTypeListener<TVar, TType> : MonoBehaviour 
         where TVar : ValueType<TType> 
         where TType : struct, IEquatable<TType>
     {
@@ -20,10 +20,7 @@ namespace InflamedGums.Util.ScriptableVariables
         [SerializeField]
         private UnityEvent<TType> ValueChangedListeners;
 #else
-        [Serializable]
-        private class TypedUnityEvent : UnityEvent<TType> { }
-        [SerializeField]
-        private TypedUnityEvent ValueChangedListeners;
+        protected abstract UnityEvent<TType> ValueChangedListeners { get; }
 #endif
         private void OnValueChanged(TType v)
             => ValueChangedListeners?.Invoke(v);

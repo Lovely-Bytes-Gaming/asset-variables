@@ -4,29 +4,20 @@ using UnityEngine.Events;
 namespace InflamedGums.Util.ScriptableVariables
 {
     [AddComponentMenu("Scriptable Variables/Runtime Listener/Float Range Listener")]
-    public class FloatRangeListener : MonoBehaviour
+    public class FloatRangeListener : ValueTypeListener<FloatRange, float>
     {
-        [SerializeField]
-        private FloatVariable floatVariable;
+#if !UNITY_2020_3_OR_NEWER
+
+        [System.Serializable]
+        private class TypedEvent : UnityEngine.Events.UnityEvent<float> {}
 
         [SerializeField]
-        private bool invokeOnAwake = false;
+        private TypedEvent valueChangedListeners;
 
-        public UnityEvent<float> ValueChangedListeners;
+        protected override UnityEngine.Events.UnityEvent<float> ValueChangedListeners 
+            => valueChangedListeners;
 
-        private void OnValueChanged(float v)
-            => ValueChangedListeners.Invoke(v);
-
-        private void Awake()
-        {
-            floatVariable.OnValueChanged += OnValueChanged;
-            
-            if (invokeOnAwake)
-                floatVariable.Invoke();
-        }
-
-        private void OnDestroy()
-            => floatVariable.OnValueChanged -= OnValueChanged;
+#endif
     }
 }
 
