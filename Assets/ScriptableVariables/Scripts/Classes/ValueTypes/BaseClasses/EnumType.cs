@@ -10,7 +10,7 @@ namespace InflamedGums.Util.ScriptableVariables
     /// Instances can be created via the Right Click menu:
     /// Create -> Scriptable Variables -> Enum Types -> Your Type
     /// </summary>
-    public abstract class EnumType<T> : ScriptableObject where T : Enum
+    public abstract class EnumType<T> : ScriptableObject, IEnumType where T : Enum
     {
         public delegate void ValueChangedEvent(T newValue);
         /// <summary>
