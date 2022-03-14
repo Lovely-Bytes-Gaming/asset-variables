@@ -36,6 +36,9 @@ namespace InflamedGums.Util.ScriptableVariables
             }
         }
 
+        public int ToInt()
+            => Convert.ToInt32(Value);
+
         /// <summary>
         /// Invoke this object's OnValueChanged event without actually changing it's value.
         /// </summary>
