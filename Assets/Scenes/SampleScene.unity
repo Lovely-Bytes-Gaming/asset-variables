@@ -123,6 +123,49 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &986398185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 986398187}
+  - component: {fileID: 986398186}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &986398186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986398185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c6f8d5fc727b740bb7a3be480980d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &986398187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986398185}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -44.51512, y: 30.39544, z: 26.851683}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &996263292
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +176,6 @@ GameObject:
   m_Component:
   - component: {fileID: 996263294}
   - component: {fileID: 996263293}
-  - component: {fileID: 996263295}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -217,24 +259,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!114 &996263295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 996263292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474d0b279e2647c4ebf3bf074192343f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  variableAsset: {fileID: 0}
-  invokeOnAwake: 0
-  ValueChangedListeners:
-    m_PersistentCalls:
-      m_Calls: []
-    m_CallsDirty: 1
 --- !u!1 &1130084930
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,15 +368,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1354123656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bda8366002eb29f43a5fcdb03bea5720, type: 3}
+  m_Script: {fileID: 11500000, guid: 6354dcd4f369b2f47aece057ed9d39e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  variableAsset: {fileID: 0}
-  invokeOnAwake: 0
+  variableAsset: {fileID: 11400000, guid: f64eb691d94782946a08b7815f828066, type: 2}
+  invokeOnAwake: 1
   ValueChangedListeners:
     m_PersistentCalls:
-      m_Calls: []
-    m_CallsDirty: 1
+      m_Calls:
+      - m_Target: {fileID: 986398186}
+        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
+        m_MethodName: PrintFoo
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1354123659
 Transform:
   m_ObjectHideFlags: 0
