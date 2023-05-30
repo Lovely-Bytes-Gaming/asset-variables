@@ -1,0 +1,12 @@
+namespace #NAMESPACE# 
+{
+	public class #SCRIPTNAME# 
+	{
+		private static #SCRIPTNAME# instance;
+		public static #SCRIPTNAME# Instance => instance ??= new #SCRIPTNAME#();
+		#NOTRIM#
+		private #SCRIPTNAME#()
+		{
+		}
+	}
+}

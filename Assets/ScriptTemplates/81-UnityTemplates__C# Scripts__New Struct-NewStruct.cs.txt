@@ -1,0 +1,7 @@
+namespace #NAMESPACE# 
+{
+	public struct #SCRIPTNAME# 
+	{
+	#NOTRIM#
+	}
+}

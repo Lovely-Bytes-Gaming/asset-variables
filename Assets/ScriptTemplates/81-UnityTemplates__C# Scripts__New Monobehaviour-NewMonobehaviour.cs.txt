@@ -1,0 +1,10 @@
+using UnityEngine;
+
+namespace #NAMESPACE# 
+{
+	[AddComponentMenu("#ASSETMENU#/#SCRIPTNAME#")]
+	public class #SCRIPTNAME# : MonoBehaviour
+	{
+	#NOTRIM#
+	}
+}

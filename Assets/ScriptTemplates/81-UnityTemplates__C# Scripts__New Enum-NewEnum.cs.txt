@@ -1,0 +1,7 @@
+namespace #NAMESPACE# 
+{
+	public enum #SCRIPTNAME# 
+	{
+	#NOTRIM#
+	}
+}
