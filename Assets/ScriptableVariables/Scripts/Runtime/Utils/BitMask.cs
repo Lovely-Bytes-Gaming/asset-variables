@@ -33,8 +33,14 @@ namespace InflamedGums.Util.Types
         /// Sets the rest to 0.
         /// </summary>
         T XOR(T other);
-        bool GetAt(int position);
-        void SetAt(int position, bool value);
+        /// <summary>
+        /// returns whether the bit at 'position' is set. (little-endian)
+        /// </summary>
+        bool Get(int position);
+        /// <summary>
+        ///  Sets the bit at 'position' to 'value' (little-endian)
+        /// </summary>
+        void Set(int position, bool value);
         void Reset();
     }
 
@@ -88,10 +94,10 @@ namespace InflamedGums.Util.Types
                 : (byte)(this & ~(1 << position));
         }
 
-        public bool GetAt(int position)
+        public bool Get(int position)
             => this[position];
 
-        public void SetAt(int position, bool value)
+        public void Set(int position, bool value)
             => this[position] = value;
 
         public void Reset()
@@ -157,10 +163,10 @@ namespace InflamedGums.Util.Types
                 : (ushort)(this & ~(1 << position));
         }
 
-        public bool GetAt(int position)
+        public bool Get(int position)
             => this[position];
 
-        public void SetAt(int position, bool value)
+        public void Set(int position, bool value)
             => this[position] = value;
 
         public void Reset()
@@ -232,10 +238,10 @@ namespace InflamedGums.Util.Types
                 : this & ~(uint)(1 << i);
         }
 
-        public bool GetAt(int position)
+        public bool Get(int position)
             => this[position];
 
-        public void SetAt(int position, bool value)
+        public void Set(int position, bool value)
             => this[position] = value;
 
         public void Reset()

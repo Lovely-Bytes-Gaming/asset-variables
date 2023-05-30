@@ -22,7 +22,7 @@ namespace InflamedGums.Util.ScriptableVariables
         protected abstract UnityEvent<BitMaskType<TType>.UpdateInfo> ValueChangedListeners { get; }
 #endif
 
-        private void OnValueChanged(BitMaskType<TType>.UpdateInfo updateInfo)
+        private void OnValueChanged(in BitMaskType<TType>.UpdateInfo updateInfo)
             => ValueChangedListeners?.Invoke(updateInfo);
 
         private void Awake()

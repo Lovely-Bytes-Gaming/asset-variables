@@ -3,13 +3,18 @@ using InflamedGums.Util.Types;
 
 namespace InflamedGums.Util.ScriptableVariables
 {
+    /// <summary>
+    /// TODO: Check if the below usage of generics introduces boxing and refactor if so 
+    /// </summary>
     public class BitMaskType<T> : ValueType<T> 
         where T : struct, IBitMask<T>, IEquatable<T>
     {
+        public delegate void ValueChangedEvent(in UpdateInfo updateInfo);
+
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.
         /// </summary>
-        public new event Action<UpdateInfo> OnValueChanged;
+        public new event ValueChangedEvent OnValueChanged;
 
         /// <summary>
         /// Use this when you want to read / change the whole bit mask
@@ -33,11 +38,11 @@ namespace InflamedGums.Util.ScriptableVariables
         /// </summary>
         public bool this[int position]
         {
-            get => m_Value.GetAt(position);
+            get => m_Value.Get(position);
             set
             {
                 T bm = m_Value;
-                bm.SetAt(position, value);
+                bm.Set(position, value);
 
                 if (!bm.Equals(m_Value) && !isLocked)
                 {
