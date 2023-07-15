@@ -1,7 +1,0 @@
-namespace #NAMESPACE# 
-{
-	public interface #SCRIPTNAME# 
-	{
-	#NOTRIM#
-	}
-}
