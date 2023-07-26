@@ -1,0 +1,3 @@
+[submodule "Assets/ScriptTemplates"]
+	path = Assets/ScriptTemplates
+	url = git@github.com:InflamedGums/unity-script-templates.git
