@@ -1,0 +1,18 @@
+{
+    "name": "AssetVariables.Editor",
+    "rootNamespace": "LovelyBytesGaming.AssetVariables",
+    "references": [
+        "GUID:68ff6d25eef84884896f6357eed7e21a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
