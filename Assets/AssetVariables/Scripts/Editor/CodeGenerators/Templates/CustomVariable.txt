@@ -1,0 +1,20 @@
+using UnityEngine;
+
+namespace LovelyBytesGaming.AssetVariables
+{
+    [System.Serializable]
+    public struct %TYPENAME%
+    {
+        %FIELDS%
+
+        public override string ToString()
+            => JsonUtility.ToJson(this);
+    }
+
+    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/%TYPENAME%")]
+    public class %TYPENAME%Variable : Variable<%TYPENAME%>
+    {
+        public void Reset()
+            => Value = new %TYPENAME%();
+    }
+}

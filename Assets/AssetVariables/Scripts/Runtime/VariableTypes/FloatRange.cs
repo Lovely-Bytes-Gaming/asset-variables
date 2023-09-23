@@ -4,7 +4,7 @@ using UnityEngine;
 namespace LovelyBytesGaming.AssetVariables
 {
     [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/Range/Float")]
-    public class FloatRange : RangeType<float> 
+    public class FloatRange : Range<float> 
     { 
         public void Reset()
         {

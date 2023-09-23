@@ -1,0 +1,19 @@
+// 0: Name
+// 1: Editor Fields
+
+using UnityEngine;
+using UnityEditor;
+
+namespace LovelyBytesGaming.AssetVariables
+{
+    [CustomEditor(typeof(%TYPENAME%Variable))]
+    public class %TYPENAME%VariableEditor : VariableEditor<%TYPENAME%>
+    {
+        protected override %TYPENAME% GenericEditorField(string description, %TYPENAME% value)
+        {
+            %FIELDS%
+            
+            return value;
+        }
+    }
+}

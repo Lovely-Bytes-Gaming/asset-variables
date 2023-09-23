@@ -1,0 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace LovelyBytesGaming.AssetVariables
+{
+    [AddComponentMenu("LovelyBytesGaming/AssetVariables/%TYPENAME%Listener")]
+    public class %TYPENAME%Listener : VariableListener<%TYPENAME%Variable, %TYPENAME%>
+    { }
+}

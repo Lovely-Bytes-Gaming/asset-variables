@@ -3,8 +3,8 @@ using UnityEngine.Events;
 
 namespace LovelyBytesGaming.AssetVariables
 {
-    public abstract class VariableTypeListener<TVar, TType> : MonoBehaviour 
-        where TVar : VariableType<TType> 
+    public abstract class VariableListener<TVar, TType> : MonoBehaviour 
+        where TVar : Variable<TType> 
     {
         [SerializeField]
         private TVar _variableAsset;

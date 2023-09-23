@@ -3,13 +3,13 @@ using UnityEditor;
 
 namespace LovelyBytesGaming.AssetVariables
 {
-    public abstract class VariableTypeEditor<TType> : Editor
+    public abstract class VariableEditor<TType> : Editor
     {
         protected abstract TType GenericEditorField(string description, TType value);
 
         public override void OnInspectorGUI()
         {
-            var value = (VariableType<TType>)target;
+            var value = (Variable<TType>)target;
             TType newValue = GenericEditorField("Value: ", value.Value);
 
             if (!GUI.changed)

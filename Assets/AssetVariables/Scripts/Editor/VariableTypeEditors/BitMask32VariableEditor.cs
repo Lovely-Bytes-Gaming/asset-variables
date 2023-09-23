@@ -4,7 +4,7 @@ using UnityEngine;
 namespace LovelyBytesGaming.AssetVariables
 {
     [CustomEditor(typeof(BitMask32Variable))]
-    public class BitMask32VariableEditor : VariableTypeEditor<BitMask32>
+    public class BitMask32VariableEditor : VariableEditor<BitMask32>
     {
         private enum FlagsEnumerator
         {

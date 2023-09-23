@@ -4,7 +4,7 @@ using System;
 
 namespace LovelyBytesGaming.AssetVariables
 {
-    public abstract class RangeTypeEditor<TType> : Editor 
+    public abstract class RangeEditor<TType> : Editor 
         where TType : IComparable<TType>
     {
         protected abstract TType GenericEditorField(string description, TType value);
@@ -14,7 +14,7 @@ namespace LovelyBytesGaming.AssetVariables
         {
             base.OnInspectorGUI();
             
-            var value = (RangeType<TType>)target;
+            var value = (Range<TType>)target;
             
             TType newMin = GenericEditorField("Minimum: ", value.Min);
             TType newMax = GenericEditorField("Maximum: ", value.Max);

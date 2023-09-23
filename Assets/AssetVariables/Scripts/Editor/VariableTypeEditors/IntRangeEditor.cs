@@ -4,7 +4,7 @@ using UnityEditor;
 namespace LovelyBytesGaming.AssetVariables
 {
     [CustomEditor(typeof(IntRange))]
-    public class IntRangeEditor : RangeTypeEditor<int>
+    public class IntRangeEditor : RangeEditor<int>
     {
         protected override int GenericEditorField(string description, int value)
             => EditorGUILayout.IntField(description, value);

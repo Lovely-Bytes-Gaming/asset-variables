@@ -4,7 +4,7 @@ using UnityEngine;
 namespace LovelyBytesGaming.AssetVariables
 {
     [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/Range/Int")]
-    public class IntRange : RangeType<int> 
+    public class IntRange : Range<int> 
     {
         public void Reset()
         {

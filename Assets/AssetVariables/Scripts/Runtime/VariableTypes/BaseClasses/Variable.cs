@@ -7,7 +7,7 @@ namespace LovelyBytesGaming.AssetVariables
     /// Instances can be created in the Asset menu via
     /// Create -> Scriptable Objects -> Value Types -> desired type
     /// </summary>
-    public abstract class VariableType<TType> : ScriptableObject
+    public abstract class Variable<TType> : ScriptableObject
     {
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.

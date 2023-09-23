@@ -8,7 +8,7 @@ namespace LovelyBytesGaming.AssetVariables
     /// Instances can be created in the Asset menu via
     /// Create -> Scriptable Objects -> Range Types -> desired type
     /// </summary>
-    public abstract class RangeType<TType> : VariableType<TType> where TType : IComparable<TType>
+    public abstract class Range<TType> : Variable<TType> where TType : IComparable<TType>
     {
         /// <summary>
         /// Minimum value of this instance

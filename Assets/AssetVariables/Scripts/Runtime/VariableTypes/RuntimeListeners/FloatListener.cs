@@ -3,7 +3,7 @@ using UnityEngine;
 namespace LovelyBytesGaming.AssetVariables
 {
     [AddComponentMenu("LovelyBytesGaming/AssetVariables/FloatListener")]
-    public class FloatListener : VariableTypeListener<FloatVariable, float> 
+    public class FloatListener : VariableListener<FloatVariable, float> 
     {
 #if !UNITY_2020_3_OR_NEWER
 
