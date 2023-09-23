@@ -38,12 +38,6 @@ namespace LovelyBytesGaming.AssetVariables
             }
         }
 
-        [SerializeField]
-        private TType _min;
-
-        [SerializeField]
-        private TType _max;
-
         /// <summary>
         /// Current value of this instance, clamped to fall between Min and Max.
         /// </summary>
@@ -58,6 +52,12 @@ namespace LovelyBytesGaming.AssetVariables
             }
         }
 
+        [SerializeField, HideInInspector]
+        private TType _min;
+
+        [SerializeField, HideInInspector]
+        private TType _max;
+        
         public override void SetWithoutNotify(TType newValue)
         {
             if (newValue.CompareTo(Max) > 0)
@@ -67,7 +67,7 @@ namespace LovelyBytesGaming.AssetVariables
             else
                 base.SetWithoutNotify(newValue);
         }
-
+        
         private void ClampValue()
         {
             if (Value.CompareTo(Max) > 0)
