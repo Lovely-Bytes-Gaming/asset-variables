@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
 using UnityEditor;
-using System.IO;
 
 namespace LovelyBytesGaming.AssetVariables
 {
@@ -10,13 +10,11 @@ namespace LovelyBytesGaming.AssetVariables
         private const string _listenerSrcPath = Constants.SourceDirectory + "CustomVariableListener.txt";
         private const string _editorSrcPath = Constants.SourceDirectory + "CustomVariableEditor.txt";
         
-        private static string _nameStr = "";
-        private static int _numValues;
-
+        private static string _typeName = "";
         private static Entry[] _entries;
 
         [MenuItem("Window/Scriptable Variables/Create or delete Custom Value Type")]
-        public static void CreateNewEnumType()
+        public static void CreateNewType()
         {
             var window = (CustomVariableGenerator)GetWindow(typeof(CustomVariableGenerator));
             window.Show();
@@ -24,33 +22,40 @@ namespace LovelyBytesGaming.AssetVariables
 
         private void OnGUI()
         {
+            if (!IsUserInputProvided()) 
+                return;
+
+            if (!GUILayout.Button("Generate"))
+                return;
+
+            if (!IsInputValid())
+                return;
+
+            GenerateSourceFiles();
+        }
+
+        private static bool IsUserInputProvided()
+        {
             GUILayout.Label("Custom Value Type Generator", EditorStyles.boldLabel);
             GUILayout.Space(40f);
-            _nameStr = EditorGUILayout.TextField("Type Name: ", _nameStr);
+            _typeName = EditorGUILayout.TextField("Type Name: ", _typeName);
             GUILayout.Space(10f);
-            int tmp = EditorGUILayout.IntField("Number of Values: ", _numValues);
 
-            if (tmp != _numValues)
-            {
-                if (_entries == null)
-                    _entries = new Entry[tmp];
-                else
-                {
-                    var tmpEntries = new Entry[tmp];
-                    int entriesLength = Mathf.Min(tmp, _numValues);
-                    for (int i = 0; i < entriesLength; ++i)
-                    {
-                        tmpEntries[i] = _entries[i];
-                    }
-                    _entries = tmpEntries;
-                }
-                _numValues = tmp;
-            }
+            int currentFieldCount = _entries?.Length ?? 0;
+            int desiredFieldCount = EditorGUILayout.IntField("Number of Fields: ", currentFieldCount);
 
-            for (int i = 0; i < _numValues; ++i)
+            if (desiredFieldCount <= 0)
+                return false;
+            
+            if (_entries == null)
+                _entries = new Entry[desiredFieldCount];
+            else if (desiredFieldCount != currentFieldCount)
+                Array.Resize(ref _entries, desiredFieldCount);
+
+            for (int i = 0; i < desiredFieldCount; ++i)
             {
                 string fieldName = string.IsNullOrEmpty(_entries[i].Name)
-                    ? $"Field {i}"
+                    ? $"Field{i}"
                     : _entries[i].Name;
 
                 _entries[i].IsExpanded = EditorGUILayout.Foldout(_entries[i].IsExpanded, fieldName);
@@ -58,112 +63,116 @@ namespace LovelyBytesGaming.AssetVariables
                 if (!_entries[i].IsExpanded) 
                     continue;
                 
-                _entries[i].Name = EditorGUILayout.TextField("Name: ", _entries[i].Name ?? "");
+                _entries[i].Name = EditorGUILayout.TextField("Name: ", _entries[i].Name ?? fieldName);
                 _entries[i].PrimitiveType = (PrimitiveType)EditorGUILayout.EnumPopup("Type: ", _entries[i].PrimitiveType);
             }
 
             GUILayout.Space(20f);
-            
-            if (GUILayout.Button("Generate Scripts"))
-            {
-                if (!Utils.IsVariableNameValid(_nameStr))
-                {
-                    EditorUtility.DisplayDialog(
-                        $"Invalid Class Name: {_nameStr}",
-                        "should start with a letter and should only contain letters, numbers and underscores.",
-                        "Alrighty then");
-                    return;
-                }
-
-                if (_entries == null)
-                {
-                    EditorUtility.DisplayDialog(
-                        "Not enough fields",
-                        "Custom structs should have at least one field.",
-                        "Alrighty then");
-                    return;
-                }
-
-                foreach (Entry e in _entries)
-                {
-                    if (Utils.IsVariableNameValid(e.Name)) 
-                        continue;
-                    
-                    EditorUtility.DisplayDialog(
-                        $"Invalid Field Name: {e.Name}",
-                        "should start with a letter and should only contain letters, numbers and underscores.",
-                        "Alrighty then");
-                    return;
-                }
-
-                var fallthrough = false;
-
-                for (int j = 0; j < _entries.Length; ++j)
-                {
-                    if (!string.IsNullOrEmpty(_entries[j].Name)) 
-                        continue;
-                    
-                    if (!fallthrough)
-                    {
-                        int choice = EditorUtility.DisplayDialogComplex(
-                            "Incomplete Type?",
-                            $"Field {j} is not named.\nIt will receive a default name.",
-                            "Go ahead",
-                            "Apply to all",
-                            "Abort!");
-
-                        switch (choice)
-                        {
-                            case 2:
-                                return;
-                            case 1:
-                                fallthrough = true;
-                                break;
-                        }
-                    }
-                    _entries[j].Name = $"field_{j}";
-                }
-
-                if (Utils.HasDuplicateElements(_entries))
-                {
-                    EditorUtility.DisplayDialog("Error", "Your Type contains duplicate field names (ignoring case).", "Sad");
-                    return;
-                }
-
-                var fieldDeclarations = "";
-
-                System.Array.ForEach(_entries,
-                    (Entry e) =>
-                        fieldDeclarations += $"public {e.PrimitiveType.ToString()[1..]} {e.Name};\n\t\t");
-
-                int k = 0;
-
-                string editorFields = "";
-
-                k = 0;
-                for (; k + 1 < _entries.Length; ++k)
-                {
-                    editorFields += Utils.TypeToEditorField(_entries[k].PrimitiveType, _entries[k].Name) + "\n\t\t";
-                }
-                editorFields += Utils.TypeToEditorField(_entries[k].PrimitiveType, _entries[k].Name);
-                
-                try
-                {
-                    FileWriter fileWriter = new();
-                    
-                    InitializePluginFolder(fileWriter);
-                    WriteAllFiles(fileWriter, fieldDeclarations, editorFields);
-                    DisplaySuccessDialog();
-                    
-                    AssetDatabase.Refresh();
-                }
-                catch (FileWriter.Exception e)
-                {
-                    DisplayFailureDialog(e.Message);
-                }
-            }
+            return true;
         }
 
+        private static bool IsInputValid()
+        {
+            if (!Utils.IsVariableNameValid(_typeName))
+            {
+                EditorUtility.DisplayDialog(
+                    $"Invalid Class Name: {_typeName}",
+                    "should start with a letter and should only contain letters, numbers and underscores.",
+                    "Alrighty then");
+                return false;
+            }
+
+            if (_entries == null)
+            {
+                EditorUtility.DisplayDialog(
+                    "Not enough fields",
+                    "Custom structs should have at least one field.",
+                    "Alrighty then");
+                return false;
+            }
+
+            foreach (Entry e in _entries)
+            {
+                if (Utils.IsVariableNameValid(e.Name)) 
+                    continue;
+                    
+                EditorUtility.DisplayDialog(
+                    $"Invalid Field Name: {e.Name}",
+                    "should start with a letter and should only contain letters, numbers and underscores.",
+                    "Alrighty then");
+                return false;
+            }
+
+            var fallthrough = false;
+
+            for (int j = 0; j < _entries.Length; ++j)
+            {
+                if (!string.IsNullOrEmpty(_entries[j].Name)) 
+                    continue;
+                    
+                if (!fallthrough)
+                {
+                    int choice = EditorUtility.DisplayDialogComplex(
+                        "Incomplete Type?",
+                        $"Field {j} is not named.\nIt will receive a default name.",
+                        "Go ahead",
+                        "Apply to all",
+                        "Abort!");
+
+                    switch (choice)
+                    {
+                        case 2:
+                            return false;
+                        case 1:
+                            fallthrough = true;
+                            break;
+                    }
+                }
+                _entries[j].Name = $"field_{j}";
+            }
+
+            if (Utils.HasDuplicateElements(_entries))
+            {
+                EditorUtility.DisplayDialog("Error", "Your Type contains duplicate field names (ignoring case).", "Sad");
+                return false;
+            }
+            return true;
+        }
+
+        private static void GenerateSourceFiles()
+        {
+            var fieldDeclarations = "";
+
+            System.Array.ForEach(_entries,
+                (Entry e) =>
+                    fieldDeclarations += $"public {e.PrimitiveType.ToString()[1..]} {e.Name};\n\t\t");
+
+            string editorFields = "";
+
+            for (int i = 0; i < _entries.Length; ++i)
+            {
+                editorFields += Utils.TypeToEditorField(_entries[i].PrimitiveType, _entries[i].Name);
+                
+                if (i + 1 < _entries.Length)
+                    editorFields += "\n\t\t";
+            }
+                
+            try
+            {
+                FileWriter fileWriter = new();
+                    
+                InitializePluginFolder(fileWriter);
+                WriteAllFiles(fileWriter, fieldDeclarations, editorFields);
+                DisplaySuccessDialog();
+                    
+                AssetDatabase.Refresh();
+            }
+            catch (FileWriter.Exception e)
+            {
+                DisplayFailureDialog(e.Message);
+            }
+        }
+        
         private static void InitializePluginFolder(FileWriter fileWriter)
         {
             if (FileWriter.DirectoryExists(Constants.TargetDirectoryRuntime)) 
@@ -181,22 +190,22 @@ namespace LovelyBytesGaming.AssetVariables
             string fieldDeclarations,
             string editorFields)
         {
-            string variableFile = Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
-            string editorFile = Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
-            string listenerFile = Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
+            string variableFile = Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _typeName);
+            string editorFile = Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _typeName);
+            string listenerFile = Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _typeName);
             
             fileWriter.LoadFile(_variableSrcPath);
-            fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
+            fileWriter.SetKeyword(Constants.TypeNameKeyword, _typeName);
             fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
             fileWriter.WriteFile(variableFile);
                     
             fileWriter.LoadFile(_editorSrcPath);
-            fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
+            fileWriter.SetKeyword(Constants.TypeNameKeyword, _typeName);
             fileWriter.SetKeyword(Constants.EditorFieldKeyword, editorFields);
             fileWriter.WriteFile(editorFile);
                     
             fileWriter.LoadFile(_listenerSrcPath);
-            fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
+            fileWriter.SetKeyword(Constants.TypeNameKeyword, _typeName);
             fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
             fileWriter.WriteFile(listenerFile);
         }
@@ -205,9 +214,9 @@ namespace LovelyBytesGaming.AssetVariables
         {
             EditorUtility.DisplayDialog(
                 "Success",
-                $"created class script\n\n{Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _nameStr)}\n\n" +
-                $"listener script\n\n{Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _nameStr)}\n\n" +
-                $"and editor script\n\n{Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _nameStr)}",
+                $"created class script\n\n{Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _typeName)}\n\n" +
+                $"listener script\n\n{Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _typeName)}\n\n" +
+                $"and editor script\n\n{Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _typeName)}",
                 "Nicenstein"
             );
         }
