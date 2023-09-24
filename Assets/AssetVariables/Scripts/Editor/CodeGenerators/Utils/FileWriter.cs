@@ -4,70 +4,41 @@ namespace LovelyBytesGaming.AssetVariables
 {
     internal class FileWriter
     {
-        internal struct Result
+        internal class Exception : System.Exception
         {
-            internal bool Success;
-            internal string Message;
+            public Exception(string message) : base(message) {}            
         }
         
         private string _fileContent;
 
-        internal Result LoadFile(string path)
+        internal void LoadFile(string path)
         {
-            if (!File.Exists(_fileContent))
-            {
-                return new Result
-                {
-                    Success = false,
-                    Message = $"The template file at path {path} does not exist."
-                };
-            }
-
+            if (!File.Exists(path))
+                throw new Exception($"The template file at path {path} does not exist.");
+            
             _fileContent = File.ReadAllText(path);
-            return new Result { Success = true };
         }
 
-        internal Result SetKeyword(string keyword, string content)
+        internal void SetKeyword(string keyword, string content)
         {
             if (string.IsNullOrEmpty(_fileContent))
-            {
-                return new Result
-                {
-                    Success = false,
-                    Message = $"Trying to set keyword {keyword} to {content}, but no source file was loaded!"
-                };
-            }
+                throw new Exception($"Trying to set keyword {keyword} to {content}, but no source file was loaded!");
 
             _fileContent = _fileContent.Replace(keyword, content);
-            return new Result { Success = true };
         }
 
-        internal Result WriteFile(string destPath)
+        internal void WriteFile(string destPath)
         {
             if (string.IsNullOrEmpty(_fileContent))
-            {
-                return new Result
-                {
-                    Success = false,
-                    Message = $"Trying to write file to {destPath}, but no file was loaded!"
-                };
-            }
-            
+                throw new Exception($"Trying to write file to {destPath}, but no file was loaded!");
+
             var file = new FileInfo(destPath);
             
             if (file.Directory == null)
-            {
-                return new Result
-                {
-                    Success = false,
-                    Message = $"Cannot resolve parent directory for {destPath}!"
-                };
-            }
+                throw new Exception($"Cannot resolve parent directory for {destPath}!");
             
             file.Directory.Create();
             File.WriteAllText(file.FullName, _fileContent);
-
-            return new Result { Success = true };
         }
 
         internal static bool DirectoryExists(string path)

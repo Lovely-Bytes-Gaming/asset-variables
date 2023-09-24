@@ -11,7 +11,7 @@ namespace LovelyBytesGaming.AssetVariables
     {
         protected override %TYPENAME% GenericEditorField(string description, %TYPENAME% value)
         {
-            %FIELDS%
+            %EDITOR_FIELDS%
             
             return value;
         }

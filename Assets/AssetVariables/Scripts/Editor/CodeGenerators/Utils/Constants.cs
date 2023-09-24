@@ -12,6 +12,7 @@ namespace LovelyBytesGaming.AssetVariables
         
         internal const string TypeNameKeyword = "%TYPENAME%";
         internal const string FieldKeyword = "%FIELDS%";
+        internal const string EditorFieldKeyword = "%EDITOR_FIELDS%";
         
         internal const string ClassDestPath = TargetDirectoryRuntime + TypeNameKeyword + "Variable.cs";
         internal const string ListenerDestPath = TargetDirectoryRuntime + TypeNameKeyword + "Listener.cs";

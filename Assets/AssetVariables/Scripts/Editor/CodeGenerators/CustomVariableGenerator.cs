@@ -6,7 +6,7 @@ namespace LovelyBytesGaming.AssetVariables
 {
     public class CustomVariableGenerator : EditorWindow
     {
-        private const string _classSrcPath = Constants.SourceDirectory + "CustomVariable.txt";
+        private const string _variableSrcPath = Constants.SourceDirectory + "CustomVariable.txt";
         private const string _listenerSrcPath = Constants.SourceDirectory + "CustomVariableListener.txt";
         private const string _editorSrcPath = Constants.SourceDirectory + "CustomVariableEditor.txt";
         
@@ -63,6 +63,7 @@ namespace LovelyBytesGaming.AssetVariables
             }
 
             GUILayout.Space(20f);
+            
             if (GUILayout.Button("Generate Scripts"))
             {
                 if (!Utils.IsVariableNameValid(_nameStr))
@@ -146,35 +147,29 @@ namespace LovelyBytesGaming.AssetVariables
                 }
                 editorFields += Utils.TypeToEditorField(_entries[k].PrimitiveType, _entries[k].Name);
 
+                string variableFile = Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
+                string editorFile = Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
+                string listenerFile = Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
+
                 try
                 {
-                    string scriptTemplate = File.ReadAllText(_classSrcPath);
-                    string listenerTemplate = File.ReadAllText(_listenerSrcPath);
-                    string editorTemplate = File.ReadAllText(_editorSrcPath);
+                    FileWriter fileWriter = new();
 
-                    string scriptStr = scriptTemplate
-                        .Replace(Constants.TypeNameKeyword, _nameStr)
-                        .Replace(Constants.FieldKeyword, fieldDeclarations);
-
-                    string listenerStr = listenerTemplate
-                        .Replace(Constants.TypeNameKeyword, _nameStr);
-
-                    string editorStr = editorTemplate
-                        .Replace(Constants.TypeNameKeyword, _nameStr)
-                        .Replace(Constants.FieldKeyword, editorFields);
-
-                    FileInfo file = new FileInfo(Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _nameStr));
-                    file.Directory.Create(); // If the directory already exists, this method does nothing.
-                    File.WriteAllText(file.FullName, scriptStr);
-
-                    file = new FileInfo(Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _nameStr));
-                    file.Directory.Create();
-                    File.WriteAllText(file.FullName, listenerStr);
-
-                    file = new FileInfo(Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _nameStr));
-                    file.Directory.Create();
-                    File.WriteAllText(file.FullName, editorStr);
-
+                    fileWriter.LoadFile(_variableSrcPath);
+                    fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
+                    fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
+                    fileWriter.WriteFile(variableFile);
+                    
+                    fileWriter.LoadFile(_editorSrcPath);
+                    fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
+                    fileWriter.SetKeyword(Constants.EditorFieldKeyword, editorFields);
+                    fileWriter.WriteFile(editorFile);
+                    
+                    fileWriter.LoadFile(_listenerSrcPath);
+                    fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
+                    fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
+                    fileWriter.WriteFile(listenerFile);
+                    
                     EditorUtility.DisplayDialog(
                         "Success",
                         $"created class script\n\n{Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _nameStr)}\n\n" +
@@ -184,9 +179,9 @@ namespace LovelyBytesGaming.AssetVariables
                     );
                     AssetDatabase.Refresh();
                 }
-                catch (System.Exception e)
+                catch (FileWriter.Exception e)
                 {
-                    EditorUtility.DisplayDialog("Error", e.Message, "Sad");
+                    EditorUtility.DisplayDialog("Failed to write source Files", e.Message, "Sad");
                 }
             }
         }

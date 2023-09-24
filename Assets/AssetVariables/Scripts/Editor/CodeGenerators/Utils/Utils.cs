@@ -40,6 +40,9 @@ namespace LovelyBytesGaming.AssetVariables
         
         internal static bool IsVariableNameValid(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                return false;
+            
             // should start with a letter and can only contain numbers, letters and underscores
             var validName = new Regex("^[a-zA-Z]+[0-9a-zA-Z_]*$");
             return validName.IsMatch(name);
