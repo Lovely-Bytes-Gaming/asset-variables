@@ -1,12 +1,8 @@
 {
-    "name": "AssetVariables.Editor",
+    "name": "LovelyBytesGaming.AssetVariables.Runtime",
     "rootNamespace": "LovelyBytesGaming.AssetVariables",
-    "references": [
-        "GUID:68ff6d25eef84884896f6357eed7e21a"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "references": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

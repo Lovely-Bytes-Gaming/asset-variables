@@ -11,6 +11,11 @@ namespace LovelyBytesGaming.AssetVariables
         
         private string _fileContent;
 
+        internal void SetContent(string content)
+        {
+            _fileContent = content;
+        }
+        
         internal void LoadFile(string path)
         {
             if (!File.Exists(path))

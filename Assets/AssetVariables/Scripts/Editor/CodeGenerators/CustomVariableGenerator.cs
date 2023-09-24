@@ -150,11 +150,20 @@ namespace LovelyBytesGaming.AssetVariables
                 string variableFile = Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
                 string editorFile = Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
                 string listenerFile = Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
-
+                
                 try
                 {
                     FileWriter fileWriter = new();
 
+                    if (!FileWriter.DirectoryExists(Constants.TargetDirectoryRuntime))
+                    {
+                        fileWriter.SetContent(Constants.RuntimeAsmRef);
+                        fileWriter.WriteFile(Constants.TargetDirectoryRuntime + "Runtime.asmref");
+                        
+                        fileWriter.SetContent(Constants.EditorAsmRef);
+                        fileWriter.WriteFile(Constants.TargetDirectoryEditor + "Editor.asmref");
+                    }
+                    
                     fileWriter.LoadFile(_variableSrcPath);
                     fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
                     fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
