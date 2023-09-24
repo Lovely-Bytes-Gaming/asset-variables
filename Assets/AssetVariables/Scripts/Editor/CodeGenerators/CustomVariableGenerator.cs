@@ -146,53 +146,75 @@ namespace LovelyBytesGaming.AssetVariables
                     editorFields += Utils.TypeToEditorField(_entries[k].PrimitiveType, _entries[k].Name) + "\n\t\t";
                 }
                 editorFields += Utils.TypeToEditorField(_entries[k].PrimitiveType, _entries[k].Name);
-
-                string variableFile = Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
-                string editorFile = Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
-                string listenerFile = Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
                 
                 try
                 {
                     FileWriter fileWriter = new();
-
-                    if (!FileWriter.DirectoryExists(Constants.TargetDirectoryRuntime))
-                    {
-                        fileWriter.SetContent(Constants.RuntimeAsmRef);
-                        fileWriter.WriteFile(Constants.TargetDirectoryRuntime + "Runtime.asmref");
-                        
-                        fileWriter.SetContent(Constants.EditorAsmRef);
-                        fileWriter.WriteFile(Constants.TargetDirectoryEditor + "Editor.asmref");
-                    }
                     
-                    fileWriter.LoadFile(_variableSrcPath);
-                    fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
-                    fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
-                    fileWriter.WriteFile(variableFile);
+                    InitializePluginFolder(fileWriter);
+                    WriteAllFiles(fileWriter, fieldDeclarations, editorFields);
+                    DisplaySuccessDialog();
                     
-                    fileWriter.LoadFile(_editorSrcPath);
-                    fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
-                    fileWriter.SetKeyword(Constants.EditorFieldKeyword, editorFields);
-                    fileWriter.WriteFile(editorFile);
-                    
-                    fileWriter.LoadFile(_listenerSrcPath);
-                    fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
-                    fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
-                    fileWriter.WriteFile(listenerFile);
-                    
-                    EditorUtility.DisplayDialog(
-                        "Success",
-                        $"created class script\n\n{Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _nameStr)}\n\n" +
-                        $"listener script\n\n{Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _nameStr)}\n\n" +
-                        $"and editor script\n\n{Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _nameStr)}",
-                        "Nicenstein"
-                    );
                     AssetDatabase.Refresh();
                 }
                 catch (FileWriter.Exception e)
                 {
-                    EditorUtility.DisplayDialog("Failed to write source Files", e.Message, "Sad");
+                    DisplayFailureDialog(e.Message);
                 }
             }
+        }
+
+        private static void InitializePluginFolder(FileWriter fileWriter)
+        {
+            if (FileWriter.DirectoryExists(Constants.TargetDirectoryRuntime)) 
+                return;
+            
+            fileWriter.SetContent(Constants.RuntimeAsmRef);
+            fileWriter.WriteFile(Constants.TargetDirectoryRuntime + "Runtime.asmref");
+                        
+            fileWriter.SetContent(Constants.EditorAsmRef);
+            fileWriter.WriteFile(Constants.TargetDirectoryEditor + "Editor.asmref");
+        }
+
+        private static void WriteAllFiles(
+            FileWriter fileWriter,
+            string fieldDeclarations,
+            string editorFields)
+        {
+            string variableFile = Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
+            string editorFile = Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
+            string listenerFile = Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _nameStr);
+            
+            fileWriter.LoadFile(_variableSrcPath);
+            fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
+            fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
+            fileWriter.WriteFile(variableFile);
+                    
+            fileWriter.LoadFile(_editorSrcPath);
+            fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
+            fileWriter.SetKeyword(Constants.EditorFieldKeyword, editorFields);
+            fileWriter.WriteFile(editorFile);
+                    
+            fileWriter.LoadFile(_listenerSrcPath);
+            fileWriter.SetKeyword(Constants.TypeNameKeyword, _nameStr);
+            fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
+            fileWriter.WriteFile(listenerFile);
+        }
+
+        private static void DisplaySuccessDialog()
+        {
+            EditorUtility.DisplayDialog(
+                "Success",
+                $"created class script\n\n{Constants.ClassDestPath.Replace(Constants.TypeNameKeyword, _nameStr)}\n\n" +
+                $"listener script\n\n{Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _nameStr)}\n\n" +
+                $"and editor script\n\n{Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _nameStr)}",
+                "Nicenstein"
+            );
+        }
+
+        private static void DisplayFailureDialog(in string failureMessage)
+        {
+            EditorUtility.DisplayDialog("Failed to write source Files", failureMessage, "Sad");
         }
     }
 }
