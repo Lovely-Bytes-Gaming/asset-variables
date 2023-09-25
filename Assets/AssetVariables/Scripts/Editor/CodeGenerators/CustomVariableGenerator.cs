@@ -81,7 +81,7 @@ namespace LovelyBytesGaming.AssetVariables
             if (!Utils.IsVariableNameValid(_typeName))
             {
                 EditorUtility.DisplayDialog(
-                    $"Invalid Class Name: {_typeName}",
+                    $"Invalid Class Name: {Utils.ValueOrEmpty(_typeName)}",
                     "should start with a letter and should only contain letters, numbers and underscores.",
                     "Alrighty then");
                 return false;
@@ -102,38 +102,10 @@ namespace LovelyBytesGaming.AssetVariables
                     continue;
                     
                 EditorUtility.DisplayDialog(
-                    $"Invalid Field Name: {e.Name}",
+                    $"Invalid Field Name: {Utils.ValueOrEmpty(e.Name)}",
                     "should start with a letter and should only contain letters, numbers and underscores.",
                     "Alrighty then");
                 return false;
-            }
-
-            var fallthrough = false;
-
-            for (int j = 0; j < _entries.Length; ++j)
-            {
-                if (!string.IsNullOrEmpty(_entries[j].Name)) 
-                    continue;
-                    
-                if (!fallthrough)
-                {
-                    int choice = EditorUtility.DisplayDialogComplex(
-                        "Incomplete Type?",
-                        $"Field {j} is not named.\nIt will receive a default name.",
-                        "Go ahead",
-                        "Apply to all",
-                        "Abort!");
-
-                    switch (choice)
-                    {
-                        case 2:
-                            return false;
-                        case 1:
-                            fallthrough = true;
-                            break;
-                    }
-                }
-                _entries[j].Name = $"field_{j}";
             }
 
             if (Utils.HasDuplicateElements(_entries))

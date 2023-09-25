@@ -55,6 +55,13 @@ namespace LovelyBytesGaming.AssetVariables
             int index = filePath.LastIndexOf('/');
             return filePath[..index];
         }
+
+        internal static string ValueOrEmpty(in string value)
+        {
+            return string.IsNullOrEmpty(value)
+                ? "Empty String"
+                : value;
+        }
         
         private static string GetFilePath(string className)
         {
