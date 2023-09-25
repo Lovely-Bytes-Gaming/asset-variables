@@ -6,9 +6,14 @@ namespace LovelyBytesGaming.AssetVariables
 {
     public class CustomVariableGenerator : EditorWindow
     {
-        private const string _pathToVariableTemplate = Constants.SourceDirectory + "CustomVariable.txt";
-        private const string _pathToListenerTemplate = Constants.SourceDirectory + "CustomVariableListener.txt";
-        private const string _pathToEditorTemplate = Constants.SourceDirectory + "CustomVariableEditor.txt";
+        private static string ParentDirectory
+            => Utils.GetParentDirectory(nameof(CustomVariableGenerator));
+        private static string PathToVariableTemplate 
+            => ParentDirectory + "/Templates/CustomVariable.txt";
+        private static string PathToListenerTemplate 
+            => ParentDirectory + "/Templates/CustomVariableListener.txt";
+        private static string PathToEditorTemplate 
+            => ParentDirectory + "/Templates/CustomVariableEditor.txt";
         
         private static string _typeName = "";
         private static Entry[] _entries;
@@ -24,7 +29,7 @@ namespace LovelyBytesGaming.AssetVariables
         {
             if (!IsUserInputProvided()) 
                 return;
-
+            
             if (!GUILayout.Button("Generate"))
                 return;
 
@@ -194,17 +199,17 @@ namespace LovelyBytesGaming.AssetVariables
             string editorFile = Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _typeName);
             string listenerFile = Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _typeName);
             
-            fileWriter.LoadFile(_pathToVariableTemplate);
+            fileWriter.LoadFile(PathToVariableTemplate);
             fileWriter.SetKeyword(Constants.TypeNameKeyword, _typeName);
             fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
             fileWriter.WriteFile(variableFile);
                     
-            fileWriter.LoadFile(_pathToEditorTemplate);
+            fileWriter.LoadFile(PathToEditorTemplate);
             fileWriter.SetKeyword(Constants.TypeNameKeyword, _typeName);
             fileWriter.SetKeyword(Constants.EditorFieldKeyword, editorFields);
             fileWriter.WriteFile(editorFile);
                     
-            fileWriter.LoadFile(_pathToListenerTemplate);
+            fileWriter.LoadFile(PathToListenerTemplate);
             fileWriter.SetKeyword(Constants.TypeNameKeyword, _typeName);
             fileWriter.SetKeyword(Constants.FieldKeyword, fieldDeclarations);
             fileWriter.WriteFile(listenerFile);

@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
+using UnityEditor;
 
 namespace LovelyBytesGaming.AssetVariables
 {
@@ -46,6 +47,22 @@ namespace LovelyBytesGaming.AssetVariables
             // should start with a letter and can only contain numbers, letters and underscores
             var validName = new Regex("^[a-zA-Z]+[0-9a-zA-Z_]*$");
             return validName.IsMatch(name);
+        }
+
+        internal static string GetParentDirectory(string className)
+        {
+            string filePath = GetFilePath(className);
+            int index = filePath.LastIndexOf('/');
+            return filePath[..index];
+        }
+        
+        private static string GetFilePath(string className)
+        {
+            string[] guids = AssetDatabase.FindAssets($"t:Script {className}");
+            
+            return guids is { Length: > 0 } 
+                ? AssetDatabase.GUIDToAssetPath(guids[0]) 
+                : null;
         }
     }
 }
