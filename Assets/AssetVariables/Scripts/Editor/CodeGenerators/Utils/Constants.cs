@@ -6,7 +6,6 @@ namespace LovelyBytesGaming.AssetVariables
 {
     internal static class Constants
     {
-        internal const string SourceDirectory = "Assets/AssetVariables/Scripts/Editor/CodeGenerators/Templates/";
         internal const string TargetDirectoryRuntime = "Assets/Plugins/AssetVariables/Runtime/";
         internal const string TargetDirectoryEditor = "Assets/Plugins/AssetVariables/Editor/";
         
