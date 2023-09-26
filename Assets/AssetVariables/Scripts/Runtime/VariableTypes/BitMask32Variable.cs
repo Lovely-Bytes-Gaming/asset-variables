@@ -19,9 +19,6 @@ namespace LovelyBytesGaming.AssetVariables
                 Value = currentMask;
             }
         }
-
-        public void Reset()
-            => Value.Reset();
     }
 }
 

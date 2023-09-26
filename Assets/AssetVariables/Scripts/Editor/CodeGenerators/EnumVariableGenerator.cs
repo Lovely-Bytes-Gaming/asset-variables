@@ -19,7 +19,6 @@ namespace LovelyBytesGaming.AssetVariables
 
         private static string _typeName = "";
         private static string[] _values;
-        private static int _defaultValueIndex = 0;
 
         [MenuItem(Constants.AssetMenuBasePath + "Create New Enum Type")]
         public static void CreateNewEnumType()
@@ -54,14 +53,6 @@ namespace LovelyBytesGaming.AssetVariables
                 _values[i] = EditorGUILayout.TextField($"{i}", _values[i] ?? $"Value{i}");
             }
 
-            GUILayout.Space(10f);
-            _defaultValueIndex = EditorGUILayout.IntField("Default Value: ", _defaultValueIndex);
-            if (_values != null)
-            {
-                _defaultValueIndex = (_defaultValueIndex < _values.Length) ? _defaultValueIndex : 0;
-                GUILayout.Label($"({_values[_defaultValueIndex]})");
-            }
-
             return _values != null && _values.Length != 0;
         }
 
@@ -75,8 +66,6 @@ namespace LovelyBytesGaming.AssetVariables
                     "Alrighty then");
                 return false;
             }
-
-            string fieldString = "";
 
             if (_values.Length < 2)
             {
@@ -130,8 +119,7 @@ namespace LovelyBytesGaming.AssetVariables
             return new KeyValuePair<string, string>[]
             {
                 new(Constants.TypeNameKeyword, _typeName),
-                new(Constants.FieldKeyword, valueString),
-                new(Constants.DefaultValueKeyword, _values[_defaultValueIndex]),
+                new(Constants.FieldKeyword, valueString)
             };
         }
 

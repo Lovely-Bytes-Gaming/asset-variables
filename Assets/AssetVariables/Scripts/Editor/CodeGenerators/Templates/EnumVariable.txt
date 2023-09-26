@@ -9,7 +9,5 @@ namespace LovelyBytesGaming.AssetVariables
         {
             %FIELDS%
         }
-
-        public void Reset() => Value = %TYPENAME%._%DEFAULT_VALUE%;
     }
 }

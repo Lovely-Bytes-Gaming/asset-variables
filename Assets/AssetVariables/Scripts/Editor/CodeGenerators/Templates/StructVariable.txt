@@ -13,8 +13,5 @@ namespace LovelyBytesGaming.AssetVariables
 
     [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/%TYPENAME%")]
     public class %TYPENAME%Variable : Variable<%TYPENAME%>
-    {
-        public void Reset()
-            => Value = new %TYPENAME%();
-    }
+    { }
 }
