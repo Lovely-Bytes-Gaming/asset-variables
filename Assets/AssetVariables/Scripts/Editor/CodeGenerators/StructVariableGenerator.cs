@@ -17,7 +17,7 @@ namespace LovelyBytesGaming.AssetVariables
         private static string _typeName = "";
         private static Entry[] _entries;
 
-        [MenuItem("Window/Scriptable Variables/Create New Struct Type")]
+        [MenuItem(Constants.AssetMenuBasePath + "Create New Struct Type")]
         public static void CreateNewType()
         {
             ShowWindow();
@@ -40,11 +40,15 @@ namespace LovelyBytesGaming.AssetVariables
 
             if (desiredFieldCount <= 0)
                 return false;
-            
+
             if (_entries == null)
+            {
                 _entries = new Entry[desiredFieldCount];
+            }
             else if (desiredFieldCount != currentFieldCount)
+            {
                 Array.Resize(ref _entries, desiredFieldCount);
+            }
 
             for (int i = 0; i < desiredFieldCount; ++i)
             {
@@ -67,7 +71,7 @@ namespace LovelyBytesGaming.AssetVariables
 
         protected override bool IsInputValid()
         {
-            if (!Utils.IsVariableNameValid(_typeName))
+            if (!Utils.IsNameValid(_typeName))
             {
                 EditorUtility.DisplayDialog(
                     $"Invalid Class Name: {Utils.ValueOrEmpty(_typeName)}",
@@ -87,7 +91,7 @@ namespace LovelyBytesGaming.AssetVariables
 
             foreach (Entry e in _entries)
             {
-                if (Utils.IsVariableNameValid(e.Name)) 
+                if (Utils.IsNameValid(e.Name)) 
                     continue;
                     
                 EditorUtility.DisplayDialog(

@@ -1,0 +1,13 @@
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace LovelyBytesGaming.AssetVariables
+{
+    using eType = %TYPENAME%Variable.%TYPENAME%;
+    
+    [AddComponentMenu("LovelyBytesGaming/AssetVariables/%TYPENAME% Listener")]
+    public class %TYPENAME%Listener : EnumTypeListener<%TYPENAME%Variable, eType>
+    {
+    }
+}
+

@@ -1,0 +1,15 @@
+using UnityEngine;
+
+namespace LovelyBytesGaming.AssetVariables
+{
+    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/%TYPENAME%")]
+    public class %TYPENAME%Variable : EnumType<%TYPENAME%Variable.%TYPENAME%>
+    {
+        public enum %TYPENAME%
+        {
+            %FIELDS%
+        }
+
+        public void Reset() => Value = %TYPENAME%._%DEFAULT_VALUE%;
+    }
+}

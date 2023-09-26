@@ -1,0 +1,8 @@
+
+using UnityEditor;
+
+namespace LovelyBytesGaming.AssetVariables
+{
+    [CustomEditor(typeof(%TYPENAME%Variable))]
+    public class %TYPENAME%Editor : EnumTypeEditor<%TYPENAME%Variable.%TYPENAME%> { }
+}

@@ -17,7 +17,6 @@ namespace LovelyBytesGaming.AssetVariables
         protected static string ParentDirectory
             => Utils.GetParentDirectory(nameof(BaseGenerator<TGenerator>));
         
-        
         protected static void ShowWindow()
         {
             var window = GetWindow(typeof(TGenerator)) as TGenerator;
@@ -55,12 +54,6 @@ namespace LovelyBytesGaming.AssetVariables
             EditorUtility.DisplayDialog("Failed to create source Files", failureMessage, "Sad");
         }
 
-        protected abstract bool HasUserInput();
-        protected abstract bool IsInputValid();
-        protected abstract KeyValuePair<string, string>[] GetKeywordValues();
-        protected abstract FileMapping[] GetFileMappings();
-        
-
         protected virtual void GenerateSourceFiles()
         {
             var keywords = GetKeywordValues();
@@ -76,6 +69,28 @@ namespace LovelyBytesGaming.AssetVariables
                 DisplayFailureDialog(e.Message);
             }
         }
+        
+        /// <summary>
+        /// Use this method to check for user input.
+        /// The return value should indicate whether the minimum amount of input has been provided.
+        /// </summary>
+        protected abstract bool HasUserInput();
+        /// <summary>
+        /// Use this method to check the user input for correctness.
+        /// The return value should indicate whether valid input has been provided.
+        /// </summary>
+        protected abstract bool IsInputValid();
+        /// <summary>
+        /// This method should return an array of mappings
+        /// that indicates which keyword should be replaced with which value.
+        /// Unused keywords don't need to be mapped.
+        /// </summary>
+        protected abstract KeyValuePair<string, string>[] GetKeywordValues();
+        /// <summary>
+        /// Each entry in this array should indicate the path to a script template,
+        /// as well as the folder where the processed template should be stored as a script
+        /// </summary>
+        protected abstract FileMapping[] GetFileMappings();
         
         private static void InitializePluginFolder()
         {

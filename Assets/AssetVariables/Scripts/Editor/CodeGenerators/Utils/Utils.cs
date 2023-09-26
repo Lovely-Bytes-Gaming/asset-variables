@@ -39,7 +39,7 @@ namespace LovelyBytesGaming.AssetVariables
             return string.Format(fieldTemplate, label, typeStr);
         }
         
-        internal static bool IsVariableNameValid(string name)
+        internal static bool IsNameValid(string name)
         {
             if (string.IsNullOrEmpty(name))
                 return false;
