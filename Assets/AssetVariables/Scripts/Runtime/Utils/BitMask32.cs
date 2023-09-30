@@ -15,7 +15,7 @@ namespace LovelyBytesGaming.AssetVariables
 
         public static implicit operator int(BitMask32 bm)
             => bm._value;
-
+        
         public BitMask32(int value)
             => this._value = value;
 
