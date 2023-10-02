@@ -4,13 +4,5 @@ using UnityEditor;
 namespace LovelyBytes.AssetVariables
 {
     [CustomEditor(typeof(%TYPENAME%Variable))]
-    public class %TYPENAME%VariableEditor : VariableEditor<%TYPENAME%>
-    {
-        protected override %TYPENAME% GenericEditorField(string description, %TYPENAME% value)
-        {
-            %EDITOR_FIELDS%
-            
-            return value;
-        }
-    }
+    public class %TYPENAME%VariableEditor : VariableEditor<%TYPENAME%> { }
 }

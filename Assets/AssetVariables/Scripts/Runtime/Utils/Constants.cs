@@ -1,7 +1,7 @@
 namespace LovelyBytes.AssetVariables
 {
-    internal static class Constants
+    public static class Constants
     {
-        internal const string DefaultAssetPath = "LovelyBytes/AssetVariables/";
+        public const string DefaultAssetPath = "LovelyBytes/AssetVariables/";
     }
 }
