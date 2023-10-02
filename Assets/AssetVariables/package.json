@@ -1,11 +1,12 @@
 {
-  "name": "com.lovelybytes.asset-vars",
-  "version": "0.0.1",
+  "name": "com.lovelybytes.asset-variables",
+  "author": "Lovely Bytes Gaming",
+  "version": "0.0.2",
   "displayName": "Asset Variables",
-  "description": "Scriptable object variables",
+  "description": "Scriptable object wrapper for editor variables and events",
   "unity": "2020.3",
   "keywords": [
-    "asset-vars"
+    "asset-variables"
   ],
   "license": "MIT",
   "dependencies": {}
