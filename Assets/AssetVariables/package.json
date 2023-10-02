@@ -1,0 +1,12 @@
+{
+  "name": "com.lovelybytes.asset-vars",
+  "version": "0.0.1",
+  "displayName": "Asset Variables",
+  "description": "Scriptable object variables",
+  "unity": "2020.3",
+  "keywords": [
+    "asset-vars"
+  ],
+  "license": "MIT",
+  "dependencies": {}
+}
