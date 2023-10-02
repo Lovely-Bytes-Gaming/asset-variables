@@ -25,7 +25,7 @@ namespace LovelyBytesGaming.AssetVariables
         public virtual void SetWithoutNotify(TType newValue)
             => _value = newValue;
         
-        [SerializeField, HideInInspector]
+        [SerializeField]
         private TType _value;
     }
 }

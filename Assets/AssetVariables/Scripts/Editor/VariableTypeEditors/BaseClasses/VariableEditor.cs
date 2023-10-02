@@ -5,22 +5,34 @@ namespace LovelyBytesGaming.AssetVariables
 {
     public abstract class VariableEditor<TType> : Editor
     {
-        protected abstract TType GenericEditorField(string description, TType value);
-
         public override void OnInspectorGUI()
         {
-            var value = (Variable<TType>)target;
-            TType newValue = GenericEditorField("Value: ", value.Value);
+            if (!Application.isPlaying)
+                base.OnInspectorGUI();
+            else
+                NotifyWhenChanged();
+        }
+        
+        private void NotifyWhenChanged()
+        {
+            var variable = target as Variable<TType>;
+                
+            if (!variable)
+                return;
+                
+            TType oldValue = variable.Value;
+            
+            // show the base inspector after caching the old variable value for comparison
+            base.OnInspectorGUI();
 
             if (!GUI.changed)
                 return;
-
-            if (Application.isPlaying)
-                value.Value = newValue;
-            else
-                value.SetWithoutNotify(newValue);
-
-            EditorUtility.SetDirty(value);
+                
+            TType newValue = variable.Value;
+                
+            // Invokes the "OnValueChanged" event with the correct values for "old" and "new"
+            variable.SetWithoutNotify(oldValue);
+            variable.Value = newValue;
         }
     }
 }

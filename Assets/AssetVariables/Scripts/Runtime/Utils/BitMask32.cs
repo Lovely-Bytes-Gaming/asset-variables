@@ -1,3 +1,5 @@
+using System;
+
 namespace LovelyBytesGaming.AssetVariables
 {
     /// <summary>
@@ -6,6 +8,7 @@ namespace LovelyBytesGaming.AssetVariables
     /// Uses an int as backing value
     /// and can be implicitly converted from and to int.
     /// </summary>
+    [Serializable]
     public struct BitMask32 
     {
         private int _value;

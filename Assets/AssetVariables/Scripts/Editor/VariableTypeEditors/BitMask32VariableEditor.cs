@@ -46,7 +46,7 @@ namespace LovelyBytesGaming.AssetVariables
             All = ~0
         }
         
-        protected override BitMask32 GenericEditorField(string description, BitMask32 value)
+        protected BitMask32 GenericEditorField(string description, BitMask32 value)
         {
             // Display the binary representation of the bitmask
             EditorGUILayout.LabelField(value.ToString());

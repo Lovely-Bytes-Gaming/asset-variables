@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using UnityEngine;
 
 namespace LovelyBytesGaming.AssetVariables
 {
@@ -26,13 +27,20 @@ namespace LovelyBytesGaming.AssetVariables
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             if (!string.IsNullOrEmpty(_nameConstraint))
-                assemblies = assemblies.Where(asm => asm.FullName.Contains(_nameConstraint)).ToArray();
-            
+            {
+                assemblies = assemblies
+                    .Where(asm => asm.FullName.Contains(_nameConstraint))
+                    .ToArray();
+
+                if (assemblies.Length < 1)
+                    return false;
+            }
+
             List<string> options = new();
 
-            for (int i = 0; i < assemblies.Length; ++i)
+            foreach (Assembly assembly in assemblies)
             {
-                string assemblyName = assemblies[i]
+                string assemblyName = assembly
                     .GetName()
                     .Name;
 
@@ -45,33 +53,32 @@ namespace LovelyBytesGaming.AssetVariables
             
             options.Clear();
 
-            foreach (Type type in selectedAssembly.GetTypes())
-            {
-                // currently only supports structs and enums
-                if (!type.IsValueType)
-                    continue;
+            var types = selectedAssembly
+                .GetExportedTypes()
+                .Where(IsValidType)
+                .ToArray();
 
+            if (types.Length < 1)
+                return false;
+            
+            foreach (Type type in types)
+            {
                 string typeName = type.FullName;
 
                 if (typeName == null)
-                    continue;
-                
-                if (typeName.Contains("<PrivateImplementationDetails>"))
-                    continue;
-
-                if (typeName.Contains("UnitySourceGeneratedAssemblyMonoScriptTypes"))
                     continue;
                 
                 options.Add(typeName);
             }
 
             _selectedTypeIndex = EditorGUILayout.Popup("Types", _selectedTypeIndex, options.ToArray());
-            return false;
+            _selectedType = types[_selectedTypeIndex];
+            return true;
         }
 
         protected override bool IsInputValid()
         {
-            return false;
+            return true;
         }
 
         protected override KeyValuePair<string, string>[] GetKeywordValues()
@@ -82,6 +89,26 @@ namespace LovelyBytesGaming.AssetVariables
         protected override FileMapping[] GetFileMappings()
         {
             return null;
+        }
+
+        private static bool IsValidType(Type type)
+        {
+            if (typeof(Component).IsAssignableFrom(type))
+                return false;
+
+            if (typeof(GameObject).IsAssignableFrom(type))
+                return false;
+            
+            if (type.IsEnum)
+                return true;
+
+            // type must provide a parameterless constructor in order to be valid.
+            // structs always have an implicit one that cannot be overriden
+            if (type.IsClass && type.GetConstructor(Type.EmptyTypes) == null)
+                return false;
+            
+            // type should be serializable, so that its value can be saved along the asset
+            return type.GetCustomAttribute(typeof(SerializableAttribute)) != null;
         }
     }
 }
