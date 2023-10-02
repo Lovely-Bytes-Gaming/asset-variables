@@ -29,11 +29,6 @@ namespace LovelyBytes.AssetVariables
             GUILayout.Space(40f);
             _typeName = EditorGUILayout.TextField("Type Name: ", _typeName);
             GUILayout.Space(10f);
-            
-            GUILayout.Label("Custom Value Type Generator", EditorStyles.boldLabel);
-            GUILayout.Space(40f);
-            _typeName = EditorGUILayout.TextField("Type Name: ", _typeName);
-            GUILayout.Space(10f);
 
             int currentFieldCount = _entries?.Length ?? 0;
             int desiredFieldCount = EditorGUILayout.IntField("Number of Fields: ", currentFieldCount);

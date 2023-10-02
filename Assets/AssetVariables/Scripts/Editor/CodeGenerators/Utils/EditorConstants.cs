@@ -15,7 +15,7 @@ namespace LovelyBytes.AssetVariables
         internal const string ListenerDestPath = TargetDirectoryRuntime + TypeNameKeyword + "Listener.cs";
         internal const string EditorDestPath = TargetDirectoryEditor + TypeNameKeyword + "Editor.cs";
 
-        internal const string RuntimeAsmRef = "{\"reference\": \"LovelyBytesGaming.AssetVariables.Runtime\" }";
-        internal const string EditorAsmRef = "{\"reference\": \"LovelyBytesGaming.AssetVariables.Editor\" }";
+        internal const string RuntimeAsmRef = "{\"reference\": \"LovelyBytes.AssetVariables.Runtime\" }";
+        internal const string EditorAsmRef = "{\"reference\": \"LovelyBytes.AssetVariables.Editor\" }";
     }
 }
