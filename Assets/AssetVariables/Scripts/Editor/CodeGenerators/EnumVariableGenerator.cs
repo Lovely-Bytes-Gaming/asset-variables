@@ -20,7 +20,7 @@ namespace LovelyBytes.AssetVariables
         private static string _typeName = "";
         private static string[] _values;
 
-        [MenuItem(Constants.AssetMenuBasePath + "Create New Enum Type")]
+        [MenuItem(EditorConstants.AssetMenuBasePath + "Create New Enum Type")]
         public static void CreateNewEnumType()
         {
             ShowWindow();
@@ -118,8 +118,8 @@ namespace LovelyBytes.AssetVariables
 
             return new KeyValuePair<string, string>[]
             {
-                new(Constants.TypeNameKeyword, _typeName),
-                new(Constants.FieldKeyword, valueString)
+                new(EditorConstants.TypeNameKeyword, _typeName),
+                new(EditorConstants.FieldKeyword, valueString)
             };
         }
 
@@ -130,17 +130,17 @@ namespace LovelyBytes.AssetVariables
                 new()
                 {
                     SourcePath = PathToVariableTemplate,
-                    DestinationPath = Constants.VariableDestPath.Replace(Constants.TypeNameKeyword, _typeName)
+                    DestinationPath = EditorConstants.VariableDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
                 },
                 new()
                 {
                     SourcePath = PathToEditorTemplate,
-                    DestinationPath = Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _typeName)
+                    DestinationPath = EditorConstants.EditorDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
                 },
                 new()
                 {
                     SourcePath = PathToListenerTemplate,
-                    DestinationPath = Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _typeName)
+                    DestinationPath = EditorConstants.ListenerDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
                 }
             };
         }

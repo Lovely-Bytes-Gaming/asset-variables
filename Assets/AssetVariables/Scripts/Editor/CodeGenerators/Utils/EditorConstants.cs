@@ -1,6 +1,6 @@
 namespace LovelyBytes.AssetVariables
 {
-    internal static class Constants
+    internal static class EditorConstants
     {
         internal const string AssetMenuBasePath = "Window/AssetVariables/";
         

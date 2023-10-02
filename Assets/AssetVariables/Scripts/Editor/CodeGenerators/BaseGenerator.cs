@@ -94,16 +94,16 @@ namespace LovelyBytes.AssetVariables
         
         private static void InitializePluginFolder()
         {
-            if (FileWriter.DirectoryExists(Constants.TargetDirectoryRuntime)) 
+            if (FileWriter.DirectoryExists(EditorConstants.TargetDirectoryRuntime)) 
                 return;
             
             FileWriter fileWriter = new();
             
-            fileWriter.SetContent(Constants.RuntimeAsmRef);
-            fileWriter.WriteFile(Constants.TargetDirectoryRuntime + "Runtime.asmref");
+            fileWriter.SetContent(EditorConstants.RuntimeAsmRef);
+            fileWriter.WriteFile(EditorConstants.TargetDirectoryRuntime + "Runtime.asmref");
                         
-            fileWriter.SetContent(Constants.EditorAsmRef);
-            fileWriter.WriteFile(Constants.TargetDirectoryEditor + "Editor.asmref");
+            fileWriter.SetContent(EditorConstants.EditorAsmRef);
+            fileWriter.WriteFile(EditorConstants.TargetDirectoryEditor + "Editor.asmref");
         }
         
         private void WriteAllFiles()

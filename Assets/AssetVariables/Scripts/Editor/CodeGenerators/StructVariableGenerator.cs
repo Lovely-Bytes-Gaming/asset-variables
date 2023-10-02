@@ -17,7 +17,7 @@ namespace LovelyBytes.AssetVariables
         private static string _typeName = "";
         private static Entry[] _entries;
 
-        [MenuItem(Constants.AssetMenuBasePath + "Create New Struct Type")]
+        [MenuItem(EditorConstants.AssetMenuBasePath + "Create New Struct Type")]
         public static void CreateNewType()
         {
             ShowWindow();
@@ -128,9 +128,9 @@ namespace LovelyBytes.AssetVariables
 
             return new KeyValuePair<string, string>[]
             {
-                new (Constants.TypeNameKeyword, _typeName),
-                new (Constants.FieldKeyword, fieldDeclarations),
-                new (Constants.EditorFieldKeyword, editorFields),
+                new (EditorConstants.TypeNameKeyword, _typeName),
+                new (EditorConstants.FieldKeyword, fieldDeclarations),
+                new (EditorConstants.EditorFieldKeyword, editorFields),
             };
         }
 
@@ -141,17 +141,17 @@ namespace LovelyBytes.AssetVariables
                 new()
                 {
                     SourcePath = PathToVariableTemplate,
-                    DestinationPath = Constants.VariableDestPath.Replace(Constants.TypeNameKeyword, _typeName)
+                    DestinationPath = EditorConstants.VariableDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
                 },
                 new()
                 {
                     SourcePath = PathToEditorTemplate,
-                    DestinationPath = Constants.EditorDestPath.Replace(Constants.TypeNameKeyword, _typeName)
+                    DestinationPath = EditorConstants.EditorDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
                 },
                 new()
                 {
                     SourcePath = PathToListenerTemplate,
-                    DestinationPath = Constants.ListenerDestPath.Replace(Constants.TypeNameKeyword, _typeName)
+                    DestinationPath = EditorConstants.ListenerDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
                 }
             };
         }
