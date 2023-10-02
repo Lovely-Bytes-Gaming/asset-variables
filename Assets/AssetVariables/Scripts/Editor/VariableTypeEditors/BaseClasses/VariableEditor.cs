@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     public abstract class VariableEditor<TType> : Editor
     {

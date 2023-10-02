@@ -1,6 +1,6 @@
 using System;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     /// <summary>
     /// Represents a mask with 32 bits.

@@ -1,7 +1,7 @@
 using UnityEditor;
 
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     [CustomEditor(typeof(FloatVariable))]
     public class FloatVariableEditor : VariableEditor<float>

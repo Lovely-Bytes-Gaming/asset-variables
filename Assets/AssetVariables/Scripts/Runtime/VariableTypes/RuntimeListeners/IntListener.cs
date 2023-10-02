@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu("LovelyBytesGaming/AssetVariables/IntListener")]
+    [AddComponentMenu(Constants.DefaultAssetPath + "IntListener")]
     public class IntListener : VariableListener<IntVariable, int> 
     {  }
 }

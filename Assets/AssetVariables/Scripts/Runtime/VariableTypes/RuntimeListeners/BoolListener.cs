@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu("LovelyBytesGaming/AssetVariables/BoolListener")]
+    [AddComponentMenu(Constants.DefaultAssetPath + "BoolListener")]
     public class BoolListener : VariableListener<BoolVariable, bool> 
     {
     }

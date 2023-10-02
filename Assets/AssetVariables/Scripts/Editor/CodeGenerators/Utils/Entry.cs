@@ -1,4 +1,4 @@
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     internal struct Entry
     {

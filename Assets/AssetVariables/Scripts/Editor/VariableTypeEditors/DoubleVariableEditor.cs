@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     [CustomEditor(typeof(DoubleVariable))]
     public class DoubleVariableEditor : VariableEditor<double>

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu("LovelyBytesGaming/AssetVariables/BitMask32Listener")]
+    [AddComponentMenu(Constants.DefaultAssetPath + "BitMask32Listener")]
     public class BitMask32Listener : VariableListener<BitMask32Variable, BitMask32>
     { }
 }

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/Trigger")]
+    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Trigger")]
     public class TriggerVariable : ScriptableObject
     {
         public event System.Action OnTriggerFired;

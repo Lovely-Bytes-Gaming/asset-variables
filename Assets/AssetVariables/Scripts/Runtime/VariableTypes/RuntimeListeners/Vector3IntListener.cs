@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu("LovelyBytesGaming/AssetVariables/Vector3IntListener")]
+    [AddComponentMenu(Constants.DefaultAssetPath + "Vector3IntListener")]
     public class Vector3IntListener : VariableListener<Vector3IntVariable, Vector3Int> 
     { }
 }

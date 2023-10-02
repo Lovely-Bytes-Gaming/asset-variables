@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu("LovelyBytesGaming/AssetVariables/FloatListener")]
+    [AddComponentMenu(Constants.DefaultAssetPath + "FloatListener")]
     public class FloatListener : VariableListener<FloatVariable, float> 
     {
 #if !UNITY_2020_3_OR_NEWER

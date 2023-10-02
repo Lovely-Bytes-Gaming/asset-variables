@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     /// <summary>
     /// Base class for range types (int and float)

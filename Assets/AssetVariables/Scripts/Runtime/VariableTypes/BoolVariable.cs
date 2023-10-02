@@ -1,7 +1,7 @@
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/Bool")]
+    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Bool")]
     public class BoolVariable : Variable<bool> { };
 }

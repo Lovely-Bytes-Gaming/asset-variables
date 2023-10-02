@@ -1,9 +1,9 @@
 using UnityEngine;
 
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/Range/Int")]
+    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Range/Int")]
     public class IntRange : Range<int> 
     {
         public void Reset()

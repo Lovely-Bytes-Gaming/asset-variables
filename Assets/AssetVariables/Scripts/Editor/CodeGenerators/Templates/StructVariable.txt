@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     [System.Serializable]
     public struct %TYPENAME%
@@ -11,7 +11,7 @@ namespace LovelyBytesGaming.AssetVariables
             => JsonUtility.ToJson(this);
     }
 
-    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/%TYPENAME%")]
+    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "%TYPENAME%")]
     public class %TYPENAME%Variable : Variable<%TYPENAME%>
     { }
 }

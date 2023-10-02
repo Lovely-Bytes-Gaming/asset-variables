@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/BitMask32")]
+    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + nameof(BitMask32))]
     public class BitMask32Variable : Variable<BitMask32>
     {
         /// <summary>

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     /// <summary>
     /// Base class for value types (Anything that is a struct)
@@ -19,7 +19,12 @@ namespace LovelyBytesGaming.AssetVariables
         public virtual TType Value
         {
             get => _value;
-            set => Utils.SetAndNotify(ref _value, value, OnValueChanged);
+            set
+            {
+                TType oldValue = _value;
+                _value = value;
+                OnValueChanged?.Invoke(oldValue, _value);
+            } 
         }
 
         public virtual void SetWithoutNotify(TType newValue)

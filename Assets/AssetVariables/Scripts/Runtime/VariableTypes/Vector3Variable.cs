@@ -1,9 +1,9 @@
 using UnityEngine;
 
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/Vector3")]
+    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Vector3")]
     public class Vector3Variable : Variable<Vector3> 
     { 
     };

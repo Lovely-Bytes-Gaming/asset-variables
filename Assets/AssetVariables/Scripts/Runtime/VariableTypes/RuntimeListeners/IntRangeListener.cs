@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu("LovelyBytesGaming/AssetVariables/IntRangeListener")]
+    [AddComponentMenu(Constants.DefaultAssetPath + "IntRangeListener")]
     public class IntRangeListener : VariableListener<IntRange, int> 
     { }
 }

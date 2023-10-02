@@ -1,9 +1,9 @@
 using UnityEngine;
 
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/Range/Float")]
+    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Range/Float")]
     public class FloatRange : Range<float> 
     { 
         public void Reset()

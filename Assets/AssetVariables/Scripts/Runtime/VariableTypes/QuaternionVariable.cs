@@ -1,9 +1,9 @@
 using UnityEngine;
 
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/Quaternion")]
+    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Quaternion")]
     public class QuaternionVariable : Variable<Quaternion> 
     { 
     }

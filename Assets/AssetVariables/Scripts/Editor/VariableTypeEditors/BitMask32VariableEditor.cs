@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     [CustomEditor(typeof(BitMask32Variable))]
     public class BitMask32VariableEditor : VariableEditor<BitMask32>

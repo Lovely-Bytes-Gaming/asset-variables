@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     internal static class Constants
     {
@@ -14,7 +10,6 @@ namespace LovelyBytesGaming.AssetVariables
         internal const string TypeNameKeyword = "%TYPENAME%";
         internal const string FieldKeyword = "%FIELDS%";
         internal const string EditorFieldKeyword = "%EDITOR_FIELDS%";
-        internal const string DefaultValueKeyword = "%DEFAULT_VALUE%";
         
         internal const string VariableDestPath = TargetDirectoryRuntime + TypeNameKeyword + "Variable.cs";
         internal const string ListenerDestPath = TargetDirectoryRuntime + TypeNameKeyword + "Listener.cs";

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     public abstract class VariableListener<TVar, TType> : MonoBehaviour 
         where TVar : Variable<TType> 

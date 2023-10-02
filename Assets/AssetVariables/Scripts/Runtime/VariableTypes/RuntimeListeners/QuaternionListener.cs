@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu("LovelyBytesGaming/AssetVariables/QuaternionListener")]
+    [AddComponentMenu(Constants.DefaultAssetPath + "QuaternionListener")]
     public class QuaternionListener : VariableListener<QuaternionVariable, Quaternion> 
     { }
 }

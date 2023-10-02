@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     [CustomEditor(typeof(Vector3IntVariable))]
     public class Vector3IntVariableEditor : VariableEditor<Vector3Int>

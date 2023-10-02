@@ -1,9 +1,9 @@
 using UnityEngine;
 
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/Long")]
+    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Long")]
     public class LongVariable : Variable<long> 
     {
     };

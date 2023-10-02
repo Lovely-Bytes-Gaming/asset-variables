@@ -1,9 +1,9 @@
 using UnityEngine;
 
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = "LovelyBytesGaming/AssetVariables/Vector2Int")]
+    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Vector2Int")]
     public class Vector2IntVariable : Variable<Vector2Int> 
     { 
     };

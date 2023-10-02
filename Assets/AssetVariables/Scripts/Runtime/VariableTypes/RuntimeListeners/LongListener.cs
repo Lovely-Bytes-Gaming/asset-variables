@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu("LovelyBytesGaming/AssetVariables/LongListener")]
+    [AddComponentMenu(Constants.DefaultAssetPath + "LongListener")]
     public class LongListener : VariableListener<LongVariable, long> 
     { }
 }

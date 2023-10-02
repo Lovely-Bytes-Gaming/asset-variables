@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     [CustomPropertyDrawer(typeof(BitMask32))]
     public class Bitmask32Drawer : PropertyDrawer

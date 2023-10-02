@@ -1,7 +1,7 @@
 using UnityEditor;
 
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     [CustomEditor(typeof(LongVariable))]
     public class LongVariableEditor : VariableEditor<long>

@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace LovelyBytesGaming.AssetVariables
+namespace LovelyBytes.AssetVariables
 {
     [CustomEditor(typeof(BoolVariable))]
     public class BoolVariableEditor : VariableEditor<bool>

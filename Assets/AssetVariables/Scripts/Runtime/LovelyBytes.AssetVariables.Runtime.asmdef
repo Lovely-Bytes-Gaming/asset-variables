@@ -1,0 +1,14 @@
+{
+    "name": "LovelyBytes.AssetVariables.Runtime",
+    "rootNamespace": "LovelyBytes.AssetVariables",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
