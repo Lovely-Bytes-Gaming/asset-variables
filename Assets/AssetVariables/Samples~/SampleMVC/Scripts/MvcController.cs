@@ -3,34 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MvcController<TModel, TView> : MonoBehaviour
-    where TModel : IMvcModel<TView>
-    where TView : IMvcView<TModel>
+namespace LovelyBytes.AssetVariables.Samples
 {
-    [SerializeField] private TModel _model;
-    [SerializeField] private TView _view;
-
-    protected virtual void Awake()
+    public class MvcController<TModel, TView> : MonoBehaviour
+        where TModel : IMvcModel<TView>
+        where TView : IMvcView<TModel>
     {
-        _view.Bind(_model);
-        _model.Bind(_view);
+        [SerializeField] private TModel _model;
+        [SerializeField] private TView _view;
+
+        protected virtual void Awake()
+        {
+            _view.Bind(_model);
+            _model.Bind(_view);
+        }
+
+        protected virtual void OnDestroy()
+        {
+            _model.Release(_view);
+            _view.Release(_model);
+        }
     }
 
-    protected virtual void OnDestroy()
+    public interface IMvcView<in TModel>
     {
-        _model.Release(_view);
-        _view.Release(_model);
+        void Bind(TModel model);
+        void Release(TModel model);
+    }
+
+    public interface IMvcModel<in TView>
+    {
+        void Bind(TView view);
+        void Release(TView view);
     }
 }
 
-public interface IMvcView<in TModel>
-{
-    void Bind(TModel model);
-    void Release(TModel model);
-}
 
-public interface IMvcModel<in TView>
-{
-    void Bind(TView view);
-    void Release(TView view);
-}
