@@ -1,7 +1,7 @@
 {
   "name": "com.lovelybytes.asset-variables",
   "author": "Lovely Bytes Gaming",
-  "version": "0.1.2",
+  "version": "0.2.2",
   "displayName": "Asset Variables",
   "description": "Scriptable object wrapper for editor variables and events",
   "unity": "2020.3",
@@ -9,5 +9,12 @@
     "asset-variables"
   ],
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {},
+  "samples": [
+    {
+      "displayName": "Sample MVC UI Controller",
+      "description": "Simple example for how the MVC pattern can be implemented using asset variables",
+      "path": "Samples~/SampleMVC"
+    }
+  ]
 }
