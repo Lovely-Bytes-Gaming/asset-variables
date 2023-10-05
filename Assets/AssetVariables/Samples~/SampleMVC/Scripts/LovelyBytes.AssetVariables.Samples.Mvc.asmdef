@@ -1,0 +1,16 @@
+{
+    "name": "LovelyBytes.AssetVariables.Samples.Mvc",
+    "rootNamespace": "",
+    "references": [
+        "GUID:68ff6d25eef84884896f6357eed7e21a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
