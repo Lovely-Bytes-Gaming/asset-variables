@@ -11,8 +11,6 @@ namespace LovelyBytes.AssetVariables
             => ParentDirectory + "/Templates/StructVariable.txt";
         private static string PathToListenerTemplate 
             => ParentDirectory + "/Templates/StructListener.txt";
-        private static string PathToEditorTemplate 
-            => ParentDirectory + "/Templates/StructEditor.txt";
         
         private static string _typeName = "";
         private static Entry[] _entries;
@@ -66,10 +64,10 @@ namespace LovelyBytes.AssetVariables
 
         protected override bool IsInputValid()
         {
-            if (!Utils.IsNameValid(_typeName))
+            if (!GeneratorUtils.IsNameValid(_typeName))
             {
                 EditorUtility.DisplayDialog(
-                    $"Invalid Class Name: {Utils.ValueOrEmpty(_typeName)}",
+                    $"Invalid Class Name: {GeneratorUtils.ValueOrEmpty(_typeName)}",
                     "should start with a letter and should only contain letters, numbers and underscores.",
                     "Alrighty then");
                 return false;
@@ -86,17 +84,17 @@ namespace LovelyBytes.AssetVariables
 
             foreach (Entry e in _entries)
             {
-                if (Utils.IsNameValid(e.Name)) 
+                if (GeneratorUtils.IsNameValid(e.Name)) 
                     continue;
                     
                 EditorUtility.DisplayDialog(
-                    $"Invalid Field Name: {Utils.ValueOrEmpty(e.Name)}",
+                    $"Invalid Field Name: {GeneratorUtils.ValueOrEmpty(e.Name)}",
                     "should start with a letter and should only contain letters, numbers and underscores.",
                     "Alrighty then");
                 return false;
             }
 
-            if (Utils.HasDuplicateElements(_entries))
+            if (GeneratorUtils.HasDuplicateElements(_entries))
             {
                 EditorUtility.DisplayDialog("Error", "Your Type contains duplicate field names (ignoring case).", "Sad");
                 return false;
@@ -111,21 +109,10 @@ namespace LovelyBytes.AssetVariables
             System.Array.ForEach(_entries, e =>
                 fieldDeclarations += $"public {e.PrimitiveType.ToString()[1..]} {e.Name};\n\t\t");
 
-            string editorFields = "";
-
-            for (int i = 0; i < _entries.Length; ++i)
-            {
-                editorFields += Utils.TypeToEditorField(_entries[i].PrimitiveType, _entries[i].Name);
-                
-                if (i + 1 < _entries.Length)
-                    editorFields += "\n\t\t";
-            }
-
             return new KeyValuePair<string, string>[]
             {
                 new (EditorConstants.TypeNameKeyword, _typeName),
-                new (EditorConstants.FieldKeyword, fieldDeclarations),
-                new (EditorConstants.EditorFieldKeyword, editorFields),
+                new (EditorConstants.FieldKeyword, fieldDeclarations)
             };
         }
 
@@ -137,11 +124,6 @@ namespace LovelyBytes.AssetVariables
                 {
                     SourcePath = PathToVariableTemplate,
                     DestinationPath = EditorConstants.VariableDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
-                },
-                new()
-                {
-                    SourcePath = PathToEditorTemplate,
-                    DestinationPath = EditorConstants.EditorDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
                 },
                 new()
                 {

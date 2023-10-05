@@ -14,9 +14,6 @@ namespace LovelyBytes.AssetVariables
         private static string PathToListenerTemplate
             => ParentDirectory + "/Templates/EnumListener.txt";
 
-        private static string PathToEditorTemplate
-            => ParentDirectory + "/Templates/EnumEditor.txt";
-
         private static string _typeName = "";
         private static string[] _values;
 
@@ -58,7 +55,7 @@ namespace LovelyBytes.AssetVariables
 
         protected override bool IsInputValid()
         {
-            if (!Utils.IsNameValid(_typeName))
+            if (!GeneratorUtils.IsNameValid(_typeName))
             {
                 EditorUtility.DisplayDialog(
                     "Invalid Class Name",
@@ -87,7 +84,7 @@ namespace LovelyBytes.AssetVariables
             
             for (int i = 0; i < _values.Length; ++i)
             {
-                if (Utils.IsNameValid(_values[i])) 
+                if (GeneratorUtils.IsNameValid(_values[i])) 
                     continue;
                 
                 EditorUtility.DisplayDialog(
@@ -131,11 +128,6 @@ namespace LovelyBytes.AssetVariables
                 {
                     SourcePath = PathToVariableTemplate,
                     DestinationPath = EditorConstants.VariableDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
-                },
-                new()
-                {
-                    SourcePath = PathToEditorTemplate,
-                    DestinationPath = EditorConstants.EditorDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
                 },
                 new()
                 {

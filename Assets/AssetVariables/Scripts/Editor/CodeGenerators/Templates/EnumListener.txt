@@ -5,7 +5,7 @@ namespace LovelyBytes.AssetVariables
 {
     using eType = %TYPENAME%Variable.%TYPENAME%;
     
-    [AddComponentMenu("LovelyBytesGaming/AssetVariables/%TYPENAME% Listener")]
+    [AddComponentMenu(Constants.DefaultAssetPath + "%TYPENAME% Listener")]
     public class %TYPENAME%Listener : VariableListener<%TYPENAME%Variable, eType>
     {
     }

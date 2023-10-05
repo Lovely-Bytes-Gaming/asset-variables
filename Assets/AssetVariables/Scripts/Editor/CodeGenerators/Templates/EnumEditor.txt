@@ -1,8 +1,0 @@
-
-using UnityEditor;
-
-namespace LovelyBytes.AssetVariables
-{
-    [CustomEditor(typeof(%TYPENAME%Variable))]
-    public class %TYPENAME%Editor : VariableEditor<%TYPENAME%Variable.%TYPENAME%> { }
-}

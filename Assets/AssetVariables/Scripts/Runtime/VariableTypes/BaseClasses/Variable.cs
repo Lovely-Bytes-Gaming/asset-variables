@@ -1,12 +1,9 @@
-using System;
 using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
     /// <summary>
-    /// Base class for value types (Anything that is a struct)
-    /// Instances can be created in the Asset menu via
-    /// Create -> Scriptable Objects -> Value Types -> desired type
+    /// Base class for scriptable objects that wrap a given type.
     /// </summary>
     public abstract class Variable<TType> : ScriptableObject
     {
@@ -30,7 +27,7 @@ namespace LovelyBytes.AssetVariables
         public virtual void SetWithoutNotify(TType newValue)
             => _value = newValue;
         
-        [SerializeField]
+        [SerializeField, GetSet(nameof(Value))]
         private TType _value;
     }
 }

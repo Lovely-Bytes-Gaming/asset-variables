@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu("LovelyBytesGaming/AssetVariables/%TYPENAME%Listener")]
+    [AddComponentMenu(Constants.DefaultAssetPath + "%TYPENAME% Listener")]
     public class %TYPENAME%Listener : VariableListener<%TYPENAME%Variable, %TYPENAME%>
     { }
 }

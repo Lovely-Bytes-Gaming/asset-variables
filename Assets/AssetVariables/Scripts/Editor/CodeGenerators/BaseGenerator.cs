@@ -15,7 +15,7 @@ namespace LovelyBytes.AssetVariables
         where TGenerator : BaseGenerator<TGenerator>
     {
         protected static string ParentDirectory
-            => Utils.GetParentDirectory(nameof(BaseGenerator<TGenerator>));
+            => GeneratorUtils.GetParentDirectory(nameof(BaseGenerator<TGenerator>));
         
         protected static void ShowWindow()
         {

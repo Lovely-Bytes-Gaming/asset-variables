@@ -4,7 +4,7 @@ using UnityEditor;
 
 namespace LovelyBytes.AssetVariables
 {
-    internal static class Utils
+    internal static class GeneratorUtils
     {
         internal static bool HasDuplicateElements(Entry[] entries)
         {
@@ -13,30 +13,6 @@ namespace LovelyBytes.AssetVariables
                 .Count();
             
             return uniqueElementCount != entries.Length;
-        }
-        
-        internal static string TypeToEditorField(PrimitiveType primitiveType, string label)
-        {
-            string fieldTemplate = (primitiveType != PrimitiveType._Quaternion)
-                ? "value.{0} = EditorGUILayout.{1}(\"{0}\", value.{0});"
-                : "value.{0} = Quaternion.Euler(EditorGUILayout.{1}(\"{0}\", value.{0}.eulerAngles));";
-
-            string typeStr;
-
-            switch (primitiveType)
-            {
-                case PrimitiveType._bool:
-                    typeStr = "Toggle";
-                    break;
-                case PrimitiveType._Quaternion:
-                    typeStr = "Vector3Field";
-                    break;
-                default:
-                    typeStr = char.ToUpper(primitiveType.ToString()[1]) 
-                              + primitiveType.ToString()[2..] + "Field";
-                    break;
-            }
-            return string.Format(fieldTemplate, label, typeStr);
         }
         
         internal static bool IsNameValid(string name)

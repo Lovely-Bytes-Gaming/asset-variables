@@ -4,7 +4,7 @@ using UnityEditor;
 namespace LovelyBytes.AssetVariables
 {
     [CustomEditor(typeof(TriggerVariable))]
-    public class TriggerVariableEditor : Editor
+    public class TriggerEditor : Editor
     {
         private const string _buttonLabel = "Fire";
 
