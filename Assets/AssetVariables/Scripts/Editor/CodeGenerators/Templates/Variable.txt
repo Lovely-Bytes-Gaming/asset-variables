@@ -1,0 +1,8 @@
+using UnityEngine;
+using %ASSET_VARIABLE_NAMESPACE%;
+
+%NAMESPACE_BEGIN%
+[CreateAssetMenu(menuName = AssetVariableConstants.DefaultAssetPath + "%TYPENAME%")]
+public class %TYPENAME%Variable : Variable<%TYPENAME%>
+{ }
+%NAMESPACE_END%

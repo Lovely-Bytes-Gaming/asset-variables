@@ -42,7 +42,7 @@ namespace LovelyBytes.AssetVariables
             if (propertyInfo == null)
                 Debug.LogError($"Invalid property name \"{getSetAttribute.Name}\" for GetSetAttribute");
             else
-                propertyInfo.SetValue(parent, fieldInfo.GetValue(parent), null);
+               propertyInfo.SetValue(parent, fieldInfo.GetValue(parent), null);
 
             getSetAttribute.IsDirty = false;
         }

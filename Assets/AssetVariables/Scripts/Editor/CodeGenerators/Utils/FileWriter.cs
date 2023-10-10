@@ -1,6 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using UnityEditor;
+using UnityEditor.VersionControl;
+using UnityEngine.PlayerLoop;
 
 namespace LovelyBytes.AssetVariables
 {
@@ -33,6 +39,35 @@ namespace LovelyBytes.AssetVariables
 
             _fileContent = _fileContent.Replace(keyword, content);
         }
+
+        internal void SetNameSpace(string nameSpace)
+        {
+            if (string.IsNullOrEmpty(nameSpace))
+            {
+                SetKeyword(EditorConstants.NamespaceBeginKeyword, "");
+                SetKeyword(EditorConstants.NamespaceEndKeyword, "");
+                return;
+            }
+
+            int index = _fileContent.IndexOf(EditorConstants.NamespaceBeginKeyword, 
+                StringComparison.Ordinal);
+            
+            index = _fileContent.IndexOf('\n', index) + 1;
+
+            while (index > 0)
+            {
+                int endIndex = _fileContent.IndexOf(EditorConstants.NamespaceEndKeyword, StringComparison.Ordinal);
+                
+                if (index >= endIndex)
+                    break;
+                
+                _fileContent = _fileContent.Insert(index, "\t");
+                index = _fileContent.IndexOf('\n', index) + 1;
+            }
+            
+            SetKeyword(EditorConstants.NamespaceBeginKeyword, $"namespace {nameSpace}\n{{\n");
+            SetKeyword(EditorConstants.NamespaceEndKeyword, "}");
+        } 
 
         internal void WriteFile(string destPath)
         {

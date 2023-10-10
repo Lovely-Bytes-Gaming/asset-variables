@@ -1,0 +1,9 @@
+using UnityEngine;
+using %ASSET_VARIABLE_NAMESPACE%;
+
+%NAMESPACE_BEGIN%
+[AddComponentMenu(AssetVariableConstants.DefaultAssetPath + "%TYPENAME% Listener")]
+public class %TYPENAME%Listener : VariableListener<%TYPENAME%Variable, %TYPENAME%>
+{ }
+%NAMESPACE_END%
+

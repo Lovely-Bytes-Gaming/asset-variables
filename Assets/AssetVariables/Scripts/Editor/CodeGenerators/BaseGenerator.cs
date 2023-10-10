@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace LovelyBytes.AssetVariables
     internal struct FileMapping
     {
         internal string SourcePath;
-        internal string DestinationPath;
+        internal string FileName;
     }
     
     internal abstract class BaseGenerator<TGenerator> : EditorWindow
@@ -17,8 +18,16 @@ namespace LovelyBytes.AssetVariables
         protected static string ParentDirectory
             => GeneratorUtils.GetParentDirectory(nameof(BaseGenerator<TGenerator>));
         
+        protected static string PathToVariableTemplate 
+            => ParentDirectory + "/Templates/Variable.txt";
+        protected static string PathToListenerTemplate 
+            => ParentDirectory + "/Templates/Listener.txt";
+        
+        private static string TargetDirectory = "";
+        
         protected static void ShowWindow()
         {
+            TargetDirectory = GeneratorUtils.GetSelectionDirectory();
             var window = GetWindow(typeof(TGenerator)) as TGenerator;
             
             if (window)
@@ -69,17 +78,33 @@ namespace LovelyBytes.AssetVariables
                 DisplayFailureDialog(e.Message);
             }
         }
-        
+
         /// <summary>
         /// Use this method to check for user input.
         /// The return value should indicate whether the minimum amount of input has been provided.
         /// </summary>
-        protected abstract bool HasUserInput();
+        protected virtual bool HasUserInput()
+        {
+            GeneratorUtils.SelectDirectoryGUI(ref TargetDirectory);
+            return true;
+        }
+
         /// <summary>
         /// Use this method to check the user input for correctness.
         /// The return value should indicate whether valid input has been provided.
         /// </summary>
-        protected abstract bool IsInputValid();
+        protected virtual bool IsInputValid()
+        {
+            if (Directory.Exists(TargetDirectory)) 
+                return true;
+            
+            EditorUtility.DisplayDialog(
+                $"Directory does not exist: {TargetDirectory}",
+                "Make sure to pick an existing directory next time",
+                "Alrighty then");
+            return false;
+
+        }
         /// <summary>
         /// This method should return an array of mappings
         /// that indicates which keyword should be replaced with which value.
@@ -119,8 +144,11 @@ namespace LovelyBytes.AssetVariables
                 
                 foreach(var pair in keywordValues)
                     fileWriter.SetKeyword(pair.Key, pair.Value);
+
+                string nameSpace = GeneratorUtils.GetRootNamespace(TargetDirectory);
+                fileWriter.SetNameSpace(nameSpace);
                 
-                fileWriter.WriteFile(mapping.DestinationPath);
+                fileWriter.WriteFile($"{TargetDirectory}/{mapping.FileName}");
             }
         }
         
@@ -128,7 +156,7 @@ namespace LovelyBytes.AssetVariables
         {
             string message = GetFileMappings().Aggregate(
                 "Created the following scripts:\n\n", 
-                (current, mapping) => current + $"{mapping.DestinationPath}\n\n"
+                (current, mapping) => current + $"{mapping.FileName}\n\n"
             );
 
             EditorUtility.DisplayDialog(

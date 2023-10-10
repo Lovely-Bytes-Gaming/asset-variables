@@ -8,11 +8,8 @@ namespace LovelyBytes.AssetVariables
 {
     internal class EnumVariableGenerator : BaseGenerator<EnumVariableGenerator>
     {
-        private static string PathToVariableTemplate
-            => ParentDirectory + "/Templates/EnumVariable.txt";
-
-        private static string PathToListenerTemplate
-            => ParentDirectory + "/Templates/EnumListener.txt";
+        private static string PathToEnumTemplate 
+            => ParentDirectory + "/Templates/Enum.txt";
 
         private static string _typeName = "";
         private static string[] _values;
@@ -25,10 +22,12 @@ namespace LovelyBytes.AssetVariables
 
         protected override bool HasUserInput()
         {
-            GUILayout.Label("Enum Type Generator", EditorStyles.boldLabel);
+            base.HasUserInput();
             GUILayout.Space(40f);
+            GUILayout.Label("Enum Type Generator", EditorStyles.boldLabel);
+            GUILayout.Space(20f);
             _typeName = EditorGUILayout.TextField("Enum Name: ", _typeName);
-            GUILayout.Space(10f);
+            GUILayout.Space(20f);
 
             int currentValueCount = _values?.Length ?? 0;
             int desiredValueCount = EditorGUILayout.IntField("Number of Values: ", currentValueCount);
@@ -55,6 +54,9 @@ namespace LovelyBytes.AssetVariables
 
         protected override bool IsInputValid()
         {
+            if (!base.IsInputValid())
+                return false;
+            
             if (!GeneratorUtils.IsNameValid(_typeName))
             {
                 EditorUtility.DisplayDialog(
@@ -100,23 +102,21 @@ namespace LovelyBytes.AssetVariables
 
         protected override KeyValuePair<string, string>[] GetKeywordValues()
         {
-            string valueString = "";
+            string valueString = string.Empty;
             
             for (int i = 0; i < _values.Length; ++i)
             {
-                if (!_values[i].StartsWith('_'))
-                    valueString += '_';
-
                 valueString += _values[i];
 
                 if (i + 1 < _values.Length)
-                    valueString += ",\n\t\t\t";
+                    valueString += ",\n\t";
             }
 
             return new KeyValuePair<string, string>[]
             {
                 new(EditorConstants.TypeNameKeyword, _typeName),
-                new(EditorConstants.FieldKeyword, valueString)
+                new(EditorConstants.FieldKeyword, valueString),
+                new(EditorConstants.PackageNameSpaceKeyword, EditorConstants.PackageNameSpace)
             };
         }
 
@@ -126,13 +126,18 @@ namespace LovelyBytes.AssetVariables
             {
                 new()
                 {
+                    SourcePath  = PathToEnumTemplate,
+                    FileName = $"{_typeName}.cs"
+                },
+                new()
+                {
                     SourcePath = PathToVariableTemplate,
-                    DestinationPath = EditorConstants.VariableDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
+                    FileName = $"{_typeName}Variable.cs"
                 },
                 new()
                 {
                     SourcePath = PathToListenerTemplate,
-                    DestinationPath = EditorConstants.ListenerDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
+                    FileName = $"{_typeName}Listener.cs"
                 }
             };
         }

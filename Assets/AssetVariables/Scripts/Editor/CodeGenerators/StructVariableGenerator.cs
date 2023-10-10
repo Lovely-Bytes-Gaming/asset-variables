@@ -1,16 +1,14 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 
 namespace LovelyBytes.AssetVariables
 {
     internal class StructVariableGenerator : BaseGenerator<StructVariableGenerator>
     {
-        private static string PathToVariableTemplate 
-            => ParentDirectory + "/Templates/StructVariable.txt";
-        private static string PathToListenerTemplate 
-            => ParentDirectory + "/Templates/StructListener.txt";
+        private static string PathToStructTemplate 
+            => ParentDirectory + "/Templates/Struct.txt";
         
         private static string _typeName = "";
         private static Entry[] _entries;
@@ -23,8 +21,10 @@ namespace LovelyBytes.AssetVariables
 
         protected override bool HasUserInput()
         {
+            base.HasUserInput();
+            GUILayout.Space(20f);
             GUILayout.Label("Custom Struct Generator", EditorStyles.boldLabel);
-            GUILayout.Space(40f);
+            GUILayout.Space(10f);
             _typeName = EditorGUILayout.TextField("Type Name: ", _typeName);
             GUILayout.Space(10f);
 
@@ -45,25 +45,27 @@ namespace LovelyBytes.AssetVariables
 
             for (int i = 0; i < desiredFieldCount; ++i)
             {
-                string fieldName = string.IsNullOrEmpty(_entries[i].Name)
-                    ? $"Field{i}"
-                    : _entries[i].Name;
+                if (string.IsNullOrEmpty(_entries[i].Name))
+                    _entries[i].Name = $"Field{i}";
 
-                _entries[i].IsExpanded = EditorGUILayout.Foldout(_entries[i].IsExpanded, fieldName);
+                _entries[i].IsExpanded = EditorGUILayout.Foldout(_entries[i].IsExpanded, _entries[i].Name);
                 
                 if (!_entries[i].IsExpanded) 
                     continue;
                 
-                _entries[i].Name = EditorGUILayout.TextField("Name: ", _entries[i].Name ?? fieldName);
+                _entries[i].Name = EditorGUILayout.TextField("Name: ", _entries[i].Name);
                 _entries[i].PrimitiveType = (PrimitiveType)EditorGUILayout.EnumPopup("Type: ", _entries[i].PrimitiveType);
             }
-
+            
             GUILayout.Space(20f);
             return true;
         }
 
         protected override bool IsInputValid()
         {
+            if (!base.IsInputValid())
+                return false;
+            
             if (!GeneratorUtils.IsNameValid(_typeName))
             {
                 EditorUtility.DisplayDialog(
@@ -107,12 +109,13 @@ namespace LovelyBytes.AssetVariables
             var fieldDeclarations = "";
 
             System.Array.ForEach(_entries, e =>
-                fieldDeclarations += $"public {e.PrimitiveType.ToString()[1..]} {e.Name};\n\t\t");
+                fieldDeclarations += $"public {e.PrimitiveType.ToString()[1..]} {e.Name};\n\t");
 
             return new KeyValuePair<string, string>[]
             {
                 new (EditorConstants.TypeNameKeyword, _typeName),
-                new (EditorConstants.FieldKeyword, fieldDeclarations)
+                new (EditorConstants.FieldKeyword, fieldDeclarations),
+                new (EditorConstants.PackageNameSpaceKeyword, EditorConstants.PackageNameSpace)
             };
         }
 
@@ -122,13 +125,18 @@ namespace LovelyBytes.AssetVariables
             {
                 new()
                 {
+                    SourcePath = PathToStructTemplate,
+                    FileName = $"{_typeName}.cs"
+                },
+                new()
+                {
                     SourcePath = PathToVariableTemplate,
-                    DestinationPath = EditorConstants.VariableDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
+                    FileName = $"{_typeName}Variable.cs"
                 },
                 new()
                 {
                     SourcePath = PathToListenerTemplate,
-                    DestinationPath = EditorConstants.ListenerDestPath.Replace(EditorConstants.TypeNameKeyword, _typeName)
+                    FileName = $"{_typeName}Listener.cs"
                 }
             };
         }

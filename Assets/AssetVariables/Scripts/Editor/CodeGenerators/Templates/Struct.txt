@@ -1,0 +1,10 @@
+using UnityEngine;
+
+%NAMESPACE_BEGIN%
+[System.Serializable]
+public struct %TYPENAME%
+{
+    %FIELDS%
+}
+%NAMESPACE_END%
+

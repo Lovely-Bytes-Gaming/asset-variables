@@ -1,0 +1,6 @@
+%NAMESPACE_BEGIN%
+public enum %TYPENAME%
+{
+    %FIELDS%
+}
+%NAMESPACE_END%
