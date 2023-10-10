@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Double")]
+    [CreateAssetMenu(menuName = AssetVariableConstants.DefaultAssetPath + "Double")]
     public class DoubleVariable : Variable<double> 
     { };
 }

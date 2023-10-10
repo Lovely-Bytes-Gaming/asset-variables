@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu(Constants.DefaultAssetPath + "FloatRangeListener")]
+    [AddComponentMenu(AssetVariableConstants.DefaultAssetPath + "FloatRangeListener")]
     public class FloatRangeListener : VariableListener<FloatRange, float>
     { }
 }

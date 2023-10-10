@@ -13,19 +13,40 @@ namespace LovelyBytes.AssetVariables
         /// </summary>
         public event System.Action<TType, TType> OnValueChanged;
 
-        public virtual TType Value
+        private readonly object _lockObject = new(); 
+        
+        public TType Value
         {
-            get => _value;
+            get
+            {
+                lock (_lockObject)
+                {
+                    return _value;
+                }
+            }
             set
             {
-                TType oldValue = _value;
-                _value = value;
-                OnValueChanged?.Invoke(oldValue, _value);
-            } 
+                lock (_lockObject)
+                {
+                    SetValue(value);
+                }
+            }
         }
 
-        public virtual void SetWithoutNotify(TType newValue)
-            => _value = newValue;
+        protected virtual void SetValue(TType value)
+        {
+            TType oldValue = _value;
+            _value = value;
+            OnValueChanged?.Invoke(oldValue, _value);
+        }
+
+        public void SetWithoutNotify(TType newValue)
+        {
+            lock (_lockObject)
+            {
+                _value = newValue;
+            }
+        }
         
         [SerializeField, GetSet(nameof(Value))]
         private TType _value;

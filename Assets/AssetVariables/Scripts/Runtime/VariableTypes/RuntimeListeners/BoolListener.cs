@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu(Constants.DefaultAssetPath + "BoolListener")]
+    [AddComponentMenu(AssetVariableConstants.DefaultAssetPath + "BoolListener")]
     public class BoolListener : VariableListener<BoolVariable, bool> 
     {
     }

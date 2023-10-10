@@ -41,15 +41,11 @@ namespace LovelyBytes.AssetVariables
         /// <summary>
         /// Current value of this instance, clamped to fall between Min and Max.
         /// </summary>
-        public override TType Value
+        protected override void SetValue(TType value)
         {
-            get => base.Value;
-            set
-            {
-                value = value.CompareTo(Min) < 0 ? Min : value;
-                value = value.CompareTo(Max) > 0 ? Max : value;
-                base.Value = value;
-            }
+            value = value.CompareTo(Min) < 0 ? Min : value;
+            value = value.CompareTo(Max) > 0 ? Max : value;
+            base.Value = value;
         }
 
         [SerializeField, HideInInspector]
@@ -57,16 +53,6 @@ namespace LovelyBytes.AssetVariables
 
         [SerializeField, HideInInspector]
         private TType _max;
-        
-        public override void SetWithoutNotify(TType newValue)
-        {
-            if (newValue.CompareTo(Max) > 0)
-                base.SetWithoutNotify(Max);
-            else if (newValue.CompareTo(Min) < 0)
-                base.SetWithoutNotify(Min);
-            else
-                base.SetWithoutNotify(newValue);
-        }
         
         private void ClampValue()
         {

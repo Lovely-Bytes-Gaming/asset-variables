@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + nameof(BitMask32))]
+    [CreateAssetMenu(menuName = AssetVariableConstants.DefaultAssetPath + nameof(BitMask32))]
     public class BitMask32Variable : ScriptableObject
     {
         /// <summary>

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Trigger")]
+    [CreateAssetMenu(menuName = AssetVariableConstants.DefaultAssetPath + "Trigger")]
     public class TriggerVariable : ScriptableObject
     {
         public event System.Action OnTriggerFired;

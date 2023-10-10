@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Float")]
+    [CreateAssetMenu(menuName = AssetVariableConstants.DefaultAssetPath + "Float")]
     public class FloatVariable : Variable<float> 
     { };
 }

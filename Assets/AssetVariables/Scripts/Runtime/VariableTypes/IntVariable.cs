@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
-    [CreateAssetMenu(menuName = Constants.DefaultAssetPath + "Int")]
+    [CreateAssetMenu(menuName = AssetVariableConstants.DefaultAssetPath + "Int")]
     public class IntVariable : Variable<int> 
     { 
     };

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
-    [AddComponentMenu(Constants.DefaultAssetPath + "DoubleListener")]
+    [AddComponentMenu(AssetVariableConstants.DefaultAssetPath + "DoubleListener")]
     public class DoubleListener : VariableListener<DoubleVariable, double> 
     { }
 }

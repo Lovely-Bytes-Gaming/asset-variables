@@ -1,6 +1,6 @@
 namespace LovelyBytes.AssetVariables
 {
-    public static class AssetVariableUtils
+    public static class AssetVariableConstants
     {
         public const string DefaultAssetPath = "LovelyBytes/AssetVariables/";
     }
