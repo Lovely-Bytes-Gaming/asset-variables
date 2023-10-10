@@ -30,11 +30,11 @@ namespace LovelyBytes.AssetVariables
             object parent = PropertyDrawerUtils.GetParentObject(
                 property.propertyPath, property.serializedObject.targetObject);
 
-            object oldValue = fieldInfo.GetValue(parent);
-            property.serializedObject.ApplyModifiedProperties();
-            
             if (parent == null)
                 return;
+            
+            object oldValue = fieldInfo.GetValue(parent);
+            property.serializedObject.ApplyModifiedProperties();
             
             object newValue = fieldInfo.GetValue(parent);
 

@@ -29,8 +29,6 @@ namespace LovelyBytes.AssetVariables
             
             if (Application.isPlaying)
                 PropertyDrawerUtils.NotifySetter(property, getSetAttribute, fieldInfo);
-            else
-                property.serializedObject.ApplyModifiedProperties();
         }
     }
 }
