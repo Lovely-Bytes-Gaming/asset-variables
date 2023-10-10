@@ -30,21 +30,26 @@ namespace LovelyBytes.AssetVariables
             object parent = PropertyDrawerUtils.GetParentObject(
                 property.propertyPath, property.serializedObject.targetObject);
 
+            object oldValue = fieldInfo.GetValue(parent);
+            property.serializedObject.ApplyModifiedProperties();
+            
             if (parent == null)
-            {
-                getSetAttribute.IsDirty = false;
                 return;
-            }
+            
+            object newValue = fieldInfo.GetValue(parent);
 
             System.Type type = parent.GetType();
             PropertyInfo propertyInfo = type.GetProperty(getSetAttribute.Name);
 
             if (propertyInfo == null)
+            {
                 Debug.LogError($"Invalid property name \"{getSetAttribute.Name}\" for GetSetAttribute");
-            else
-               propertyInfo.SetValue(parent, fieldInfo.GetValue(parent), null);
-
-            getSetAttribute.IsDirty = false;
+                return;
+            }
+            // Workaround to achieve correct setter behaviour:
+            // Set the field back to its old value, then call the setter with the new value  
+            fieldInfo.SetValue(parent, oldValue);
+            propertyInfo.SetValue(parent, newValue, null);
         }
     }
 }

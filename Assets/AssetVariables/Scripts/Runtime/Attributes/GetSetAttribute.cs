@@ -7,7 +7,6 @@ namespace LovelyBytes.AssetVariables
     public sealed class GetSetAttribute : PropertyAttribute
     {
         public readonly string Name;
-        public bool IsDirty;
 
         public GetSetAttribute(string name)
         {

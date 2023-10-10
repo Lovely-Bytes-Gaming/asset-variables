@@ -23,15 +23,14 @@ namespace LovelyBytes.AssetVariables
             EditorGUI.BeginChangeCheck();
 
             EditorGUI.PropertyField(position, property, label, includeChildren: true);
+
+            if (!EditorGUI.EndChangeCheck()) 
+                return;
             
-            if (EditorGUI.EndChangeCheck())
-            {
-                getSetAttribute.IsDirty = Application.isPlaying;
-            }
-            else if (getSetAttribute.IsDirty)
-            {
+            if (Application.isPlaying)
                 PropertyDrawerUtils.NotifySetter(property, getSetAttribute, fieldInfo);
-            }
+            else
+                property.serializedObject.ApplyModifiedProperties();
         }
     }
 }
