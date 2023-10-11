@@ -6,7 +6,9 @@ using UnityEngine;
 namespace LovelyBytes.AssetVariables
 {
     /// <summary>
-    /// Base class for scriptable objects that wrap a given type.
+    /// Base class to create a scriptable object wrapper around the specified generic type.
+    /// It provides a Value of the wrapped type, and an OnValueChanged event that
+    /// notifies listeners when the value is modified.
     /// </summary>
     public abstract class Variable<TType> : ScriptableObject
     {
@@ -45,10 +47,10 @@ namespace LovelyBytes.AssetVariables
                 {
                     OnBeforeSet(ref value);
                     
-                    _isRecursiveCallback = true;
-                    
                     TType oldValue = _value;
                     _value = value;
+                    
+                    _isRecursiveCallback = true;
                     OnValueChanged?.Invoke(oldValue, _value);
                 }
                 catch (Exception)
