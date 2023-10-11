@@ -23,7 +23,7 @@ namespace LovelyBytes.AssetVariables
             {
                 if (Thread.CurrentThread.ManagedThreadId != MainThread.ID)
                 {
-                    Debug.LogError($"The value of a {GetType().Name} can only be set on the main thread!");
+                    Debug.LogError($"{GetType().Name}.Value can only be set on the main thread!");
                     return;
                 }
                 
@@ -36,8 +36,8 @@ namespace LovelyBytes.AssetVariables
                     }
                     else
                     {
-                        Debug.LogError($"Encountered possible endless recursion while setting the Value for {name} to {value}, " +
-                                       $"which can happen by repeatedly setting the Value from within an OnValueChanged callback.");
+                        Debug.LogError($"Exceeded the recursion limit of {AssetVariableConstants.MaxSetValueRecursionDepth} " +
+                                       $"while setting the 'Value' property of {name}. Maybe you are re-assigning the value from within a method that listens to the OnValueChanged callback?");
                     }
                     return;
                 }
@@ -85,7 +85,7 @@ namespace LovelyBytes.AssetVariables
         }
         
         /// <summary>
-        /// Override this function to apply additional checks and modifications on the value before setting it
+        /// Override this function to perform additional checks and modifications on the value before setting it
         /// </summary>
         /// <param name="newValue">The value that is about to be set.</param>
         protected virtual void OnBeforeSet(ref TType newValue)
