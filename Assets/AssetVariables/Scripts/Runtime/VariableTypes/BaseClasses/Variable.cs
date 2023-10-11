@@ -21,9 +21,9 @@ namespace LovelyBytes.AssetVariables
             get => _value;
             set
             {
-                if (AssetVariableConstants.MainThreadID != Thread.CurrentThread.ManagedThreadId)
+                if (Thread.CurrentThread.ManagedThreadId != MainThread.ID)
                 {
-                    Debug.LogError($"The value of a scriptable object variable can only be set on the main thread!");
+                    Debug.LogError($"The value of a {GetType().Name} can only be set on the main thread!");
                     return;
                 }
                 
@@ -93,7 +93,9 @@ namespace LovelyBytes.AssetVariables
 
         private void OnEnable()
         {
-            AssetVariableConstants.MainThreadID = Thread.CurrentThread.ManagedThreadId;
+            // Reference the MainThread static class from the main thread to ensure it is initialized
+            // with the correct ID
+            _ = MainThread.ID;
         }
     }
 }
