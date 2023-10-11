@@ -39,13 +39,12 @@ namespace LovelyBytes.AssetVariables
         }
 
         /// <summary>
-        /// Current value of this instance, clamped to fall between Min and Max.
+        /// Clamp the new value to fall between Min and Max before setting it.
         /// </summary>
-        protected override void SetValue(TType value)
+        protected override void OnBeforeSet(ref TType newValue)
         {
-            value = value.CompareTo(Min) < 0 ? Min : value;
-            value = value.CompareTo(Max) > 0 ? Max : value;
-            base.Value = value;
+            newValue = newValue.CompareTo(Min) < 0 ? Min : newValue;
+            newValue = newValue.CompareTo(Max) > 0 ? Max : newValue;
         }
 
         [SerializeField, HideInInspector]
