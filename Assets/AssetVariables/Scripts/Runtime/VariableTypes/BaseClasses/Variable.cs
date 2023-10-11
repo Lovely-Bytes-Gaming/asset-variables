@@ -15,12 +15,6 @@ namespace LovelyBytes.AssetVariables
         /// </summary>
         public event Action<TType, TType> OnValueChanged;
 
-        private const int _maxRecursionDepth = 100;
-        
-        private bool _isNotifyingListeners = false;
-        private int _recursionDepth = 0;
-        private readonly Queue<TType> _pendingSetOperations = new();
-
         public TType Value
         {
             get => _value;
@@ -73,20 +67,25 @@ namespace LovelyBytes.AssetVariables
             }
         }
 
-        /// <summary>
-        /// Override this function to apply additional checks and modifications on the value before setting it
-        /// </summary>
-        /// <param name="newValue">The value that is about to be set.</param>
-        protected virtual void OnBeforeSet(ref TType newValue)
-        {  } 
-
+        [SerializeField, GetSet(nameof(Value))]
+        private TType _value;
+        
+        private const int _maxRecursionDepth = 100;
+        private bool _isNotifyingListeners = false;
+        private int _recursionDepth = 0;
+        private readonly Queue<TType> _pendingSetOperations = new();
+        
         public void SetWithoutNotify(TType newValue)
         {
             OnBeforeSet(ref newValue);
             _value = newValue;
         }
         
-        [SerializeField, GetSet(nameof(Value))]
-        private TType _value;
+        /// <summary>
+        /// Override this function to apply additional checks and modifications on the value before setting it
+        /// </summary>
+        /// <param name="newValue">The value that is about to be set.</param>
+        protected virtual void OnBeforeSet(ref TType newValue)
+        {  } 
     }
 }
