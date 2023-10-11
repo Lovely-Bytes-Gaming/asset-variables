@@ -131,6 +131,8 @@ namespace LovelyBytes.AssetVariables
             
             //Create object using BinaryFormatter
             _value = (TType)binaryFormatter.Deserialize(rs);
+            
+            Debug.Log($"{name}: value was set to {_value}");
         }
     }
 }
