@@ -27,7 +27,7 @@ namespace LovelyBytes.AssetVariables
                     return;
                 }
                 
-                if (_isNotifyingListeners)
+                if (_isRecursiveCallback)
                 {
                     if (_recursionDepth < AssetVariableConstants.MaxSetValueRecursionDepth)
                     {
@@ -39,45 +39,42 @@ namespace LovelyBytes.AssetVariables
                         Debug.LogError($"Encountered possible endless recursion while setting the Value for {name} to {value}, " +
                                        $"which can happen by repeatedly setting the Value from within an OnValueChanged callback.");
                     }
+                    return;
                 }
-                else
+                try
                 {
-                    try
-                    {
-                        OnBeforeSet(ref value);
-                        
-                        _isNotifyingListeners = true;
-                        
-                        TType oldValue = _value;
-                        _value = value;
-                        OnValueChanged?.Invoke(oldValue, _value);
-                    }
-                    catch (Exception)
-                    {
-                        _recursionDepth = 0;
-                        _pendingSetOperations.Clear();
-                        throw;
-                    }
-                    finally
-                    {
-                        _isNotifyingListeners = false;
-                    }
-
-                    if (_pendingSetOperations.Count < 1)
-                    {
-                        _recursionDepth = 0;
-                        return;
-                    }
+                    OnBeforeSet(ref value);
                     
-                    Value = _pendingSetOperations.Dequeue();
+                    _isRecursiveCallback = true;
+                    
+                    TType oldValue = _value;
+                    _value = value;
+                    OnValueChanged?.Invoke(oldValue, _value);
                 }
+                catch (Exception)
+                {
+                    _recursionDepth = 0;
+                    _pendingSetOperations.Clear();
+                    throw;
+                }
+                finally
+                {
+                    _isRecursiveCallback = false;
+                }
+
+                if (_pendingSetOperations.Count > 0)
+                {
+                    Value = _pendingSetOperations.Dequeue();
+                    return;
+                }
+                _recursionDepth = 0;
             }
         }
 
         [SerializeField, GetSet(nameof(Value))]
         private TType _value;
         
-        private bool _isNotifyingListeners = false;
+        private bool _isRecursiveCallback = false;
         private int _recursionDepth = 0;
         private readonly Queue<TType> _pendingSetOperations = new();
         
