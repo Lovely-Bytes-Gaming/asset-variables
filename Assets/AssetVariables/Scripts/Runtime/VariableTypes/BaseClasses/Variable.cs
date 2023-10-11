@@ -113,7 +113,7 @@ namespace LovelyBytes.AssetVariables
             Debug.Log("Game data saved!");
         }
 
-        public override string Serialize(StreamWriter streamWriter)
+        public override string GetStringRepresentation()
         {
             MemoryStream memoryStream = new ();
             BinaryFormatter binaryFormatter = new();
@@ -122,17 +122,14 @@ namespace LovelyBytes.AssetVariables
             return str;
         }
 
-        public override void Deserialize(in string stringRepresentation)
+        public override void InitializeFromString(in string stringRepresentation)
         {
             byte[] byteRepresentation = System.Convert.FromBase64String(stringRepresentation);
             
             MemoryStream rs = new (byteRepresentation);
             BinaryFormatter binaryFormatter = new();
             
-            //Create object using BinaryFormatter
             _value = (TType)binaryFormatter.Deserialize(rs);
-            
-            Debug.Log($"{name}: value was set to {_value}");
         }
     }
 }

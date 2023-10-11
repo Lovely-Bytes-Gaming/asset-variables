@@ -7,7 +7,7 @@ namespace LovelyBytes.AssetVariables
 {
     public abstract class StringSerializable : ScriptableObject
     {
-        public abstract string Serialize(StreamWriter streamWriter);
-        public abstract void Deserialize(in string stringRepresentation);
+        public abstract string GetStringRepresentation();
+        public abstract void InitializeFromString(in string stringRepresentation);
     }
 }

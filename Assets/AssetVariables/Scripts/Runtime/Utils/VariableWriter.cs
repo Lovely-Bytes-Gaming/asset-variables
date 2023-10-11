@@ -8,26 +8,24 @@ namespace LovelyBytes.AssetVariables
     [CreateAssetMenu(menuName = AssetVariableConstants.DefaultAssetPath + "Variable Writer")]    
     public class VariableWriter : ScriptableObject
     {
-        private static string _fileName => Application.persistentDataPath + "/variables.dat";
+        private static string FileName => Application.persistentDataPath + "/variables.dat";
         
         [SerializeField] 
         private List<StringSerializable> _persistentVariables;
-
+        
         public void Save()
         {
-            Debug.Log(_fileName);
-            
             FileStream stream = null;
 
             try
             {
-                stream = new FileStream(_fileName, FileMode.OpenOrCreate);
+                stream = new FileStream(FileName, FileMode.OpenOrCreate);
 
                 using (StreamWriter streamWriter = new(stream))
                 {
                     foreach (StringSerializable variable in _persistentVariables)
                     {
-                        string content = variable.Serialize(streamWriter);
+                        string content = variable.GetStringRepresentation();
                         streamWriter.WriteLine(content);
                     }
                 }
@@ -44,7 +42,7 @@ namespace LovelyBytes.AssetVariables
             
             try
             {
-                stream = new FileStream(_fileName, FileMode.OpenOrCreate);
+                stream = new FileStream(FileName, FileMode.OpenOrCreate);
 
                 using (StreamReader streamReader = new(stream))
                 {
@@ -52,7 +50,7 @@ namespace LovelyBytes.AssetVariables
                     while (!streamReader.EndOfStream && i < _persistentVariables.Count)
                     {
                         string nextLine = streamReader.ReadLine();
-                        _persistentVariables[i].Deserialize(nextLine);
+                        _persistentVariables[i].InitializeFromString(nextLine);
                         ++i;
                     }                   
                 }
