@@ -1,12 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using UnityEditor;
-using UnityEditor.VersionControl;
-using UnityEngine.PlayerLoop;
 
 namespace LovelyBytes.AssetVariables
 {

@@ -44,16 +44,6 @@ namespace LovelyBytes.AssetVariables
 
             if (!IsInputValid())
                 return;
-
-            try
-            {
-                InitializePluginFolder();
-            }
-            catch (FileWriter.Exception e)
-            {
-                DisplayFailureDialog(e.Message);
-                return;
-            }
             
             GenerateSourceFiles();
         }
@@ -116,20 +106,6 @@ namespace LovelyBytes.AssetVariables
         /// as well as the folder where the processed template should be stored as a script
         /// </summary>
         protected abstract FileMapping[] GetFileMappings();
-        
-        private static void InitializePluginFolder()
-        {
-            if (FileWriter.DirectoryExists(EditorConstants.TargetDirectoryRuntime)) 
-                return;
-            
-            FileWriter fileWriter = new();
-            
-            fileWriter.SetContent(EditorConstants.RuntimeAsmRef);
-            fileWriter.WriteFile(EditorConstants.TargetDirectoryRuntime + "Runtime.asmref");
-                        
-            fileWriter.SetContent(EditorConstants.EditorAsmRef);
-            fileWriter.WriteFile(EditorConstants.TargetDirectoryEditor + "Editor.asmref");
-        }
         
         private void WriteAllFiles()
         {
