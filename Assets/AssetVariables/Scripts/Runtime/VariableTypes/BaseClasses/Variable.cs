@@ -16,7 +16,6 @@ namespace LovelyBytes.AssetVariables
         public event Action<TType, TType> OnValueChanged;
 
         private const int _maxRecursionDepth = 100;
-        private readonly object _lockObject = new();
         
         private bool _isNotifyingListeners = false;
         private int _recursionDepth = 0;
@@ -24,62 +23,52 @@ namespace LovelyBytes.AssetVariables
 
         public TType Value
         {
-            get
-            {
-                lock (_lockObject)
-                {
-                    return _value;
-                }
-            }
+            get => _value;
             set
             {
-                lock (_lockObject)
+                if (_isNotifyingListeners)
                 {
-                    if (_isNotifyingListeners)
+                    if (_recursionDepth < _maxRecursionDepth)
                     {
-                        if (_recursionDepth < _maxRecursionDepth)
-                        {
-                            ++_recursionDepth;
-                            _pendingSetOperations.Enqueue(value);
-                        }
-                        else
-                        {
-                            Debug.LogError($"Encountered possible endless recursion while setting the Value for {name} to {value}, " +
-                                           $"which can happen by repeatedly setting the Value from within an OnValueChanged callback.");
-                        }
+                        ++_recursionDepth;
+                        _pendingSetOperations.Enqueue(value);
                     }
                     else
                     {
-                        
-                        try
-                        {
-                            OnBeforeSet(ref value);
-                            
-                            _isNotifyingListeners = true;
-                            
-                            TType oldValue = _value;
-                            _value = value;
-                            OnValueChanged?.Invoke(oldValue, _value);
-                        }
-                        catch (Exception)
-                        {
-                            _recursionDepth = 0;
-                            _pendingSetOperations.Clear();
-                            throw;
-                        }
-                        finally
-                        {
-                            _isNotifyingListeners = false;
-                        }
-
-                        if (_pendingSetOperations.Count < 1)
-                        {
-                            _recursionDepth = 0;
-                            return;
-                        }
-                        
-                        Value = _pendingSetOperations.Dequeue();
+                        Debug.LogError($"Encountered possible endless recursion while setting the Value for {name} to {value}, " +
+                                       $"which can happen by repeatedly setting the Value from within an OnValueChanged callback.");
                     }
+                }
+                else
+                {
+                    try
+                    {
+                        OnBeforeSet(ref value);
+                        
+                        _isNotifyingListeners = true;
+                        
+                        TType oldValue = _value;
+                        _value = value;
+                        OnValueChanged?.Invoke(oldValue, _value);
+                    }
+                    catch (Exception)
+                    {
+                        _recursionDepth = 0;
+                        _pendingSetOperations.Clear();
+                        throw;
+                    }
+                    finally
+                    {
+                        _isNotifyingListeners = false;
+                    }
+
+                    if (_pendingSetOperations.Count < 1)
+                    {
+                        _recursionDepth = 0;
+                        return;
+                    }
+                    
+                    Value = _pendingSetOperations.Dequeue();
                 }
             }
         }
@@ -93,11 +82,8 @@ namespace LovelyBytes.AssetVariables
 
         public void SetWithoutNotify(TType newValue)
         {
-            lock (_lockObject)
-            {
-                OnBeforeSet(ref newValue);
-                _value = newValue;
-            }
+            OnBeforeSet(ref newValue);
+            _value = newValue;
         }
         
         [SerializeField, GetSet(nameof(Value))]
