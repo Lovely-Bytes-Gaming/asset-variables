@@ -3,16 +3,8 @@ using System;
 
 namespace LovelyBytes.AssetVariables
 {
-    /// <summary>
-    /// Base class for range types (int and float)
-    /// Instances can be created in the Asset menu via
-    /// Create -> Scriptable Objects -> Range Types -> desired type
-    /// </summary>
     public abstract class Range<TType> : Variable<TType> where TType : IComparable<TType>
     {
-        /// <summary>
-        /// Minimum value of this instance
-        /// </summary>
         public TType Min
         {
             get => _min;
@@ -24,9 +16,6 @@ namespace LovelyBytes.AssetVariables
             }
         }
 
-        /// <summary>
-        /// Maximum value of this instance
-        /// </summary>
         public TType Max
         {
             get => _max;

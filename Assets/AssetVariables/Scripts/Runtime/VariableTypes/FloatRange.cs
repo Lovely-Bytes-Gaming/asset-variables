@@ -12,5 +12,5 @@ namespace LovelyBytes.AssetVariables
             Max = 1f;
             Value = 0f;
         }
-    };
+    }
 }
