@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
@@ -20,9 +21,15 @@ namespace LovelyBytes.AssetVariables
             get => _value;
             set
             {
+                if (AssetVariableConstants.MainThreadID != Thread.CurrentThread.ManagedThreadId)
+                {
+                    Debug.LogError($"The value of a scriptable object variable can only be set on the main thread!");
+                    return;
+                }
+                
                 if (_isNotifyingListeners)
                 {
-                    if (_recursionDepth < _maxRecursionDepth)
+                    if (_recursionDepth < AssetVariableConstants.MaxSetValueRecursionDepth)
                     {
                         ++_recursionDepth;
                         _pendingSetOperations.Enqueue(value);
@@ -70,7 +77,6 @@ namespace LovelyBytes.AssetVariables
         [SerializeField, GetSet(nameof(Value))]
         private TType _value;
         
-        private const int _maxRecursionDepth = 100;
         private bool _isNotifyingListeners = false;
         private int _recursionDepth = 0;
         private readonly Queue<TType> _pendingSetOperations = new();
@@ -86,6 +92,11 @@ namespace LovelyBytes.AssetVariables
         /// </summary>
         /// <param name="newValue">The value that is about to be set.</param>
         protected virtual void OnBeforeSet(ref TType newValue)
-        {  } 
+        {  }
+
+        private void OnEnable()
+        {
+            AssetVariableConstants.MainThreadID = Thread.CurrentThread.ManagedThreadId;
+        }
     }
 }
