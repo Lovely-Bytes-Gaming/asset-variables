@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using UnityEngine;
 
@@ -10,7 +12,7 @@ namespace LovelyBytes.AssetVariables
     /// It provides a Value of the wrapped type, and an OnValueChanged event that
     /// notifies listeners when the value is modified.
     /// </summary>
-    public abstract class Variable<TType> : ScriptableObject
+    public abstract class Variable<TType> : StringSerializable
     {
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.
@@ -98,6 +100,37 @@ namespace LovelyBytes.AssetVariables
             // Reference the MainThread static class from the main thread to ensure it is initialized
             // with the correct ID
             _ = MainThread.ID;
+        }
+
+        private void Convert()
+        {
+            BinaryFormatter bf = new BinaryFormatter(); 
+            FileStream file = File.Create(Application.persistentDataPath 
+                                          + "/MySaveData.dat"); 
+
+            bf.Serialize(file, _value);
+            file.Close();
+            Debug.Log("Game data saved!");
+        }
+
+        public override string Serialize(StreamWriter streamWriter)
+        {
+            MemoryStream memoryStream = new ();
+            BinaryFormatter binaryFormatter = new();
+            binaryFormatter.Serialize(memoryStream, _value);
+            string str = System.Convert.ToBase64String(memoryStream.ToArray());
+            return str;
+        }
+
+        public override void Deserialize(in string stringRepresentation)
+        {
+            byte[] byteRepresentation = System.Convert.FromBase64String(stringRepresentation);
+            
+            MemoryStream rs = new (byteRepresentation);
+            BinaryFormatter binaryFormatter = new();
+            
+            //Create object using BinaryFormatter
+            _value = (TType)binaryFormatter.Deserialize(rs);
         }
     }
 }
