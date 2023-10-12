@@ -1,7 +1,7 @@
 {
   "name": "com.lovelybytes.asset-variables",
   "author": "Lovely Bytes Gaming",
-  "version": "0.4.2",
+  "version": "0.5.5",
   "displayName": "Asset Variables",
   "description": "Scriptable object wrapper for editor variables and events",
   "unity": "2020.3",
