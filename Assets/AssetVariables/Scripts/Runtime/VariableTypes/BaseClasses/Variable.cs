@@ -41,7 +41,7 @@ namespace LovelyBytes.AssetVariables
                     else
                     {
                         Debug.LogError($"Exceeded the recursion limit of {AssetVariableConstants.MaxSetValueRecursionDepth} " +
-                                       $"while setting the 'Value' property of {name}. Maybe you are re-assigning the value from within a method that listens to the OnValueChanged callback?");
+                                       $"while setting the {nameof(Value)} property of {name}. Maybe you are writing to it from within a method that listens to the OnValueChanged callback?");
                     }
                     return;
                 }
