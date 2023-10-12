@@ -22,7 +22,7 @@ namespace LovelyBytes.AssetVariables
         {
             if (string.IsNullOrEmpty(_relativePath))
             {
-                Debug.LogError($"Could not save scriptable objects: relative path is empty");
+                Debug.LogError($"{name}: could not save scriptable objects: relative path is empty");
                 return;
             }
             
@@ -47,7 +47,7 @@ namespace LovelyBytes.AssetVariables
         {
             if (string.IsNullOrEmpty(_relativePath))
             {
-                Debug.LogError($"Could not load scriptable objects: relative path is empty");
+                Debug.LogError($"{name}: could not load scriptable objects: relative path is empty");
                 return;
             }
             
@@ -67,7 +67,7 @@ namespace LovelyBytes.AssetVariables
                 stream?.Dispose();
             }
         }
-
+        
         protected virtual void WriteItems(List<StringSerializable> items, StreamWriter streamWriter)
         {
             foreach (StringSerializable item in items)
