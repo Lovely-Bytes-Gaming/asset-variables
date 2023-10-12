@@ -83,12 +83,18 @@ namespace LovelyBytes.AssetVariables
             while (!streamReader.EndOfStream)
             {
                 string nextLine = streamReader.ReadLine();
+                
                 if (nextLine == null)
                     continue;
 
-                int separatorIndex = nextLine.IndexOf(_separator, StringComparison.Ordinal);
-                string key = nextLine[..separatorIndex];
-                string value = nextLine[(separatorIndex + _separator.Length)..];
+                int separatorStartIndex = nextLine.IndexOf(_separator, StringComparison.Ordinal);
+                int separatorEndIndex = separatorStartIndex + _separator.Length;
+                
+                if (separatorStartIndex < 0 || separatorEndIndex >= nextLine.Length)
+                    continue;
+                
+                string key = nextLine[..separatorStartIndex];
+                string value = nextLine[(separatorEndIndex)..];
                 
                 pairs.Add(key, value);
             }
