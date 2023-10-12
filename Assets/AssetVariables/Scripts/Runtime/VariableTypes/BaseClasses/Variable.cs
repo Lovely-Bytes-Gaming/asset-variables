@@ -102,37 +102,28 @@ namespace LovelyBytes.AssetVariables
             _ = MainThread.ID;
         }
 
-        private void Convert()
-        {
-            BinaryFormatter bf = new BinaryFormatter(); 
-            FileStream file = File.Create(Application.persistentDataPath 
-                                          + "/MySaveData.dat"); 
-
-            bf.Serialize(file, _value);
-            file.Close();
-            Debug.Log("Game data saved!");
-        }
-
         public override string Serialize(StreamWriter streamWriter)
         {
-            MemoryStream memoryStream = new ();
+            MemoryStream memoryStream = new();
             BinaryFormatter binaryFormatter = new();
             binaryFormatter.Serialize(memoryStream, _value);
-            string str = System.Convert.ToBase64String(memoryStream.ToArray());
+            string str = Convert.ToBase64String(memoryStream.ToArray());
             return str;
         }
 
         public override void Deserialize(in string stringRepresentation)
         {
-            byte[] byteRepresentation = System.Convert.FromBase64String(stringRepresentation);
+            byte[] byteRepresentation = Convert.FromBase64String(stringRepresentation);
             
-            MemoryStream rs = new (byteRepresentation);
+            MemoryStream memoryStream = new (byteRepresentation);
             BinaryFormatter binaryFormatter = new();
             
-            //Create object using BinaryFormatter
-            _value = (TType)binaryFormatter.Deserialize(rs);
-            
-            Debug.Log($"{name}: value was set to {_value}");
+            _value = (TType)binaryFormatter.Deserialize(memoryStream);
+        }
+
+        public override string GetKey()
+        {
+            return name;
         }
     }
 }
