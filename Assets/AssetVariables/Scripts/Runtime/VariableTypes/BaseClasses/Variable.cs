@@ -107,8 +107,8 @@ namespace LovelyBytes.AssetVariables
             MemoryStream memoryStream = new();
             BinaryFormatter binaryFormatter = new();
             binaryFormatter.Serialize(memoryStream, _value);
-            string str = Convert.ToBase64String(memoryStream.ToArray());
-            return str;
+            
+            return Convert.ToBase64String(memoryStream.ToArray());
         }
 
         public override void Deserialize(in string stringRepresentation)
