@@ -21,13 +21,13 @@ namespace LovelyBytes.AssetVariables
         public TType Value
         {
             get => _value;
-            set => _monitor.PerformSetOperation(value);
+            set => _validator.PerformSetOperation(value);
         }
 
         [SerializeField, GetSet(nameof(Value))]
         private TType _value;
 
-        private SetOperationMonitor<TType> _monitor;
+        private SetOperationValidator<TType> _validator;
         
         public void SetWithoutNotify(TType newValue)
         {
@@ -44,15 +44,20 @@ namespace LovelyBytes.AssetVariables
 
         private void OnEnable()
         {
-            _monitor = new SetOperationMonitor<TType>(name, value =>
-            {
-                OnBeforeSet(ref value);
-                    
-                TType oldValue = _value;
-                _value = value;
-                    
-                OnValueChanged?.Invoke(oldValue, _value);
-            });
+            _validator = new SetOperationValidator<TType>(
+                ownerName: name, 
+                setOperation: SetOperation
+            );
+        }
+
+        private void SetOperation(TType value)
+        {
+            OnBeforeSet(ref value);
+            
+            TType oldValue = _value;
+            _value = value;
+                        
+            OnValueChanged?.Invoke(oldValue, _value);
         }
 
         public override string Serialize(StreamWriter streamWriter)

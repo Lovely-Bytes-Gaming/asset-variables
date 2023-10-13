@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using UnityEngine;
 
@@ -6,10 +7,21 @@ namespace LovelyBytes.AssetVariables
     [CreateAssetMenu(menuName = AssetVariableConstants.DefaultAssetPath + "Trigger")]
     public class TriggerVariable : ScriptableObject
     {
-        public event System.Action OnTriggerFired;
-        private bool _isFiring;
+        public event Action OnTriggerFired;
         
         public void Fire()
+        {
+            FireSafely();
+        }
+
+        private void OnEnable()
+        {
+            _ = MainThread.ID;
+        }
+
+        
+        private bool _isFiring;
+        private void FireSafely()
         {
             if (Thread.CurrentThread.ManagedThreadId != MainThread.ID)
             {
@@ -32,11 +44,6 @@ namespace LovelyBytes.AssetVariables
             {
                 _isFiring = false;
             }
-        }
-
-        private void OnEnable()
-        {
-            _ = MainThread.ID;
         }
     }
 }

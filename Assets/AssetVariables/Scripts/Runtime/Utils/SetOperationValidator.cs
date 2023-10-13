@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
-    internal class SetOperationMonitor<TType>
+    internal class SetOperationValidator<TType>
     {
         private readonly string _ownerName;
         private readonly Action<TType> _setOperation;
@@ -14,7 +14,7 @@ namespace LovelyBytes.AssetVariables
         private bool _isRecursiveCallback;
         private int _recursionDepth;
 
-        public SetOperationMonitor(string ownerName, System.Action<TType> setOperation)
+        public SetOperationValidator(string ownerName, System.Action<TType> setOperation)
         {
             _ownerName = ownerName;
             _setOperation = setOperation;
@@ -67,7 +67,8 @@ namespace LovelyBytes.AssetVariables
             }
             else
             {
-                Debug.LogError($"Exceeded the recursion limit of {AssetVariableConstants.MaxSetValueRecursionDepth} " + $"while setting the Value of {_ownerName}! Maybe you are writing to it from within a method that listens to the OnValueChanged callback?");
+                Debug.LogError($"Exceeded the recursion limit of {AssetVariableConstants.MaxSetValueRecursionDepth} " 
+                               + $"while setting the Value of {_ownerName}! Maybe you are writing to it from within a method that listens to the OnValueChanged callback?");
             }
         }
 
