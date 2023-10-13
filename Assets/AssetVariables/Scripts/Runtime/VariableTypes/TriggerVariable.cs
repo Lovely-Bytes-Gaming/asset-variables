@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
@@ -9,7 +10,17 @@ namespace LovelyBytes.AssetVariables
 
         public void Fire()
         {
+            if (Thread.CurrentThread.ManagedThreadId != MainThread.ID)
+            {
+                Debug.LogError("Trigger can only be fired on the main thread!");
+                return;
+            }
             OnTriggerFired?.Invoke();
+        }
+
+        private void OnEnable()
+        {
+            _ = MainThread.ID;
         }
     }
 }
