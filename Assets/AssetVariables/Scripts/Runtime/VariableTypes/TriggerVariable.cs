@@ -11,16 +11,21 @@ namespace LovelyBytes.AssetVariables
         
         public void Fire()
         {
+            #if ASSET_VARIABLES_SKIP_SAFETY_CHECKS
+            OnTriggerFired?.Invoke();
+            #else
             FireSafely();
+            #endif
         }
 
+        #if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS
+        private bool _isFiring;
+        
         private void OnEnable()
         {
             _ = MainThread.ID;
         }
-
         
-        private bool _isFiring;
         private void FireSafely()
         {
             if (Thread.CurrentThread.ManagedThreadId != MainThread.ID)
@@ -31,7 +36,7 @@ namespace LovelyBytes.AssetVariables
 
             if (_isFiring)
             {
-                Debug.LogError($"Recursive call to {name}.Fire() will be ignored!");
+                Debug.LogError($"Recursive call to {name}.Fire will be ignored!");
                 return;
             }
 
@@ -45,6 +50,7 @@ namespace LovelyBytes.AssetVariables
                 _isFiring = false;
             }
         }
+        #endif
     }
 }
 

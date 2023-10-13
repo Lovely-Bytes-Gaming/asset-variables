@@ -21,43 +21,20 @@ namespace LovelyBytes.AssetVariables
         public TType Value
         {
             get => _value;
+#if ASSET_VARIABLES_SKIP_SAFETY_CHECKS
+            set => PerformSetOperation(value);
+#else
             set => _validator.PerformSetOperation(value);
+#endif
         }
 
         [SerializeField, GetSet(nameof(Value))]
         private TType _value;
-
-        private SetOperationValidator<TType> _validator;
         
         public void SetWithoutNotify(TType newValue)
         {
             OnBeforeSet(ref newValue);
             _value = newValue;
-        }
-        
-        /// <summary>
-        /// Override this function to perform additional checks and modifications on the value before setting it
-        /// </summary>
-        /// <param name="newValue">The value that is about to be set.</param>
-        protected virtual void OnBeforeSet(ref TType newValue)
-        {  }
-
-        private void OnEnable()
-        {
-            _validator = new SetOperationValidator<TType>(
-                ownerName: name, 
-                setOperation: SetOperation
-            );
-        }
-
-        private void SetOperation(TType value)
-        {
-            OnBeforeSet(ref value);
-            
-            TType oldValue = _value;
-            _value = value;
-                        
-            OnValueChanged?.Invoke(oldValue, _value);
         }
 
         public override string Serialize(StreamWriter streamWriter)
@@ -83,5 +60,34 @@ namespace LovelyBytes.AssetVariables
         {
             return name;
         }
+        
+        /// <summary>
+        /// Override this function to perform additional checks and modifications on the value before setting it
+        /// </summary>
+        /// <param name="newValue">The value that is about to be set.</param>
+        protected virtual void OnBeforeSet(ref TType newValue)
+        {  }
+
+        private void PerformSetOperation(TType value)
+        {
+            OnBeforeSet(ref value);
+            
+            TType oldValue = _value;
+            _value = value;
+                        
+            OnValueChanged?.Invoke(oldValue, _value);
+        }
+        
+#if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS
+        private SetOperationValidator<TType> _validator;
+        
+        private void OnEnable()
+        {
+            _validator = new SetOperationValidator<TType>(
+                ownerName: name, 
+                setOperation: PerformSetOperation
+            );
+        }
+#endif
     }
 }
