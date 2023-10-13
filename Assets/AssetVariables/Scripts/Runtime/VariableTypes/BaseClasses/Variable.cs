@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading;
 using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
@@ -23,64 +21,13 @@ namespace LovelyBytes.AssetVariables
         public TType Value
         {
             get => _value;
-            set
-            {
-                if (Thread.CurrentThread.ManagedThreadId != MainThread.ID)
-                {
-                    Debug.LogError($"{GetType().Name}.Value can only be set on the main thread!");
-                    return;
-                }
-                
-                if (_isRecursiveCallback)
-                {
-                    if (_recursionDepth < AssetVariableConstants.MaxSetValueRecursionDepth)
-                    {
-                        ++_recursionDepth;
-                        _pendingSetOperations.Enqueue(value);
-                    }
-                    else
-                    {
-                        Debug.LogError($"Exceeded the recursion limit of {AssetVariableConstants.MaxSetValueRecursionDepth} " +
-                                       $"while setting the {nameof(Value)} property of {name}. Maybe you are writing to it from within a method that listens to the OnValueChanged callback?");
-                    }
-                    return;
-                }
-                try
-                {
-                    OnBeforeSet(ref value);
-                    
-                    TType oldValue = _value;
-                    _value = value;
-                    
-                    _isRecursiveCallback = true;
-                    OnValueChanged?.Invoke(oldValue, _value);
-                }
-                catch (Exception)
-                {
-                    _recursionDepth = 0;
-                    _pendingSetOperations.Clear();
-                    throw;
-                }
-                finally
-                {
-                    _isRecursiveCallback = false;
-                }
-
-                if (_pendingSetOperations.Count > 0)
-                {
-                    Value = _pendingSetOperations.Dequeue();
-                    return;
-                }
-                _recursionDepth = 0;
-            }
+            set => _monitor.PerformSetOperation(value);
         }
 
         [SerializeField, GetSet(nameof(Value))]
         private TType _value;
-        
-        private bool _isRecursiveCallback = false;
-        private int _recursionDepth = 0;
-        private readonly Queue<TType> _pendingSetOperations = new();
+
+        private SetOperationMonitor<TType> _monitor;
         
         public void SetWithoutNotify(TType newValue)
         {
@@ -97,9 +44,15 @@ namespace LovelyBytes.AssetVariables
 
         private void OnEnable()
         {
-            // Reference the MainThread static class from the main thread to ensure it is initialized
-            // with the correct ID
-            _ = MainThread.ID;
+            _monitor = new SetOperationMonitor<TType>(name, value =>
+            {
+                OnBeforeSet(ref value);
+                    
+                TType oldValue = _value;
+                _value = value;
+                    
+                OnValueChanged?.Invoke(oldValue, _value);
+            });
         }
 
         public override string Serialize(StreamWriter streamWriter)
@@ -120,7 +73,7 @@ namespace LovelyBytes.AssetVariables
             
             _value = (TType)binaryFormatter.Deserialize(memoryStream);
         }
-
+        
         public override string GetKey()
         {
             return name;
