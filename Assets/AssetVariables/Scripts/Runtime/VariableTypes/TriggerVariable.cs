@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
@@ -14,41 +13,16 @@ namespace LovelyBytes.AssetVariables
             #if ASSET_VARIABLES_SKIP_SAFETY_CHECKS
             OnTriggerFired?.Invoke();
             #else
-            FireSafely();
+            _validator.PerformOperation(() => OnTriggerFired?.Invoke());
             #endif
         }
 
         #if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS
-        private bool _isFiring;
+        private OperationValidator _validator;
         
         private void OnEnable()
         {
-            _ = MainThread.ID;
-        }
-        
-        private void FireSafely()
-        {
-            if (Thread.CurrentThread.ManagedThreadId != MainThread.ID)
-            {
-                Debug.LogError("Trigger can only be fired on the main thread!");
-                return;
-            }
-
-            if (_isFiring)
-            {
-                Debug.LogError($"Recursive call to {name}.Fire will be ignored!");
-                return;
-            }
-
-            try
-            {
-                _isFiring = true;
-                OnTriggerFired?.Invoke();
-            }
-            finally
-            {
-                _isFiring = false;
-            }
+            _validator = new OperationValidator(name);
         }
         #endif
     }

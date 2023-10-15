@@ -22,9 +22,9 @@ namespace LovelyBytes.AssetVariables
         {
             get => _value;
 #if ASSET_VARIABLES_SKIP_SAFETY_CHECKS
-            set => PerformSetOperation(value);
+            set => SetValue(value);
 #else
-            set => _validator.PerformSetOperation(value);
+            set => _validator.PerformOperation(() => SetValue(value));
 #endif
         }
 
@@ -68,7 +68,7 @@ namespace LovelyBytes.AssetVariables
         protected virtual void OnBeforeSet(ref TType newValue)
         {  }
 
-        private void PerformSetOperation(TType value)
+        private void SetValue(TType value)
         {
             OnBeforeSet(ref value);
             
@@ -79,14 +79,11 @@ namespace LovelyBytes.AssetVariables
         }
         
 #if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS
-        private SetOperationValidator<TType> _validator;
+        private OperationValidator _validator;
         
         private void OnEnable()
         {
-            _validator = new SetOperationValidator<TType>(
-                ownerName: name, 
-                setOperation: PerformSetOperation
-            );
+            _validator = new OperationValidator(name);
         }
 #endif
     }
