@@ -4,9 +4,9 @@ using UnityEngine;
 namespace LovelyBytes.AssetVariables
 {
     [Serializable]
-    public class Observable<TValue>
+    public class Observable<TType>
     {
-        public TValue Value
+        public TType Value
         {
             get => _value;
 #if ASSET_VARIABLES_SKIP_SAFETY_CHECKS
@@ -16,27 +16,34 @@ namespace LovelyBytes.AssetVariables
 #endif
         }
 
-        public event Action<TValue, TValue> OnValueChanged;
+        public event Action<TType, TType> OnValueChanged;
 
         [SerializeField, GetSet(nameof(Value))] 
-        private TValue _value;
+        private TType _value;
 
         #if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS
-        private OperationValidator _validator;
+        private readonly OperationValidator _validator = new($"Observable<{typeof(TType)}>");
         #endif
         
-        public Observable(TValue initialValue)
+        public Observable(TType initialValue)
         {
             _value = initialValue;
-            
-            #if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS
-            _validator = new OperationValidator($"Observable<{typeof(TValue)}>");
-            #endif
         }
 
-        private void SetValue(TValue value)
+        public void SetWithoutNotify(TType value)
         {
-            TValue oldValue = _value;
+            OnBeforeSet(ref value);
+            _value = value;
+        }
+
+        protected virtual void OnBeforeSet(ref TType value)
+        { }
+        
+        private void SetValue(TType value)
+        {
+            OnBeforeSet(ref value);
+            
+            TType oldValue = _value;
             _value = value;
                 
             OnValueChanged?.Invoke(oldValue, _value);
