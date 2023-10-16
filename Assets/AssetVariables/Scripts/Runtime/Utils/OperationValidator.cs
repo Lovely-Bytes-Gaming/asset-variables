@@ -36,7 +36,8 @@ namespace LovelyBytes.AssetVariables
                 throw new ValidatorException($"{_ownerName}.Value can only be set on the main thread!");
             
             if (_isExecuting)
-                throw new ValidatorException($"{_ownerName}.Value is set recursively, which can lead to unexpected behaviour!");
+                throw new ValidatorException($"{_ownerName}.Value is set recursively. " +
+                                             $"Did you try to set it in a method that listens to 'OnValueChanged'?");
 
             try
             {
