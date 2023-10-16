@@ -12,7 +12,7 @@ namespace LovelyBytes.AssetVariables
 #if ASSET_VARIABLES_SKIP_SAFETY_CHECKS
             set => SetValue(value);
 #else
-            set => _validator.PerformOperation(() => SetValue(value));
+            set => Validator.PerformOperation(() => SetValue(value));
 #endif
         }
 
@@ -22,8 +22,15 @@ namespace LovelyBytes.AssetVariables
         private TType _value;
 
         #if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS
-        private readonly OperationValidator _validator = new($"Observable<{typeof(TType)}>");
+        private OperationValidator _validator;
+        private OperationValidator Validator => _validator ??= 
+            new OperationValidator($"Observable<{typeof(TType)}>");
         #endif
+        
+        public Observable()
+        {
+            _value = default;
+        }
         
         public Observable(TType initialValue)
         {
