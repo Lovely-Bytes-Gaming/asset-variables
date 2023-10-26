@@ -80,6 +80,13 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "net.tnrd.serializableinterface": {
+      "version": "https://github.com/Lovely-Bytes-Gaming/Unity3D-SerializableInterface.git#v1.12.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a1cfb3c23842d015ed2532f36199ecd0117f9579"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

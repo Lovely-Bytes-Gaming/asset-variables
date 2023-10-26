@@ -10,7 +10,8 @@ namespace LovelyBytes.AssetVariables
     /// It provides a Value of the wrapped type, and an OnValueChanged event that
     /// notifies listeners when the value is modified.
     /// </summary>
-    public abstract class Variable<TType> : StringSerializable, IReadOnlyWrapper<TType>
+    public abstract class Variable<TType> : ScriptableObject, 
+        IStringSerializable, IReadOnlyView<TType>, IReadWriteView<TType>
     {
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.
@@ -37,7 +38,7 @@ namespace LovelyBytes.AssetVariables
             _value = newValue;
         }
 
-        public override string Serialize(StreamWriter streamWriter)
+        public string Serialize(StreamWriter streamWriter)
         {
             MemoryStream memoryStream = new();
             BinaryFormatter binaryFormatter = new();
@@ -46,7 +47,7 @@ namespace LovelyBytes.AssetVariables
             return Convert.ToBase64String(memoryStream.ToArray());
         }
 
-        public override void Deserialize(in string stringRepresentation)
+        public void Deserialize(in string stringRepresentation)
         {
             byte[] byteRepresentation = Convert.FromBase64String(stringRepresentation);
             
@@ -56,7 +57,7 @@ namespace LovelyBytes.AssetVariables
             _value = (TType)binaryFormatter.Deserialize(memoryStream);
         }
         
-        public override string GetKey()
+        public string GetKey()
         {
             return name;
         }

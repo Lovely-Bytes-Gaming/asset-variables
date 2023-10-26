@@ -4,7 +4,8 @@ using UnityEngine;
 namespace LovelyBytes.AssetVariables
 {
     [Serializable]
-    public class Observable<TType> : IReadOnlyWrapper<TType>
+    public class Observable<TType> : 
+        IReadOnlyView<TType>, IReadWriteView<TType>
     {
         public TType Value
         {

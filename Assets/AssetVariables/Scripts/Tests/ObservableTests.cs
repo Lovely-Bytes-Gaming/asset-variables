@@ -93,7 +93,7 @@ public class ObservableTest
     }
 
     // Helper class to perform tests whether OnBeforeSet is correclty applied
-    private class TestObservable : Observable<int>
+    private class TestReadOnlyReference : Observable<int>
     {
         protected override void OnBeforeSet(ref int value)
         {
@@ -104,7 +104,7 @@ public class ObservableTest
     [Test]
     public void Should_ApplyModifications_Before_Set()
     {
-        var testVariable = new TestObservable();
+        var testVariable = new TestReadOnlyReference();
         testVariable.Value = 42;
         
         Assert.AreEqual(42 * 2, testVariable.Value);
@@ -113,7 +113,7 @@ public class ObservableTest
     [Test]
     public void Should_ApplyModifications_Before_SetWithoutNotify()
     {
-        var testVariable = new TestObservable();
+        var testVariable = new TestReadOnlyReference();
         testVariable.SetWithoutNotify(42);
         
         Assert.AreEqual(42 * 2, testVariable.Value);
