@@ -24,7 +24,7 @@ namespace LovelyBytes.AssetVariables
 #if ASSET_VARIABLES_SKIP_SAFETY_CHECKS
             set => SetValue(value);
 #else
-            set => _validator.PerformOperation(() => SetValue(value));
+            set => Validator.PerformOperation(() => SetValue(value));
 #endif
         }
 
@@ -80,11 +80,8 @@ namespace LovelyBytes.AssetVariables
         
 #if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS
         private OperationValidator _validator;
-        
-        private void OnEnable()
-        {
-            _validator = new OperationValidator(name);
-        }
+        private OperationValidator Validator => _validator ??= 
+            new OperationValidator(name);
 #endif
     }
 }
