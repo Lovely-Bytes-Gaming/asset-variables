@@ -49,5 +49,7 @@ namespace LovelyBytes.AssetVariables
             else if (Value.CompareTo(Min) < 0)
                 Value = Min;
         }
+        
+        
     }
 }

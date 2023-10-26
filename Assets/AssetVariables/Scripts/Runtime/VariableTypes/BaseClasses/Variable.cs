@@ -10,7 +10,7 @@ namespace LovelyBytes.AssetVariables
     /// It provides a Value of the wrapped type, and an OnValueChanged event that
     /// notifies listeners when the value is modified.
     /// </summary>
-    public abstract class Variable<TType> : StringSerializable
+    public abstract class Variable<TType> : StringSerializable, IReadOnlyWrapper<TType>
     {
         /// <summary>
         /// Subscribe to this Event to get notified when the value of this object changes.
