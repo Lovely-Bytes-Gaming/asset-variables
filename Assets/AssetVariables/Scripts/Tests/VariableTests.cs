@@ -7,7 +7,7 @@ public class VariableTests
     [Test]
     public void Should_InvokeDelegateOnce_When_Fired()
     {
-        var intVariable = ScriptableObject.CreateInstance<IntVariable>();
+        IntVariable intVariable = ScriptableObject.CreateInstance<IntVariable>();
         int executionCount = 0;
 
         intVariable.OnValueChanged += (_, _) =>
@@ -20,9 +20,9 @@ public class VariableTests
     }
 
     [Test]
-    public void Should_ThrowNoException_When_Firing_If_NoSubscribers()
+    public void ShouldNot_ThrowException_When_Firing_If_NoSubscribers()
     {
-        var intVariable = ScriptableObject.CreateInstance<IntVariable>();
+        IntVariable intVariable = ScriptableObject.CreateInstance<IntVariable>();
 
         try
         {
@@ -38,7 +38,7 @@ public class VariableTests
     [Test]
     public void Should_ProvideCorrectOldValue_When_ValueChanged()
     {
-        var intVariable = ScriptableObject.CreateInstance<IntVariable>();
+        IntVariable intVariable = ScriptableObject.CreateInstance<IntVariable>();
         intVariable.Value = 42;
 
         intVariable.OnValueChanged += (oldValue, _) =>
@@ -52,7 +52,7 @@ public class VariableTests
     [Test]
     public void Should_ProvideCorrectNewValue_When_ValueChanged()
     {
-        var intVariable = ScriptableObject.CreateInstance<IntVariable>();
+        IntVariable intVariable = ScriptableObject.CreateInstance<IntVariable>();
         intVariable.Value = 42;
 
         intVariable.OnValueChanged += (_, newValue) =>
@@ -66,7 +66,7 @@ public class VariableTests
     [Test]
     public void Should_UpdateValue_Before_ValueChangedDelegate()
     {
-        var intVariable = ScriptableObject.CreateInstance<IntVariable>();
+        IntVariable intVariable = ScriptableObject.CreateInstance<IntVariable>();
 
         intVariable.OnValueChanged += (oldValue, newValue) =>
         {
@@ -79,7 +79,7 @@ public class VariableTests
     [Test]
     public void ShouldNot_InvokeDelegate_When_SetWithoutNotify()
     {
-        var intVariable = ScriptableObject.CreateInstance<IntVariable>();
+        IntVariable intVariable = ScriptableObject.CreateInstance<IntVariable>();
 
         intVariable.OnValueChanged += (_, _) =>
         {
@@ -90,7 +90,7 @@ public class VariableTests
         Assert.Pass();
     }
 
-    // Helper class to perform tests whether OnBeforeSet is correclty applied
+    // Helper class to perform tests whether OnBeforeSet is correctly applied
     private class TestVariable : Variable<int>
     {
         protected override void OnBeforeSet(ref int value)
@@ -102,7 +102,7 @@ public class VariableTests
     [Test]
     public void Should_ApplyModifications_Before_Set()
     {
-        var testVariable = ScriptableObject.CreateInstance<TestVariable>();
+        TestVariable testVariable = ScriptableObject.CreateInstance<TestVariable>();
         testVariable.Value = 42;
         
         Assert.AreEqual(42 * 2, testVariable.Value);
@@ -111,7 +111,7 @@ public class VariableTests
     [Test]
     public void Should_ApplyModifications_Before_SetWithoutNotify()
     {
-        var testVariable = ScriptableObject.CreateInstance<TestVariable>();
+        TestVariable testVariable = ScriptableObject.CreateInstance<TestVariable>();
         testVariable.SetWithoutNotify(42);
         
         Assert.AreEqual(42 * 2, testVariable.Value);

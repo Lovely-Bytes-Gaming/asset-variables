@@ -1,17 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using LovelyBytes.AssetVariables;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 public class ObservableTest
 {
     // A Test behaves as an ordinary method
-[Test]
+    [Test]
     public void Should_InvokeDelegateOnce_When_Fired()
     {
-        var observable = new Observable<int>();
+        Observable<int> observable = new ();
         int executionCount = 0;
 
         observable.OnValueChanged += (_, _) =>
@@ -24,9 +20,9 @@ public class ObservableTest
     }
 
     [Test]
-    public void Should_ThrowNoException_When_Firing_If_NoSubscribers()
+    public void ShouldNot_ThrowException_When_Firing_If_NoSubscribers()
     {
-        var observable = new Observable<int>();
+        Observable<int> observable = new();
 
         try
         {
@@ -42,7 +38,7 @@ public class ObservableTest
     [Test]
     public void Should_ProvideCorrectOldValue_When_ValueChanged()
     {
-        var observable = new Observable<int>(42);
+        Observable<int> observable = new (42);
 
         observable.OnValueChanged += (oldValue, _) =>
         {
@@ -55,7 +51,7 @@ public class ObservableTest
     [Test]
     public void Should_ProvideCorrectNewValue_When_ValueChanged()
     {
-        var observable = new Observable<int>(42);
+        Observable<int> observable = new(42);
 
         observable.OnValueChanged += (_, newValue) =>
         {
@@ -68,7 +64,7 @@ public class ObservableTest
     [Test]
     public void Should_UpdateValue_Before_ValueChangedDelegate()
     {
-        var observable = new Observable<int>();
+        Observable<int> observable = new();
 
         observable.OnValueChanged += (oldValue, newValue) =>
         {
@@ -81,7 +77,7 @@ public class ObservableTest
     [Test]
     public void ShouldNot_InvokeDelegate_When_SetWithoutNotify()
     {
-        var observable = new Observable<int>();
+        Observable<int> observable = new();
 
         observable.OnValueChanged += (_, _) =>
         {
@@ -104,16 +100,18 @@ public class ObservableTest
     [Test]
     public void Should_ApplyModifications_Before_Set()
     {
-        var testVariable = new TestReadOnlyReference();
-        testVariable.Value = 42;
-        
+        TestReadOnlyReference testVariable = new()
+        {
+            Value = 42
+        };
+
         Assert.AreEqual(42 * 2, testVariable.Value);
     }
     
     [Test]
     public void Should_ApplyModifications_Before_SetWithoutNotify()
     {
-        var testVariable = new TestReadOnlyReference();
+        TestReadOnlyReference testVariable = new();
         testVariable.SetWithoutNotify(42);
         
         Assert.AreEqual(42 * 2, testVariable.Value);

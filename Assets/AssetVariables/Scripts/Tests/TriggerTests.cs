@@ -8,7 +8,7 @@ public class TriggerTests
     [Test]
     public void Should_InvokeDelegateOnce_When_Fired()
     {
-        var triggerVariable = ScriptableObject.CreateInstance<TriggerVariable>();
+        TriggerVariable triggerVariable = ScriptableObject.CreateInstance<TriggerVariable>();
         int executionCount = 0;
 
         triggerVariable.OnTriggerFired += () =>
@@ -21,9 +21,9 @@ public class TriggerTests
     }
 
     [Test]
-    public void Should_ThrowNoException_When_Firing_If_NoSubscribers()
+    public void ShouldNot_ThrowException_When_Firing_If_NoSubscribers()
     {
-        var triggerVariable = ScriptableObject.CreateInstance<TriggerVariable>();
+        TriggerVariable triggerVariable = ScriptableObject.CreateInstance<TriggerVariable>();
 
         try
         {
@@ -47,7 +47,7 @@ public class TriggerTests
     [Test]
     public void Should_ThrowException_When_CalledRecursively()
     {
-        var triggerVariable = ScriptableObject.CreateInstance<TriggerVariable>();
+        TriggerVariable triggerVariable = ScriptableObject.CreateInstance<TriggerVariable>();
 
         int executionCount = 0;
         triggerVariable.OnTriggerFired += () =>
