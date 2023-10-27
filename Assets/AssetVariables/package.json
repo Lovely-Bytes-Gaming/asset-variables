@@ -9,7 +9,9 @@
     "asset-variables"
   ],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+      "net.tnrd.serializableinterface": "https://github.com/Lovely-Bytes-Gaming/Unity3D-SerializableInterface.git#v1.12.1"
+  },
   "samples": [
     {
       "displayName": "Sample MVC UI Controller",
