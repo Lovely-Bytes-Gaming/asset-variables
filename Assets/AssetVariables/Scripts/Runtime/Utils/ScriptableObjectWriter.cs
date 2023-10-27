@@ -70,7 +70,7 @@ namespace LovelyBytes.AssetVariables
 
         private List<IStringSerializable> ConvertFrom(IEnumerable<SerializableInterface<IStringSerializable>> input)
         {
-            return input.Select(item => item.Value).ToList();
+            return input.Select(item => item?.Value).ToList();
         }
     }
 }
