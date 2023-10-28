@@ -3,6 +3,7 @@ using System.IO;
 using TNRD;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Serialization;
 
 namespace LovelyBytes.AssetVariables
 {
@@ -12,7 +13,9 @@ namespace LovelyBytes.AssetVariables
         private string _relativePath = string.Empty;
         
         [SerializeField] 
-        private List<SerializableInterface<IStringSerializable>> _serializables;
+        private List<SerializableInterface<IStringSerializable>> _objectsToSave;
+
+        private List<IStringSerializable> _unpackedObjects = new();
         
         private string Path => $"{Application.persistentDataPath}/{_relativePath}";
         
@@ -20,16 +23,16 @@ namespace LovelyBytes.AssetVariables
         {
             if (string.IsNullOrEmpty(_relativePath))
             {
-                Debug.LogError($"{name}: could not save scriptable objects: relative path is empty");
+                Debug.LogError($"{name}: could not save objects: relative path is empty");
                 return;
             }
             
-            List<IStringSerializable> list = ConvertFrom(_serializables);
+            Unpack(_objectsToSave, _unpackedObjects);
             
             ProcessFileStream(stream =>
             {
                 using StreamWriter streamWriter = new(stream);
-                WriteItems(list, streamWriter);
+                WriteItems(_unpackedObjects, streamWriter);
             });
         }
 
@@ -41,12 +44,12 @@ namespace LovelyBytes.AssetVariables
                 return;
             }
 
-            List<IStringSerializable> list = ConvertFrom(_serializables);
+            Unpack(_objectsToSave, _unpackedObjects);
             
             ProcessFileStream(stream =>
             {
                 using StreamReader streamReader = new(stream);
-                ReadItems(list, streamReader);
+                ReadItems(_unpackedObjects, streamReader);
             });
         }
         
@@ -68,9 +71,17 @@ namespace LovelyBytes.AssetVariables
             }
         }
 
-        private List<IStringSerializable> ConvertFrom(IEnumerable<SerializableInterface<IStringSerializable>> input)
+        private void Unpack(List<SerializableInterface<IStringSerializable>> input, List<IStringSerializable> output)
         {
-            return input.Select(item => item?.Value).ToList();
+            output.Clear();
+
+            foreach (SerializableInterface<IStringSerializable> item in input)
+            {
+                if (item.Value is not Object)
+                    continue;
+                
+                output.Add(item.Value);
+            }
         }
     }
 }

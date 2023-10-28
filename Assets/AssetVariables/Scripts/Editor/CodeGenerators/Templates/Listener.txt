@@ -3,7 +3,6 @@ using %ASSET_VARIABLE_NAMESPACE%;
 
 %NAMESPACE_BEGIN%
 [AddComponentMenu(AssetVariableConstants.DefaultAssetPath + "%TYPENAME% Listener")]
-public class %TYPENAME%Listener : VariableListener<%TYPENAME%Variable, %TYPENAME%>
+public class %TYPENAME%Listener : VariableListener<%TYPENAME%>
 { }
 %NAMESPACE_END%
-
