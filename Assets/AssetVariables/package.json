@@ -10,6 +10,8 @@
   ],
   "license": "MIT",
   "dependencies": {
+  },
+  "gitDependencies": {
       "net.tnrd.serializableinterface": "https://github.com/Lovely-Bytes-Gaming/Unity3D-SerializableInterface.git#v1.12.1"
   },
   "samples": [
