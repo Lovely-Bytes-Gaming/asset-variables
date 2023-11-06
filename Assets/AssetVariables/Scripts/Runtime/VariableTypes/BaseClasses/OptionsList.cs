@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
@@ -8,7 +7,7 @@ namespace LovelyBytes.AssetVariables
     {
         Repeat = 0,
         Clamp = 1
-    }  
+    }
     
     public class OptionsList<TType> : ListObject<TType>
     {
@@ -25,6 +24,7 @@ namespace LovelyBytes.AssetVariables
 
         public TType Current => Count > 0 ? this[_index] : default;
         
+        [SerializeField, GetSet(nameof(Index))]
         private int _index = DefaultSelection;
         
         public void MoveToNext()
