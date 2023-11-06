@@ -7,7 +7,7 @@ namespace LovelyBytes.AssetVariables
     /// <summary>
     /// Scriptable object wrapper around a list, supporting all common list operations
     /// </summary>
-    public class RuntimeList<TType> : ScriptableObject, IList<TType>
+    public class RuntimeList<TType> : ScriptableObject, IList<TType>, IReadOnlyList<TType>
     {
         private readonly List<TType> _list = new();
 
