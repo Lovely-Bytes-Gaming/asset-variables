@@ -9,43 +9,43 @@ namespace LovelyBytes.AssetVariables
     /// </summary>
     public class RuntimeList<TType> : ScriptableObject, IList<TType>, IReadOnlyList<TType>
     {
-        private readonly List<TType> _list = new();
+        protected readonly List<TType> List = new();
 
-        public IEnumerator<TType> GetEnumerator() => _list.GetEnumerator();
+        public IEnumerator<TType> GetEnumerator() => List.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public void Add(TType item)
-            => _list.Add(item);
+            => List.Add(item);
 
         public void Clear()
-            => _list.Clear();
+            => List.Clear();
 
-        public bool Contains(TType item) => _list.Contains(item);
+        public bool Contains(TType item) => List.Contains(item);
 
         public void CopyTo(TType[] array, int arrayIndex)
-            => _list.CopyTo(array, arrayIndex);
+            => List.CopyTo(array, arrayIndex);
 
         public bool Remove(TType item)
-            => _list.Remove(item);
+            => List.Remove(item);
 
-        public int Count => _list.Count;
+        public int Count => List.Count;
 
         public bool IsReadOnly => false;
 
         public int IndexOf(TType item)
-            => _list.IndexOf(item);
+            => List.IndexOf(item);
 
         public void Insert(int index, TType item)
-            => _list.Insert(index, item);
+            => List.Insert(index, item);
 
         public void RemoveAt(int index)
-            => _list.RemoveAt(index);
+            => List.RemoveAt(index);
 
         public TType this[int index]
         {
-            get => _list[index];
-            set => _list[index] = value;
+            get => List[index];
+            set => List[index] = value;
         }
     }
 }
