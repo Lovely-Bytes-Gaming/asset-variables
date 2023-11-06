@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
@@ -11,30 +12,88 @@ namespace LovelyBytes.AssetVariables
     
     public class OptionsList<TType> : RuntimeList<TType>
     {
+        private const int DefaultSelection = 0;
+        
         public event Action<TType, TType> OnSelectionChanged;
         public WrapMode WrapMode = WrapMode.Repeat;
         
-        public int CurrentIndex
+        public int Index
         {
-            get => _currentIndex;
-            private set => ChangeSelection(Wrapped(value));
+            get => _index;
+            set => ChangeSelection(Wrapped(value));
         }
 
-        public TType Current => Count > 0 ? this[_currentIndex] : default;
-
-        public void MoveRight()
+        public TType Current => Count > 0 ? this[_index] : default;
+        
+        private int _index = DefaultSelection;
+        
+        public void MoveToNext()
         {
-            ++_currentIndex;
-            _currentIndex = Wrapped(_currentIndex);
+            ++Index;
         }
 
-        public void MoveLeft()
+        public void MoveToPrevious()
         {
-            --_currentIndex;
-            _currentIndex = Wrapped(_currentIndex);
+            --Index;
         }
 
-        private int _currentIndex = 0;
+        public override void Add(TType item)
+        {
+            base.Add(item);
+
+            // Auto select item if it is the only element in the list
+            if (Count == 1)
+                OnSelectionChanged?.Invoke(default, Current);
+        }
+
+        public override bool Remove(TType item)
+        {
+            int index = IndexOf(item);
+            
+            if (index > -1)
+                RemoveAt(index);
+
+            return index > -1;
+        }
+        
+        public override void Insert(int index, TType item)
+        {
+            base.Insert(index, item);
+
+            // Selection stays the same, but is moved one position to the right
+            if (_index >= index)
+                ++_index;
+        }
+
+        public override void RemoveAt(int index)
+        {
+            TType oldValue = Current;
+            bool selectionWasRemoved = index == _index;
+            
+            base.RemoveAt(index);
+
+            // Selection is moved one position to the left
+            if (_index >= index)
+                _index = Mathf.Max(0, _index - 1);
+
+            // Notify listeners if the currently selected item has been removed
+            if (selectionWasRemoved)
+                OnSelectionChanged?.Invoke(oldValue, Current);
+        }
+
+        public override TType this[int index]
+        {
+            get => base[index];
+            set
+            {
+                TType oldSelection = base[index];
+                base[index] = value;
+                
+                // Notify listeners if the current selection was swapped out
+                if (index == _index)
+                    OnSelectionChanged?.Invoke(oldSelection, value);
+            }
+        }
         
         private int Wrapped(int index)
         {
@@ -43,31 +102,22 @@ namespace LovelyBytes.AssetVariables
             
             return WrapMode switch
             {
-                WrapMode.Clamp => Mathf.Clamp(_currentIndex, 0, Count),
-                _ => RepeatIndex(_currentIndex)
+                WrapMode.Clamp => Mathf.Clamp(index, 0, Count-1),
+                _ => HelperFunctions.RepeatIndex(index, Count)
             };
         }
 
         private void ChangeSelection(int newIndex)
         {
-            if (_currentIndex == newIndex)
+            if (_index == newIndex)
                 return;
             
-            TType oldValue = this[_currentIndex];
-            TType newValue = this[newIndex];
 
-            _currentIndex = newIndex;
+            TType oldValue = Current;
+            _index = newIndex;
+            TType newValue = Current;
+
             OnSelectionChanged?.Invoke(oldValue, newValue);
         }
-        
-        private int RepeatIndex(int index)
-        {
-            index %= Count;
-            
-            if (index < 0)
-                index += Count;
-
-            return index;
-        }        
     }
 }

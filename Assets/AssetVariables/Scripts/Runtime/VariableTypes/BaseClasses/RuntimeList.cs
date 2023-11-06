@@ -9,16 +9,17 @@ namespace LovelyBytes.AssetVariables
     /// </summary>
     public class RuntimeList<TType> : ScriptableObject, IList<TType>, IReadOnlyList<TType>
     {
-        protected readonly List<TType> List = new();
+        private List<TType> _list;
+        protected List<TType> List => _list ??= new List<TType>();
 
         public IEnumerator<TType> GetEnumerator() => List.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public void Add(TType item)
+        public virtual void Add(TType item)
             => List.Add(item);
 
-        public void Clear()
+        public virtual void Clear()
             => List.Clear();
 
         public bool Contains(TType item) => List.Contains(item);
@@ -26,7 +27,7 @@ namespace LovelyBytes.AssetVariables
         public void CopyTo(TType[] array, int arrayIndex)
             => List.CopyTo(array, arrayIndex);
 
-        public bool Remove(TType item)
+        public virtual bool Remove(TType item)
             => List.Remove(item);
 
         public int Count => List.Count;
@@ -36,13 +37,13 @@ namespace LovelyBytes.AssetVariables
         public int IndexOf(TType item)
             => List.IndexOf(item);
 
-        public void Insert(int index, TType item)
+        public virtual void Insert(int index, TType item)
             => List.Insert(index, item);
 
-        public void RemoveAt(int index)
+        public virtual void RemoveAt(int index)
             => List.RemoveAt(index);
 
-        public TType this[int index]
+        public virtual TType this[int index]
         {
             get => List[index];
             set => List[index] = value;
