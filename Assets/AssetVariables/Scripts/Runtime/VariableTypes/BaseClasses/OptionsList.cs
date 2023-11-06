@@ -61,6 +61,12 @@ namespace LovelyBytes.AssetVariables
         {
             base.Insert(index, item);
 
+            if (Count == 1)
+            {
+                OnSelectionChanged?.Invoke(default, item);
+                return;
+            }
+            
             // Selection stays the same, but is moved one position to the right
             if (_index >= index)
                 ++_index;
@@ -107,7 +113,7 @@ namespace LovelyBytes.AssetVariables
         {
             int index = List.BinarySearch(item);
             if (index < 0) index = ~index;
-            List.Insert(index, item);
+            Insert(index, item);
         }
         
         private int Wrapped(int index)
