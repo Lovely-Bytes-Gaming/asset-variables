@@ -10,7 +10,7 @@ namespace LovelyBytes.AssetVariables
         Clamp = 1
     }  
     
-    public class OptionsList<TType> : RuntimeList<TType>
+    public class OptionsList<TType> : ListObject<TType>
     {
         private const int DefaultSelection = 0;
         

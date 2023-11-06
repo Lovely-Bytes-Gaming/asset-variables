@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,14 +12,8 @@ namespace LovelyBytes.AssetVariables
         {
             base.OnInspectorGUI();
             
-            if (target is not RuntimeList<TType> list)
+            if (target is not ListObject<TType> list)
                 return;
-
-            if (!Application.isPlaying && list.Count > 0)
-            {
-                list.Clear();
-                return;
-            }
             
             _isExpanded = EditorGUILayout.Foldout(_isExpanded, "");
 

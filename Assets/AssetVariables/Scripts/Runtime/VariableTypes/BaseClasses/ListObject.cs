@@ -7,10 +7,10 @@ namespace LovelyBytes.AssetVariables
     /// <summary>
     /// Scriptable object wrapper around a list, supporting all common list operations
     /// </summary>
-    public class RuntimeList<TType> : ScriptableObject, IList<TType>, IReadOnlyList<TType>
+    public class ListObject<TType> : ScriptableObject, IList<TType>, IReadOnlyList<TType>
     {
-        private List<TType> _list;
-        protected List<TType> List => _list ??= new List<TType>();
+        [SerializeField]
+        protected List<TType> List;
 
         public IEnumerator<TType> GetEnumerator() => List.GetEnumerator();
 
