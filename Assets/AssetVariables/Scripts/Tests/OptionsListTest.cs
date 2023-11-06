@@ -165,6 +165,35 @@ public class OptionsListTest
         optionsList[2] = 666;
         Assert.AreEqual(666, optionsList.Current);
     }
+
+    [Test]
+    public void Should_KeepElementsOrdered_When_AddingInOrder()
+    {
+        IntOptionsList optionsList = ScriptableObject.CreateInstance<IntOptionsList>();
+
+        optionsList.AddInOrder(1);
+        optionsList.AddInOrder(0);        
+        optionsList.AddInOrder(2);
+        
+        for (int i = 0; i < 3; ++i)
+            Assert.AreEqual(i, optionsList[i]);
+    }
+
+    [Test]
+    public void Should_KeepSelected_After_Sorting()
+    {
+        IntOptionsList optionsList = ScriptableObject.CreateInstance<IntOptionsList>();
+        
+        optionsList.Add(1);
+        optionsList.Add(0);
+        optionsList.Add(2);
+
+        optionsList.Index = 0;
+        optionsList.Sort();
+        
+        Assert.AreEqual(1, optionsList.Current);
+        Assert.AreEqual(1, optionsList.Index);
+    }
     
     private static IntOptionsList GetRange(int count)
     {

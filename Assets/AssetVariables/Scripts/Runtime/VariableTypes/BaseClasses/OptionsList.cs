@@ -106,7 +106,7 @@ namespace LovelyBytes.AssetVariables
         public virtual void AddInOrder(TType item)
         {
             int index = List.BinarySearch(item);
-            if (index < 0) index = ~1;
+            if (index < 0) index = ~index;
             List.Insert(index, item);
         }
         

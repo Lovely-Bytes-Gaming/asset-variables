@@ -10,7 +10,7 @@ namespace LovelyBytes.AssetVariables
     public class ListObject<TType> : ScriptableObject, IList<TType>, IReadOnlyList<TType>
     {
         [SerializeField]
-        protected List<TType> List;
+        protected List<TType> List = new();
 
         public IEnumerator<TType> GetEnumerator() => List.GetEnumerator();
 
