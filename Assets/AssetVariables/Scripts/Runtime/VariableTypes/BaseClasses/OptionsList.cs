@@ -10,6 +10,7 @@ namespace LovelyBytes.AssetVariables
     }
     
     public class OptionsList<TType> : ListObject<TType>
+        where TType : IComparable<TType>
     {
         private const int DefaultSelection = 0;
         
@@ -94,6 +95,20 @@ namespace LovelyBytes.AssetVariables
                     OnSelectionChanged?.Invoke(oldSelection, value);
             }
         }
+
+        public override void Sort()
+        {
+            TType current = Current;
+            base.Sort();
+            _index = IndexOf(current);
+        }
+
+        public virtual void AddInOrder(TType item)
+        {
+            int index = List.BinarySearch(item);
+            if (index < 0) index = ~1;
+            List.Insert(index, item);
+        }
         
         private int Wrapped(int index)
         {
@@ -109,15 +124,12 @@ namespace LovelyBytes.AssetVariables
 
         private void ChangeSelection(int newIndex)
         {
-            if (_index == newIndex)
-                return;
-            
-
             TType oldValue = Current;
             _index = newIndex;
             TType newValue = Current;
 
-            OnSelectionChanged?.Invoke(oldValue, newValue);
+            if(oldValue.CompareTo(newValue) != 0)
+                OnSelectionChanged?.Invoke(oldValue, newValue);
         }
     }
 }

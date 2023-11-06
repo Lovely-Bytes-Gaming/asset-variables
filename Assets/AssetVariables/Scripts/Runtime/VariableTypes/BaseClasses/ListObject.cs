@@ -48,5 +48,10 @@ namespace LovelyBytes.AssetVariables
             get => List[index];
             set => List[index] = value;
         }
+
+        public virtual void Sort()
+        {
+            List.Sort();
+        }
     }
 }
