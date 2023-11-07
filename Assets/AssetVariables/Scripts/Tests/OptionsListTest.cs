@@ -52,7 +52,7 @@ public class OptionsListTest
     }
     
     [Test]
-    public void Should_RepeatIndex_When_OutOfBounds_And_WrapModeSetToClamp()
+    public void Should_RepeatIndex_When_OutOfBounds_And_WrapModeSetToRepeat()
     {
         IntOptionsList optionsList = GetRange(5);
         optionsList.WrapMode = WrapMode.Repeat;
