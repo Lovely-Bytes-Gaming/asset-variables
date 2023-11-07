@@ -1,3 +1,5 @@
+using System;
+
 namespace LovelyBytes.AssetVariables
 {
     internal static class HelperFunctions 
@@ -11,5 +13,22 @@ namespace LovelyBytes.AssetVariables
 
             return index;
         } 
+        
+        public static bool AreEqual<TType>(TType oldValue, TType newValue)
+            where TType : IComparable<TType>
+        {
+            if (IsNull(oldValue))
+                return IsNull(newValue);
+
+            if (IsNull(newValue))
+                return IsNull(oldValue);
+
+            return oldValue.CompareTo(newValue) == 0;
+        }
+        
+        private static bool IsNull<TType>(TType value)
+        {
+            return ReferenceEquals(value, null);
+        }
     }
 }

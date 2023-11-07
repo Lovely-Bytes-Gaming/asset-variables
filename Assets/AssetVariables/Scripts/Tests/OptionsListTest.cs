@@ -180,7 +180,7 @@ public class OptionsListTest
     }
 
     [Test]
-    public void Should_KeepSelected_After_Sorting()
+    public void Should_KeepSelection_After_Sorting()
     {
         IntOptionsList optionsList = ScriptableObject.CreateInstance<IntOptionsList>();
         
@@ -193,6 +193,47 @@ public class OptionsListTest
         
         Assert.AreEqual(1, optionsList.Current);
         Assert.AreEqual(1, optionsList.Index);
+    }
+
+    [Test]
+    public void ShouldNot_Invoke_When_SelectionNotChanged()
+    {
+        IntOptionsList optionsList = GetRange(1);
+
+        optionsList.OnSelectionChanged += (oldValue, newValue) =>
+            Assert.Fail();
+
+        optionsList.Index++;
+    }
+
+    [Test]
+    public void Should_Invoke_WhenSelectionChanged()
+    {
+        IntOptionsList optionsList = GetRange(2);
+        bool invoked = false;
+        
+        optionsList.OnSelectionChanged += (oldValue, newValue) =>
+            invoked = true;
+
+        optionsList.Index++;
+        Assert.IsTrue(invoked);
+    }
+
+    [Test]
+    public void Should_ProvideCorrectValues_When_SelectionChanges()
+    {
+        IntOptionsList optionsList = GetRange(2);
+        bool invoked = false;
+
+        optionsList.OnSelectionChanged += (oldValue, newValue) =>
+        {
+            Assert.AreEqual(0, oldValue);
+            Assert.AreEqual(1, newValue);
+            invoked = true;
+        };
+
+        optionsList.Index++;
+        Assert.IsTrue(invoked);
     }
     
     private static IntOptionsList GetRange(int count)

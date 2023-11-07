@@ -134,7 +134,7 @@ namespace LovelyBytes.AssetVariables
             _index = newIndex;
             TType newValue = Current;
 
-            if(oldValue.CompareTo(newValue) != 0)
+            if(!HelperFunctions.AreEqual(oldValue, newValue))
                 OnSelectionChanged?.Invoke(oldValue, newValue);
         }
     }
