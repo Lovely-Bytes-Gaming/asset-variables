@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
@@ -11,10 +9,10 @@ namespace LovelyBytes.AssetVariables
     /// notifies listeners when the value is modified.
     /// </summary>
     public abstract class Variable<TType> : ScriptableObject, 
-        IStringSerializable, IReadOnlyView<TType>, IReadWriteView<TType>
+        IReadWriteView<TType>
     {
         /// <summary>
-        /// Subscribe to this Event to get notified when the value of this object changes.
+        /// Subscribe to this Event to get notified when the Value property is set.
         /// Provides the old and new values as parameters.
         /// </summary>
         public event Action<TType, TType> OnValueChanged;
@@ -32,38 +30,17 @@ namespace LovelyBytes.AssetVariables
         [SerializeField, GetSet(nameof(Value))]
         private TType _value;
         
+        /// <summary>
+        /// Modifies the value without invoking any events
+        /// </summary>
         public void SetWithoutNotify(TType newValue)
         {
             OnBeforeSet(ref newValue);
             _value = newValue;
         }
-
-        public string Serialize(StreamWriter streamWriter)
-        {
-            MemoryStream memoryStream = new();
-            BinaryFormatter binaryFormatter = new();
-            binaryFormatter.Serialize(memoryStream, _value);
-            
-            return Convert.ToBase64String(memoryStream.ToArray());
-        }
-
-        public void Deserialize(in string stringRepresentation)
-        {
-            byte[] byteRepresentation = Convert.FromBase64String(stringRepresentation);
-            
-            MemoryStream memoryStream = new (byteRepresentation);
-            BinaryFormatter binaryFormatter = new();
-            
-            _value = (TType)binaryFormatter.Deserialize(memoryStream);
-        }
-        
-        public string GetKey()
-        {
-            return name;
-        }
         
         /// <summary>
-        /// Override this function to perform additional checks and modifications on the value before setting it
+        /// Override this function to perform additional checks and modifications on the value before it is set
         /// </summary>
         /// <param name="newValue">The value that is about to be set.</param>
         protected virtual void OnBeforeSet(ref TType newValue)

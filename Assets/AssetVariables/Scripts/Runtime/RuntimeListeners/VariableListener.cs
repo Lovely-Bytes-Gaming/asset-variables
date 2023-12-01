@@ -1,4 +1,3 @@
-using TNRD;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,10 +6,10 @@ namespace LovelyBytes.AssetVariables
     public abstract class VariableListener<TType> : MonoBehaviour 
     {
         [SerializeField]
-        private SerializableInterface<IReadOnlyView<TType>> _variable;
+        private Variable<TType> _variable;
 
         [SerializeField]
-        private bool _invokeOnAwake = false;
+        private bool _invokeOnAwake;
 
         [SerializeField]
         private UnityEvent<TType, TType> _valueChangedListeners;
@@ -19,13 +18,13 @@ namespace LovelyBytes.AssetVariables
 
         private void Awake()
         {
-            _variable.Value.OnValueChanged += OnValueChanged;
+            _variable.OnValueChanged += OnValueChanged;
 
             if (_invokeOnAwake)
                 _variable.Value = _variable.Value;
         }
 
         private void OnDestroy()
-            => _variable.Value.OnValueChanged -= OnValueChanged;
+            => _variable.OnValueChanged -= OnValueChanged;
     }
 }

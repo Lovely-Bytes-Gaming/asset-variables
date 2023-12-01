@@ -1,9 +1,7 @@
 namespace LovelyBytes.AssetVariables
 {
-    public interface IReadWriteView<TType>
+    public interface IReadWriteView<TType> : IReadOnlyView<TType>
     {
-        TType Value { get; set; }
         void SetWithoutNotify(TType newValue);
-        event System.Action<TType, TType> OnValueChanged;
     }
 }

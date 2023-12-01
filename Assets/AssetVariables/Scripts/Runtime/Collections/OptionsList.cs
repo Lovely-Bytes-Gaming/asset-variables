@@ -3,12 +3,20 @@ using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
+    /// <summary>
+    /// Defines out-of-bound behaviour for the selection Index
+    /// </summary>
     public enum WrapMode
     {
         Repeat = 0,
         Clamp = 1
     }
     
+    /// <summary>
+    /// List of (optionally ordered) elements.
+    /// Provides an Index to the currently selected element,
+    /// and notifies listeners when the selection changes. 
+    /// </summary>
     public class OptionsList<TType> : ListObject<TType>
         where TType : IComparable<TType>
     {
