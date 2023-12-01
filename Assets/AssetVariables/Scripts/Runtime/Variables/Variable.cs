@@ -9,7 +9,7 @@ namespace LovelyBytes.AssetVariables
     /// notifies listeners when the value is modified.
     /// </summary>
     public abstract class Variable<TType> : ScriptableObject, 
-        IReadWriteView<TType>
+        IReadWriteView<TType>, IReadOnlyView<TType>
     {
         /// <summary>
         /// Subscribe to this Event to get notified when the Value property is set.
