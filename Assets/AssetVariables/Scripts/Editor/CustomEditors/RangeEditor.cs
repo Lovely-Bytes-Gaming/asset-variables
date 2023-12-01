@@ -13,25 +13,26 @@ namespace LovelyBytes.AssetVariables
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+
+            if (target is not Range<TType> rangeType)
+                return;
             
-            var value = (Range<TType>)target;
-            
-            TType newMin = GenericEditorField("Minimum: ", value.Min);
-            TType newMax = GenericEditorField("Maximum: ", value.Max);
-            TType newValue = GenericSlider("Value: ", value.Value, value.Min, value.Max);
+            TType newMin = GenericEditorField("Minimum: ", rangeType.Min);
+            TType newMax = GenericEditorField("Maximum: ", rangeType.Max);
+            TType newValue = GenericSlider("Value: ", rangeType.Value, rangeType.Min, rangeType.Max);
 
             if (!GUI.changed)
                 return;
 
-            value.Min = newMin;
-            value.Max = newMax;
+            rangeType.Min = newMin;
+            rangeType.Max = newMax;
             
             if (Application.isPlaying)
-                value.Value = newValue;
+                rangeType.Value = newValue;
             else
-                value.SetWithoutNotify(newValue);
+                rangeType.SetWithoutNotify(newValue);
             
-            EditorUtility.SetDirty(value);
+            EditorUtility.SetDirty(rangeType);
         }
     }
 }

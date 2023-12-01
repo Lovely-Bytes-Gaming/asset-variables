@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -10,7 +7,7 @@ namespace LovelyBytes.AssetVariables
     [CustomPropertyDrawer(typeof(BitMask32))]
     public class Bitmask32Drawer : PropertyDrawer
     {
-        private static readonly string[] labels = 
+        private static readonly string[] _labels = 
             Enumerable
             .Range(0, 32)
             .Select(x => x.ToString())
@@ -22,8 +19,8 @@ namespace LovelyBytes.AssetVariables
 
             Object target = property.serializedObject.targetObject;
             
-            var oldValue = (BitMask32)fieldInfo.GetValue(target);
-            BitMask32 newValue = EditorGUI.MaskField(position, label, oldValue, labels); 
+            BitMask32 oldValue = (BitMask32)fieldInfo.GetValue(target);
+            BitMask32 newValue = EditorGUI.MaskField(position, label, oldValue, _labels); 
             
             fieldInfo.SetValue(target, newValue);
             
