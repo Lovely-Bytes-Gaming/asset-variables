@@ -35,14 +35,25 @@ https://github.com/Lovely-Bytes-Gaming/asset-variables.git?path=Assets/AssetVari
 
 ### 1.Variables
 
+Asset Variables are Scriptable Objects that implement the following interface:
+```csharp
+public interface IReadWriteView<TType>
+{
+    TType Value { get; set; }
+    // param0: old value, param1: new value
+    event System.Action<TType, TType> OnValueChanged;
+    void SetWithoutNotify(TType newValue);
+}
+```
+
 Each Variable has a *Value* property for reading/writing and an *OnValueChanged* callback, 
 providing the old and new value,
 that can be listened to via script:
 ```csharp
 _exampleIntVariable.OnValueChanged += SomeCallback;
 ```
-In playmode, listeners are also notified when the value is changed 
-in the inspector.
+In playmode, listeners are notified even when the value is changed 
+via the inspector.
 
 Variable Assets for most built-in types are already predefined.
 They can be created by right-clicking into your
@@ -58,10 +69,20 @@ corresponding Variable Wrapper.
 </p>
 
 Finally, Variable wrappers for any type can be created via inheritance:
-![img_5.png](Images/variable-inheritance.png)
+```csharp
+// Type must be serializable
+[System.Serializable]
+public class Foo {"Implementation details and so forth ..."}
+
+// The declaration below defines a variable asset wrapper for class Foo.
+// The CreateAssetMenu attribute allows to create instances of this variable
+// via the context menu
+[CreateAssetMenu(menuName = "My/Menu/To/Create/Foo")]
+public class FooVariable : Variable<Foo> {}
+```
 
 ### 2. Observables
-Lightweight, C# only version of variables. 
+Lightweight, C# only version of asset variables.
 You can think of it as a variable that is "embedded" into the class
 it is declared in.
 
