@@ -107,7 +107,7 @@ private int _foo;
 public int Foo 
 {
     get => _foo;
-    set => 
+    set
     {
         Debug.Log("Value Changed!");
         _foo = value;
