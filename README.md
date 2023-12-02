@@ -26,10 +26,11 @@ https://github.com/Lovely-Bytes-Gaming/asset-variables.git?path=Assets/AssetVari
 + The package manager should now start installing the package
 
 
-### Or: Copy Paste
+### As an embedded package
 + Download the [zip file](https://github.com/Lovely-Bytes-Gaming/asset-variables/archive/refs/tags/v1.0.0.zip)
 + Unpack it and find the folder **AssetVariables** under **Assets**
-+ Drag and drop the folder **AssetVariables** anywhere into your project, e.g. under **Assets/Plugins**
++ Drag and drop the folder **AssetVariables** directly into your **Packages** folder
+  (located in the same directory as your **Assets** folder)
 
 ## Content
 
