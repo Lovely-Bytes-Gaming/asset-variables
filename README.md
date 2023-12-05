@@ -7,6 +7,9 @@ The library is based on the following presentation:
 
 [Unite Austin 2017 - Game Architecture with Scriptable Objects](https://www.youtube.com/watch?v=raQ3iHhE_Kk)
 
+Tested with the following Unity Versions 
++ Unity 2021.3.31f3
++ Unity 2022.3.10f3
 
 ## How to install
 
