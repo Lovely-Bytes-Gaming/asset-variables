@@ -121,8 +121,14 @@ public int Foo
 ### 5. List Objects
 --- TODO ---
 
+### 6. Performance
+By default, variables and observables perform safety checks when their
+value is set, ensuring that the Value is not set recursively and is only ever written from the main thread.
+This process allocates a small amount of garbage.
+The checks (and their gc allocation) can be disabled by adding the following
+[scripting define symbol](https://docs.unity3d.com/Manual/CustomScriptingSymbols.html):
 
-
+```ASSET_VARIABLES_SKIP_SAFETY_CHECKS```
 
 
 
