@@ -12,9 +12,9 @@ namespace LovelyBytes.AssetVariables
         private bool _invokeOnAwake;
 
         [SerializeField]
-        private UnityEvent<TType, TType> _valueChangedListeners;
+        private UnityEvent<TType> _valueChangedListeners;
         private void OnValueChanged(TType oldValue, TType newValue)
-            => _valueChangedListeners?.Invoke(oldValue, newValue);
+            => _valueChangedListeners?.Invoke(newValue);
 
         private void Awake()
         {
