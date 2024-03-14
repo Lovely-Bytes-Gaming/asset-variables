@@ -1,0 +1,3 @@
+[submodule "Assets/ScriptTemplates"]
+	path = Assets/ScriptTemplates
+	url = git@github.com:Lovely-Bytes-Gaming/unity-script-templates.git
