@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace LovelyBytes.AssetVariables
 {
@@ -11,10 +12,11 @@ namespace LovelyBytes.AssetVariables
         [SerializeField]
         private bool _invokeOnAwake;
 
+        [FormerlySerializedAs("_valueChangedListeners")] 
         [SerializeField]
-        private UnityEvent<TType> _valueChangedListeners;
-        private void OnValueChanged(TType oldValue, TType newValue)
-            => _valueChangedListeners?.Invoke(newValue);
+        private UnityEvent<TType> _onValueChanged;
+        protected virtual void OnValueChanged(TType oldValue, TType newValue)
+            => _onValueChanged?.Invoke(newValue);
 
         private void Awake()
         {
