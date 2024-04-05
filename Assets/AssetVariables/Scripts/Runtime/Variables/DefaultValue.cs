@@ -8,6 +8,6 @@ namespace LovelyBytes.AssetVariables
     public class DefaultValue<TType>
     {
         public bool Use;
-        public TType Value = default;
+        public TType Value;
     }
 }
