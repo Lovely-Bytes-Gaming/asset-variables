@@ -31,7 +31,7 @@ namespace LovelyBytes.AssetVariables
         [SerializeField, GetSet(nameof(Value))] 
         private TType _value;
 
-        [FormerlySerializedAs("_default")] [SerializeField] 
+        [SerializeField] 
         private DefaultValue<TType> _defaultValue;
         
         /// <summary>
