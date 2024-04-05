@@ -12,7 +12,7 @@ namespace LovelyBytes.AssetVariables
                 return base.GetPropertyHeight(property, label);
 
             int childCount = property.CountInProperty();
-            return childCount * 20f;
+            return childCount * base.GetPropertyHeight(property, label) * 1.1f;
         }
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -26,9 +26,11 @@ namespace LovelyBytes.AssetVariables
 
             if (!EditorGUI.EndChangeCheck()) 
                 return;
-            
+
             if (Application.isPlaying)
                 PropertyDrawerUtils.NotifySetter(property, getSetAttribute, fieldInfo);
+            else
+                property.serializedObject.ApplyModifiedProperties();
         }
     }
 }

@@ -25,10 +25,10 @@ namespace LovelyBytes.AssetVariables
             return obj;
         }
         
-        internal static void NotifySetter(SerializedProperty property, GetSetAttribute getSetAttribute, FieldInfo fieldInfo)
+        internal static void NotifySetter(SerializedProperty property, GetSetAttribute getSetAttribute, 
+            FieldInfo fieldInfo)
         {
-            object parent = PropertyDrawerUtils.GetParentObject(
-                property.propertyPath, property.serializedObject.targetObject);
+            object parent = GetParentObject(property.propertyPath, property.serializedObject.targetObject);
 
             if (parent == null)
                 return;
