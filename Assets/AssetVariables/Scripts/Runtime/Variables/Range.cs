@@ -1,9 +1,8 @@
 using UnityEngine;
-using System;
 
 namespace LovelyBytes.AssetVariables
 {
-    public abstract class Range<TType> : Variable<TType> where TType : IComparable<TType>
+    public abstract class Range<TType> : Variable<TType>
     {
         public TType Min
         {
@@ -11,7 +10,7 @@ namespace LovelyBytes.AssetVariables
             set
             {
                 _min = value;
-                _max = value.CompareTo(_max) > 0 ? value : _max;
+                _max = Compare(value, _max) > 0 ? value : _max;
                 ClampValue();
             }
         }
@@ -22,7 +21,7 @@ namespace LovelyBytes.AssetVariables
             set
             {
                 _max = value;
-                _min = value.CompareTo(_min) < 0 ? value : _min;
+                _min = Compare(value, _min) < 0 ? value : _min;
                 ClampValue();
             }
         }
@@ -32,10 +31,12 @@ namespace LovelyBytes.AssetVariables
         /// </summary>
         protected override void OnBeforeSet(ref TType newValue)
         {
-            newValue = newValue.CompareTo(Min) < 0 ? Min : newValue;
-            newValue = newValue.CompareTo(Max) > 0 ? Max : newValue;
+            newValue = Compare(newValue, Min) < 0 ? Min : newValue;
+            newValue = Compare(newValue, Max) > 0 ? Max : newValue;
         }
 
+        protected abstract int Compare(TType a, TType b);
+        
         [SerializeField, HideInInspector]
         private TType _min;
 
@@ -44,12 +45,10 @@ namespace LovelyBytes.AssetVariables
         
         private void ClampValue()
         {
-            if (Value.CompareTo(Max) > 0)
+            if (Compare(Value, Max) > 0)
                 Value = Max;
-            else if (Value.CompareTo(Min) < 0)
+            else if (Compare(Value, Min) < 0)
                 Value = Min;
         }
-        
-        
     }
 }

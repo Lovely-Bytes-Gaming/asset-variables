@@ -12,5 +12,10 @@ namespace LovelyBytes.AssetVariables
             Max = 1f;
             Value = 0f;
         }
+
+        protected override int Compare(float a, float b)
+        {
+            return a.CompareTo(b);
+        }
     }
 }
