@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LovelyBytes.AssetVariables
 {
@@ -27,8 +28,11 @@ namespace LovelyBytes.AssetVariables
 #endif
         }
 
-        [SerializeField, GetSet(nameof(Value))]
+        [SerializeField, GetSet(nameof(Value))] 
         private TType _value;
+
+        [FormerlySerializedAs("_default")] [SerializeField] 
+        private DefaultValue<TType> _defaultValue;
         
         /// <summary>
         /// Modifies the value without invoking any events
@@ -55,7 +59,17 @@ namespace LovelyBytes.AssetVariables
                         
             OnValueChanged?.Invoke(oldValue, _value);
         }
-        
+
+        private void Awake()
+        {
+            if (_defaultValue.Use)
+                _value = _defaultValue.Value;
+            
+            OnAwake();
+        }
+
+        protected virtual void OnAwake() {}
+
 #if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS
         private OperationValidator _validator;
         private OperationValidator Validator => _validator ??= 
