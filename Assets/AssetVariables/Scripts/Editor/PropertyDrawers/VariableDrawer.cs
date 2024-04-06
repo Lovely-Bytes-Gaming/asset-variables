@@ -31,8 +31,8 @@ namespace LovelyBytes.AssetVariables
         {
             if(!TryGetValueProperty(property, out SerializedProperty valueProperty))
                 DrawEmptyPropertyField(position, property, label);
-            
-            DrawAssignedPropertyField(position, property, valueProperty, label);
+            else
+                DrawAssignedPropertyField(position, property, valueProperty, label);
         }
 
         private static bool TryGetValueProperty(SerializedProperty property, out SerializedProperty valueProperty)

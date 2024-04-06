@@ -27,7 +27,7 @@ namespace LovelyBytes.AssetVariables
             if (!EditorGUI.EndChangeCheck()) 
                 return;
 
-            if (Application.isPlaying)
+            if (getSetAttribute.ExecuteInEditMode || Application.isPlaying)
                 PropertyDrawerUtils.NotifySetter(property, getSetAttribute, fieldInfo);
             else
                 property.serializedObject.ApplyModifiedProperties();
