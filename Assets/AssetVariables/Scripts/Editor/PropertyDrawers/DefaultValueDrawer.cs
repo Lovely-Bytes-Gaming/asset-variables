@@ -22,17 +22,34 @@ namespace LovelyBytes.AssetVariables
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             SerializedProperty useProperty = property.FindPropertyRelative("Use");
+            
             if (!useProperty.boolValue)
-            {
-                EditorGUI.BeginChangeCheck();
-                EditorGUI.PropertyField(position, useProperty, new GUIContent("Add default value"));
-                
-                if (EditorGUI.EndChangeCheck())
-                    property.serializedObject.ApplyModifiedProperties();
+                DrawAddDefaultValueDialogue(position, property, useProperty);
+            else
+                DrawEditDefaultValueDialogue(position, property, useProperty, label);
+        }
 
+        private static void DrawAddDefaultValueDialogue(in Rect position, SerializedProperty property, 
+            SerializedProperty useProperty)
+        {
+            GUIContent buttonContent = new("Add default value",
+                "Add a default value that will be assigned when this asset is loaded.");
+
+            Rect buttonRect = position;
+            buttonRect.width = 120f;
+
+            GUI.backgroundColor = new Color(0.5f, 1f, 1f);
+
+            if (!GUI.Button(buttonRect, buttonContent, EditorStyles.miniButtonLeft)) 
                 return;
-            }
+            
+            useProperty.boolValue = true;
+            property.serializedObject.ApplyModifiedProperties();
+        }
 
+        private void DrawEditDefaultValueDialogue(in Rect position, SerializedProperty property, SerializedProperty useProperty,
+            GUIContent label)
+        {
             const float buttonWidth = 20f;
             const float padding = 2f;
 
