@@ -15,6 +15,8 @@ namespace LovelyBytes.AssetVariables
 
         private const float _doubleClickTimeout = 0.2f;
         private SelectionTracker _selection;
+
+        private Texture2D _selectIcon, _removeIcon;
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -58,6 +60,12 @@ namespace LovelyBytes.AssetVariables
             const float buttonWidth = 20f;
             const float padding = 2f;
 
+            if (!_selectIcon)
+                LoadIcon("select.png", out _selectIcon);
+            
+            if (!_removeIcon)
+                LoadIcon("remove.png", out _removeIcon);
+            
             Rect fieldPos = position;
             fieldPos.width -= 2 * padding + 2 * buttonWidth;
 
@@ -70,13 +78,29 @@ namespace LovelyBytes.AssetVariables
             
             EditorGUI.PropertyField(fieldPos, valueProperty, label, true);
             
-            GUIContent selectContent = new ("Sel", "Select underlying asset");
-            GUIContent removeContent = new ("Del", "Clear Field");
+            GUIContent selectContent = new (string.Empty, "Select underlying asset");
+            GUIContent removeContent = new (string.Empty, "Clear Field");
 
-            if (GUI.Button(selectButtonPos, selectContent, EditorStyles.miniButtonRight))
+            GUIStyle selectStyle = new(EditorStyles.miniButtonRight)
+            {
+                normal =
+                {
+                    background = _selectIcon,
+                }
+            };
+
+            GUIStyle removeStyle = new(EditorStyles.miniButtonRight)
+            {
+                normal =
+                {
+                    background = _removeIcon
+                }
+            };
+
+            if (GUI.Button(selectButtonPos, selectContent, selectStyle))
                 SelectAsset(property.objectReferenceValue);                    
             
-            if (GUI.Button(removeButtonPos, removeContent, EditorStyles.miniButtonRight))
+            if (GUI.Button(removeButtonPos, removeContent, removeStyle))
                 ClearProperty(property);
         }
         
@@ -99,6 +123,16 @@ namespace LovelyBytes.AssetVariables
         {
             property.objectReferenceValue = null;
             property.serializedObject.ApplyModifiedProperties();
-        } 
+        }
+
+        private static void LoadIcon(string fileName, out Texture2D target)
+        {
+            string currentFolder = GeneratorUtils.GetParentDirectory(nameof(VariableDrawer));
+            string assetPath = $"{currentFolder}/Icons/{fileName}";
+
+            target = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
+            
+            Debug.Log(assetPath);
+        }
     }
 }
