@@ -9,6 +9,7 @@ namespace LovelyBytes.AssetVariables
     {
         protected abstract TType GenericEditorField(string description, TType value);
         protected abstract TType GenericSlider(string description, TType value, TType min, TType max);
+        protected abstract void ClampDefaultValue(SerializedProperty value, TType min, TType max);
 
         public override void OnInspectorGUI()
         {
@@ -27,9 +28,12 @@ namespace LovelyBytes.AssetVariables
 
             rangeType.Min = newMin;
             rangeType.Max = newMax;
-            
             rangeType.Value = newValue;
             
+            SerializedProperty value = defaultValue.FindPropertyRelative("Value");
+            ClampDefaultValue(value, newMin, newMax);
+
+            serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(rangeType);
         }
     }
