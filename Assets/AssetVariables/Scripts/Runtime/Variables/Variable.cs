@@ -28,7 +28,7 @@ namespace LovelyBytes.AssetVariables
 #endif
         }
 
-        [SerializeField, GetSet(nameof(Value))] 
+        [SerializeField, GetSet(name: nameof(Value), executeInEditMode: true)] 
         private TType _value;
 
         [SerializeField] 
