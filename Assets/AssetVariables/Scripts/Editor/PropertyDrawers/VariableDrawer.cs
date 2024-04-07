@@ -61,10 +61,10 @@ namespace LovelyBytes.AssetVariables
             const float padding = 2f;
 
             if (!_selectIcon)
-                LoadIcon("select.png", out _selectIcon);
+                PropertyDrawerUtils.LoadIcon("select.png", out _selectIcon);
             
             if (!_removeIcon)
-                LoadIcon("remove.png", out _removeIcon);
+                PropertyDrawerUtils.LoadIcon("remove.png", out _removeIcon);
             
             Rect fieldPos = position;
             fieldPos.width -= 2 * padding + 2 * buttonWidth;
@@ -125,14 +125,6 @@ namespace LovelyBytes.AssetVariables
             property.serializedObject.ApplyModifiedProperties();
         }
 
-        private static void LoadIcon(string fileName, out Texture2D target)
-        {
-            string currentFolder = GeneratorUtils.GetParentDirectory(nameof(VariableDrawer));
-            string assetPath = $"{currentFolder}/Icons/{fileName}";
 
-            target = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
-            
-            Debug.Log(assetPath);
-        }
     }
 }

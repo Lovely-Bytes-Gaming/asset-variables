@@ -1,12 +1,13 @@
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace LovelyBytes.AssetVariables
 {
     internal static class PropertyDrawerUtils 
     {
-        internal static object GetParentObject(string path, object obj)
+        public static object GetParentObject(string path, object obj)
         {
             string[] fields = path.Split('.');
 
@@ -25,7 +26,7 @@ namespace LovelyBytes.AssetVariables
             return obj;
         }
         
-        internal static void NotifySetter(SerializedProperty property, GetSetAttribute getSetAttribute, 
+        public static void NotifySetter(SerializedProperty property, GetSetAttribute getSetAttribute, 
             FieldInfo fieldInfo)
         {
             object parent = GetParentObject(property.propertyPath, property.serializedObject.targetObject);
@@ -50,6 +51,14 @@ namespace LovelyBytes.AssetVariables
             // Set the field back to its old value, then call the setter with the new value  
             fieldInfo.SetValue(parent, oldValue);
             propertyInfo.SetValue(parent, newValue, null);
+        }
+        
+        public static void LoadIcon(string fileName, out Texture2D target)
+        {
+            string currentFolder = GeneratorUtils.GetParentDirectory(nameof(PropertyDrawerUtils));
+            string assetPath = $"{currentFolder}/Icons/{fileName}";
+
+            target = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
         }
     }
 }
