@@ -7,10 +7,12 @@ namespace LovelyBytes.AssetVariables
     public sealed class GetSetAttribute : PropertyAttribute
     {
         public readonly string Name;
+        public readonly bool ExecuteInEditMode;
 
-        public GetSetAttribute(string name)
+        public GetSetAttribute(string name, bool executeInEditMode = false)
         {
             Name = name;
+            ExecuteInEditMode = executeInEditMode;
         }
     }
 }

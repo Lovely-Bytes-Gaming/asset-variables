@@ -35,7 +35,10 @@ namespace LovelyBytes.AssetVariables
             newValue = Compare(newValue, Max) > 0 ? Max : newValue;
         }
 
+        protected override void OnAwake() => ClampValue();
+
         protected abstract int Compare(TType a, TType b);
+
         
         [SerializeField, HideInInspector]
         private TType _min;

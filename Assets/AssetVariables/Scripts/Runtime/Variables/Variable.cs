@@ -28,7 +28,7 @@ namespace LovelyBytes.AssetVariables
 #endif
         }
 
-        [SerializeField, GetSet(nameof(Value))] 
+        [SerializeField, GetSet(name: nameof(Value), executeInEditMode: true)] 
         private TType _value;
 
         [SerializeField] 
@@ -68,6 +68,9 @@ namespace LovelyBytes.AssetVariables
             OnAwake();
         }
 
+        /// <summary>
+        /// Override this method instead of defining your own Awake method to avoid shadowing in child classes
+        /// </summary>
         protected virtual void OnAwake() {}
 
 #if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS

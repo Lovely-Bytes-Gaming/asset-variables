@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 
 
 namespace LovelyBytes.AssetVariables
@@ -11,5 +12,8 @@ namespace LovelyBytes.AssetVariables
 
         protected override float GenericSlider(string description, float value, float min, float max)
             => EditorGUILayout.Slider(description, value, min, max);
+
+        protected override void ClampDefaultValue(SerializedProperty value, float min, float max)
+            => value.floatValue = Mathf.Clamp(value.floatValue, min, max);
     }
 }
