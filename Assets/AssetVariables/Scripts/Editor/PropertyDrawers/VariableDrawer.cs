@@ -1,4 +1,5 @@
 
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -60,6 +61,9 @@ namespace LovelyBytes.AssetVariables
             const float buttonWidth = 20f;
             const float padding = 2f;
 
+            if (Regex.IsMatch(label.text, @"Element [0-9]+"))
+                label.text = valueProperty.serializedObject.targetObject.name;
+            
             if (!_selectIcon)
                 PropertyDrawerUtils.LoadIcon("select.png", out _selectIcon);
             
