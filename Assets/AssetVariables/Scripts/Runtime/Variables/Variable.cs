@@ -1,6 +1,6 @@
 using System;
+using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace LovelyBytes.AssetVariables
 {
@@ -42,7 +42,7 @@ namespace LovelyBytes.AssetVariables
             OnBeforeSet(ref newValue);
             _value = newValue;
         }
-        
+
         /// <summary>
         /// Override this function to perform additional checks and modifications on the value before it is set
         /// </summary>
@@ -64,19 +64,54 @@ namespace LovelyBytes.AssetVariables
         {
             if (_defaultValue.Use)
                 _value = _defaultValue.Value;
-            
-            OnAwake();
+
+            ListenToPlaymodeChanges();            
+            AwakeOverride();
+        }
+
+        private void OnEnable()
+        {
+            ListenToPlaymodeChanges();
+            OnEnableOverride();
         }
 
         /// <summary>
         /// Override this method instead of defining your own Awake method to avoid shadowing in child classes
         /// </summary>
-        protected virtual void OnAwake() {}
+        protected virtual void AwakeOverride() {}
+        
+        /// <summary>
+        /// Override this method instead of defining your own OnEnable method to avoid shadowing in child classes
+        /// </summary>
+        protected virtual void OnEnableOverride() {}
 
 #if !ASSET_VARIABLES_SKIP_SAFETY_CHECKS
         private OperationValidator _validator;
         private OperationValidator Validator => _validator ??= 
             new OperationValidator(name);
+#endif
+
+        
+        [Conditional("UNITY_EDITOR")]
+        private void ListenToPlaymodeChanges()
+        {
+            UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+        }
+
+#if UNITY_EDITOR
+        private TType _editModeValue;
+        private void OnPlayModeStateChanged(UnityEditor.PlayModeStateChange state)
+        {
+            switch (state)
+            {
+                case UnityEditor.PlayModeStateChange.EnteredPlayMode:
+                    _editModeValue = _value;
+                    break;
+                case UnityEditor.PlayModeStateChange.ExitingPlayMode:
+                    _value = _editModeValue;
+                    break;
+            }
+        }
 #endif
     }
 }
