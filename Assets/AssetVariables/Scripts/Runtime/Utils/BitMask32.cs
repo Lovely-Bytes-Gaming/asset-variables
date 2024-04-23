@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
 {
@@ -11,6 +12,7 @@ namespace LovelyBytes.AssetVariables
     [Serializable]
     public struct BitMask32 
     {
+        [SerializeField]
         private int _value;
 
         public static implicit operator BitMask32(int val)
