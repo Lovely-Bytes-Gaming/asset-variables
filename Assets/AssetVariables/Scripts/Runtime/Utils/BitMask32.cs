@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LovelyBytes.AssetVariables
@@ -22,8 +23,74 @@ namespace LovelyBytes.AssetVariables
             => bm._value;
         
         public BitMask32(int value)
-            => this._value = value;
+            => _value = value;
+        
+        public static BitMask32 FromList(List<bool> values, int startIndex, int endIndex)
+        {
+            BitMask32 result = 0;
 
+            for (int i = startIndex; i < endIndex; ++i)
+                result[i] = values[i];
+
+            return result;
+        }
+        
+        public void IntoList(List<bool> target, int startIndex, int endIndex)
+        {
+            for (int i = startIndex; i < endIndex; ++i)
+                target[i] = this[i];
+        }
+
+        public static BitMask32 FromList(List<bool> values)
+            => FromList(values, 0, values.Count);
+
+        public void IntoList(List<bool> target)
+            => IntoList(target, 0, target.Count);
+        
+        public static BitMask32 FromArray(bool[] values, int startIndex, int endIndex)
+        {
+            BitMask32 result = 0;
+
+            for (int i = startIndex; i < endIndex; ++i)
+                result[i] = values[i];
+
+            return result;
+        }
+
+        public void IntoArray(bool[] target, int startIndex, int endIndex)
+        {
+            for (int i = startIndex; i < endIndex; ++i)
+                target[i] = this[i];
+        }
+
+        public static BitMask32 FromArray(bool[] values)
+            => FromArray(values, 0, values.Length);
+
+        public void IntoArray(bool[] target)
+            => IntoArray(target, 0, target.Length);
+
+        public static BitMask32 FromVariables(List<BoolVariable> values, int startIndex, int endIndex)
+        {
+            BitMask32 result = 0;
+
+            for (int i = startIndex; i < endIndex; ++i)
+                result[i] = values[i].Value;
+
+            return result;
+        }
+        
+        public void IntoVariables(List<BoolVariable> target, int startIndex, int endIndex)
+        {
+            for (int i = startIndex; i < endIndex; ++i)
+                target[i].Value = this[i];
+        }
+
+        public static BitMask32 FromVariables(List<BoolVariable> values)
+            => FromVariables(values, 0, values.Count);
+
+        public void IntoVariables(List<BoolVariable> target)
+            => IntoVariables(target, 0, target.Count);
+        
         public static BitMask32 operator ~(BitMask32 bm)
         => ~bm._value;
 
