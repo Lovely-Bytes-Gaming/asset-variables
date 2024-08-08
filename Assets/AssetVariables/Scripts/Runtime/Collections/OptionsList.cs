@@ -116,13 +116,6 @@ namespace LovelyBytes.AssetVariables
             base.Sort();
             _index = IndexOf(current);
         }
-
-        public virtual void AddInOrder(TType item)
-        {
-            int index = List.BinarySearch(item);
-            if (index < 0) index = ~index;
-            Insert(index, item);
-        }
         
         private int Wrapped(int index)
         {

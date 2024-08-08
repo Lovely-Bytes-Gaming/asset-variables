@@ -53,5 +53,12 @@ namespace LovelyBytes.AssetVariables
         {
             List.Sort();
         }
+        
+        public virtual void AddInOrder(TType item)
+        {
+            int index = List.BinarySearch(item);
+            if (index < 0) index = ~index;
+            Insert(index, item);
+        }
     }
 }
