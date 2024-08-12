@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -9,8 +10,8 @@ namespace LovelyBytes.AssetVariables
         [SerializeField]
         private Variable<TType> _variable;
 
-        [SerializeField]
-        private bool _invokeOnAwake;
+        [FormerlySerializedAs("_invokeOnAwake")] [SerializeField]
+        private bool _invokeOnStart = true;
 
         [FormerlySerializedAs("_valueChangedListeners")] 
         [SerializeField]
@@ -22,8 +23,14 @@ namespace LovelyBytes.AssetVariables
         {
             _variable.OnValueChanged += OnValueChanged;
 
-            if (_invokeOnAwake)
+            if (_invokeOnStart)
                 _variable.Value = _variable.Value;
+        }
+
+        private void Start()
+        {
+            if (_invokeOnStart)
+                OnValueChanged(default, _variable.Value);
         }
 
         private void OnDestroy()
