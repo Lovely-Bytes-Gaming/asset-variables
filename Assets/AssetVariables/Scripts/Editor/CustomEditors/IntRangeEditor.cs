@@ -12,8 +12,5 @@ namespace LovelyBytes.AssetVariables
 
         protected override int GenericSlider(string description, int value, int min, int max)
             => EditorGUILayout.IntSlider(description, value, min, max);
-
-        protected override void ClampDefaultValue(SerializedProperty value, int min, int max)
-            => value.intValue = Mathf.Clamp(value.intValue, min, max);
     }
 }
