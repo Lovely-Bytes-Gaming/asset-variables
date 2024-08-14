@@ -22,9 +22,6 @@ namespace LovelyBytes.AssetVariables
         private void Awake()
         {
             _variable.OnValueChanged += OnValueChanged;
-
-            if (_invokeOnStart)
-                _variable.Value = _variable.Value;
         }
 
         private void Start()
