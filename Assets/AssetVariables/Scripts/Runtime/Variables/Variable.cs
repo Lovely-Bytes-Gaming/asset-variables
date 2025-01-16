@@ -42,6 +42,12 @@ namespace LovelyBytes.AssetVariables
             OnBeforeSet(ref newValue);
             _value = newValue;
         }
+
+        public void SetDefaultValue()
+        {
+            if (_defaultValue.Use)
+                Value = _defaultValue.Value;
+        }
         
         /// <summary>
         /// Override this function to perform additional checks and modifications on the value before it is set
