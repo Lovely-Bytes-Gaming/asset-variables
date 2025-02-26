@@ -26,9 +26,13 @@ namespace LovelyBytes.AssetVariables
             }
         }
 
+        public abstract void Lerp(float t);
+        public abstract float InverseLerp();
+
+        
         public void SetMax() => Value = Max;
         public void SetMin() => Value = Min;
-
+        
         /// <summary>
         /// Clamp the new value to fall between Min and Max before setting it.
         /// </summary>

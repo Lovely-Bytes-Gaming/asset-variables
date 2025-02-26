@@ -8,6 +8,16 @@ namespace LovelyBytes.AssetVariables
     {
         public void Increment() => ++Value;
         public void Decrement() => --Value;
+
+        public override void Lerp(float t)
+        {
+            Value = Mathf.RoundToInt(Mathf.Lerp(Min, Max, t));
+        }
+
+        public override float InverseLerp()
+        {
+            return Mathf.InverseLerp(Min, Max, Value);
+        }
         
         public void Reset()
         {

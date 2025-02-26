@@ -6,6 +6,16 @@ namespace LovelyBytes.AssetVariables
     [CreateAssetMenu(menuName = AssetVariableConstants.DefaultAssetPath + "Range/Float")]
     public class FloatRange : Range<float> 
     { 
+        public override void Lerp(float t)
+        {
+            Value = Mathf.Lerp(Min, Max, t);
+        }
+
+        public override float InverseLerp()
+        {
+            return Mathf.InverseLerp(Min, Max, Value);
+        }
+        
         public void Reset()
         {
             Min = 0f;
