@@ -1,36 +1,48 @@
+using System.Reflection;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace LovelyBytes.AssetVariables
 {
     [CustomPropertyDrawer(typeof(GetSetAttribute))]
     public class GetSetDrawer : PropertyDrawer
     {
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        private object _lastKnownValue;
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            if (!property.isExpanded)
-                return base.GetPropertyHeight(property, label);
+            var getSetAttribute = attribute as GetSetAttribute;
 
-            int childCount = property.CountInProperty();
-            return childCount * base.GetPropertyHeight(property, label) * 1.1f;
-        }
-        
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            if (attribute is not GetSetAttribute getSetAttribute)
-                return;
+            VisualElement container = new();
+            PropertyField valueField = new(property);
+
+            _lastKnownValue = property.boxedValue;
             
-            EditorGUI.BeginChangeCheck();
+            
+            valueField.TrackPropertyValue(property, changedProperty =>
+            {
+                object oldValue = _lastKnownValue;
+                object newValue = changedProperty.boxedValue;
+                _lastKnownValue = newValue;
+                
+                object parent = PropertyDrawerUtils.GetParentObject(
+                    changedProperty.propertyPath, 
+                    changedProperty.serializedObject.targetObject);
+                
+                System.Type type = parent.GetType();
+                PropertyInfo propertyInfo = type.GetProperty(getSetAttribute!.Name);
 
-            EditorGUI.PropertyField(position, property, label, includeChildren: true);
-
-            if (!EditorGUI.EndChangeCheck()) 
-                return;
-
-            if (getSetAttribute.ExecuteInEditMode || Application.isPlaying)
-                PropertyDrawerUtils.NotifySetter(property, getSetAttribute, fieldInfo);
-            else
-                property.serializedObject.ApplyModifiedProperties();
+                if (propertyInfo != null)
+                {
+                    fieldInfo.SetValue(parent, oldValue);
+                    propertyInfo.SetValue(parent, newValue, null);
+                    changedProperty.serializedObject.ApplyModifiedProperties();
+                }
+            });
+            
+            container.Add(valueField);
+            return container;
         }
     }
 }
