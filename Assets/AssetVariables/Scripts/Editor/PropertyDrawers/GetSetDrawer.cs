@@ -26,6 +26,8 @@ namespace LovelyBytes.AssetVariables
                 object newValue = changedProperty.boxedValue;
                 _lastKnownValue = newValue;
                 
+                Debug.Log($"{oldValue} -> {newValue}");
+                
                 object parent = PropertyDrawerUtils.GetParentObject(
                     changedProperty.propertyPath, 
                     changedProperty.serializedObject.targetObject);

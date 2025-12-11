@@ -84,3 +84,7 @@ crashlytics-build.properties
 # local folder for quick tests
 GitIgnore
 GitIgnore.meta
+
+#UI Toolkit IDE Settings
+UIElementsSchema
+UIElementsSchema.meta

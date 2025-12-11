@@ -1,13 +1,18 @@
 
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace LovelyBytes.AssetVariables
 {
     [CustomPropertyDrawer(typeof(Variable<>), useForChildren: true)]
     public class VariableDrawer : PropertyDrawer
     {
+        [SerializeField]
+        private VisualTreeAsset _visualTreeAsset;
+        
         private struct SelectionTracker
         {
             public Object ObjectReference;
@@ -18,7 +23,7 @@ namespace LovelyBytes.AssetVariables
         private SelectionTracker _selection;
 
         private Texture2D _selectIcon, _removeIcon;
-        
+        /*
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             if (!TryGetValueProperty(property, out SerializedProperty valueProperty))
@@ -36,18 +41,6 @@ namespace LovelyBytes.AssetVariables
                 DrawEmptyPropertyField(position, property, label);
             else
                 DrawAssignedPropertyField(position, property, valueProperty, label);
-        }
-
-        private static bool TryGetValueProperty(SerializedProperty property, out SerializedProperty valueProperty)
-        {
-            valueProperty = null;
-            
-            if (!property.objectReferenceValue)
-                return false;
-            
-            SerializedObject targetObject = new(property.objectReferenceValue);
-            valueProperty = targetObject.FindProperty("_value");
-            return valueProperty != null;
         }
         
         private static void DrawEmptyPropertyField(in Rect position, SerializedProperty property, GUIContent label)
@@ -106,6 +99,33 @@ namespace LovelyBytes.AssetVariables
             
             if (GUI.Button(removeButtonPos, removeContent, removeStyle))
                 ClearProperty(property);
+        }
+        */
+
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            VisualElement tree = _visualTreeAsset.Instantiate();
+            var assetPropertyField = tree.Q<PropertyField>("Asset");
+            assetPropertyField.BindProperty(property);
+            
+            if (TryGetValueProperty(property, out SerializedProperty valueProperty))
+            {
+                var valuePropertyField =  tree.Q<PropertyField>("Value");
+                valuePropertyField.BindProperty(valueProperty);
+            }
+            return tree;
+        }
+
+        private static bool TryGetValueProperty(SerializedProperty property, out SerializedProperty valueProperty)
+        {
+            valueProperty = null;
+            
+            if (!property.objectReferenceValue)
+                return false;
+            
+            SerializedObject targetObject = new(property.objectReferenceValue);
+            valueProperty = targetObject.FindProperty("_value");
+            return valueProperty != null;
         }
         
         private void SelectAsset(Object asset)

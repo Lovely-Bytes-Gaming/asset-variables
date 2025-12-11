@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgb(45, 45, 45);">
+        <uie:PropertyField name="Asset" />
+        <uie:PropertyField name="Value" />
+    </ui:VisualElement>
+</ui:UXML>
