@@ -1,5 +1,3 @@
-
-using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -13,142 +11,33 @@ namespace LovelyBytes.AssetVariables
         [SerializeField]
         private VisualTreeAsset _visualTreeAsset;
         
-        private struct SelectionTracker
-        {
-            public Object ObjectReference;
-            public double Timestamp;
-        }
-
-        private const float _doubleClickTimeout = 0.2f;
-        private SelectionTracker _selection;
-
-        private Texture2D _selectIcon, _removeIcon;
-        /*
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            if (!TryGetValueProperty(property, out SerializedProperty valueProperty))
-                return base.GetPropertyHeight(property, label);
-            
-            if (!valueProperty.isExpanded)
-                return base.GetPropertyHeight(valueProperty, label);
-            
-            return valueProperty.CountInProperty() * base.GetPropertyHeight(valueProperty, label) * 1.1f;
-        }
-
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            if(!TryGetValueProperty(property, out SerializedProperty valueProperty))
-                DrawEmptyPropertyField(position, property, label);
-            else
-                DrawAssignedPropertyField(position, property, valueProperty, label);
-        }
-        
-        private static void DrawEmptyPropertyField(in Rect position, SerializedProperty property, GUIContent label)
-        {
-            EditorGUI.PropertyField(position, property, label, true);
-        }
-        
-        private void DrawAssignedPropertyField(in Rect position, SerializedProperty property, 
-            SerializedProperty valueProperty, GUIContent label)
-        {
-            const float buttonWidth = 20f;
-            const float padding = 2f;
-
-            if (Regex.IsMatch(label.text, @"Element [0-9]+"))
-                label.text = valueProperty.serializedObject.targetObject.name;
-            
-            if (!_selectIcon)
-                PropertyDrawerUtils.LoadIcon("select.png", out _selectIcon);
-            
-            if (!_removeIcon)
-                PropertyDrawerUtils.LoadIcon("remove.png", out _removeIcon);
-            
-            Rect fieldPos = position;
-            fieldPos.width -= 2 * padding + 2 * buttonWidth;
-
-            Rect selectButtonPos = position;
-            selectButtonPos.x += fieldPos.width + padding;
-            selectButtonPos.width = buttonWidth;
-
-            Rect removeButtonPos = selectButtonPos;
-            removeButtonPos.x += buttonWidth + padding;
-            
-            EditorGUI.PropertyField(fieldPos, valueProperty, label, true);
-            
-            GUIContent selectContent = new (string.Empty, "Select underlying asset");
-            GUIContent removeContent = new (string.Empty, "Clear Field");
-
-            GUIStyle selectStyle = new(EditorStyles.miniButtonRight)
-            {
-                normal =
-                {
-                    background = _selectIcon,
-                }
-            };
-
-            GUIStyle removeStyle = new(EditorStyles.miniButtonRight)
-            {
-                normal =
-                {
-                    background = _removeIcon
-                }
-            };
-
-            if (GUI.Button(selectButtonPos, selectContent, selectStyle))
-                SelectAsset(property.objectReferenceValue);                    
-            
-            if (GUI.Button(removeButtonPos, removeContent, removeStyle))
-                ClearProperty(property);
-        }
-        */
-
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            VisualElement tree = _visualTreeAsset.Instantiate();
-            var assetPropertyField = tree.Q<PropertyField>("Asset");
+            VisualElement root = _visualTreeAsset.CloneTree();
+            var assetPropertyField = root.Q<PropertyField>("Asset");
             assetPropertyField.BindProperty(property);
+            UpdateProperty(property, root);
             
-            if (TryGetValueProperty(property, out SerializedProperty valueProperty))
+            assetPropertyField.TrackPropertyValue(property, 
+                changedProperty => UpdateProperty(changedProperty, root));
+            
+            return root;
+        }
+
+        private void UpdateProperty(SerializedProperty property, VisualElement root)
+        {
+            var valuePropertyField =  root.Q<PropertyField>("Value");
+            
+            if (PropertyDrawerUtils.TryGetValueProperty(property, out SerializedProperty valueProperty))
             {
-                var valuePropertyField =  tree.Q<PropertyField>("Value");
+                valuePropertyField.style.display = DisplayStyle.Flex;
                 valuePropertyField.BindProperty(valueProperty);
             }
-            return tree;
-        }
-
-        private static bool TryGetValueProperty(SerializedProperty property, out SerializedProperty valueProperty)
-        {
-            valueProperty = null;
-            
-            if (!property.objectReferenceValue)
-                return false;
-            
-            SerializedObject targetObject = new(property.objectReferenceValue);
-            valueProperty = targetObject.FindProperty("_value");
-            return valueProperty != null;
-        }
-        
-        private void SelectAsset(Object asset)
-        {
-            double ts = EditorApplication.timeSinceStartup;
-            
-            if (ReferenceEquals(_selection.ObjectReference, asset) &&
-                ts - _selection.Timestamp < _doubleClickTimeout)
+            else
             {
-                Selection.objects = new[] { asset };
+                valuePropertyField.style.display = DisplayStyle.None;
+                valuePropertyField.Unbind();
             }
-            
-            _selection.Timestamp = ts;
-            _selection.ObjectReference = asset;
-            EditorGUIUtility.PingObject(asset);
         }
-
-        private static void ClearProperty(SerializedProperty property)
-        {
-            property.objectReferenceValue = null;
-            property.serializedObject.ApplyModifiedProperties();
-        }
-
-
     }
 }

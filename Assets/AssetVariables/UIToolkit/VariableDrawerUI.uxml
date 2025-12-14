@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:VisualElement name="Background" style="background-color: rgb(37, 37, 37); margin-top: 2px; margin-right: 0; margin-bottom: 2px; margin-left: 0; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 12px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
+    <ui:VisualElement name="Background" style="background-color: rgb(37, 37, 37); margin-top: 2px; margin-right: 0; margin-bottom: 2px; margin-left: 0; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 14px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
         <uie:PropertyField name="Asset" />
         <uie:PropertyField name="Value" />
     </ui:VisualElement>

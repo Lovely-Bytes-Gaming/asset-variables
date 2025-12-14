@@ -12,9 +12,13 @@ namespace LovelyBytes.AssetVariables
 
             for (int i = 0; i < fields.Length-1; ++i)
             {
+                Debug.Log(fields[i]);
+                
                 FieldInfo fieldInfo = obj
                     ?.GetType()
-                    .GetField(fields[i], BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                    .GetField(fields[i], BindingFlags.Public | 
+                                         BindingFlags.NonPublic | 
+                                         BindingFlags.Instance);
 
                 if (fieldInfo == null)
                     return null;
@@ -25,39 +29,24 @@ namespace LovelyBytes.AssetVariables
             return obj;
         }
         
-        public static void NotifySetter(SerializedProperty property, GetSetAttribute getSetAttribute, 
-            FieldInfo fieldInfo)
-        {
-            object parent = GetParentObject(property.propertyPath, property.serializedObject.targetObject);
-
-            if (parent == null)
-                return;
-            
-            object oldValue = fieldInfo.GetValue(parent);
-            property.serializedObject.ApplyModifiedProperties();
-            
-            object newValue = fieldInfo.GetValue(parent);
-
-            System.Type type = parent.GetType();
-            PropertyInfo propertyInfo = type.GetProperty(getSetAttribute.Name);
-
-            if (propertyInfo == null)
-            {
-                Debug.LogError($"Invalid property name \"{getSetAttribute.Name}\" for GetSetAttribute");
-                return;
-            }
-            // Workaround to achieve correct setter behaviour:
-            // Set the field back to its old value, then call the setter with the new value  
-            fieldInfo.SetValue(parent, oldValue);
-            propertyInfo.SetValue(parent, newValue, null);
-        }
-        
         public static void LoadIcon(string fileName, out Texture2D target)
         {
             string currentFolder = GeneratorUtils.GetParentDirectory(nameof(PropertyDrawerUtils));
             string assetPath = $"{currentFolder}/Icons/{fileName}";
 
             target = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
+        }
+        
+        public static bool TryGetValueProperty(SerializedProperty property, out SerializedProperty valueProperty)
+        {
+            valueProperty = null;
+            
+            if (!property.objectReferenceValue)
+                return false;
+            
+            SerializedObject targetObject = new(property.objectReferenceValue);
+            valueProperty = targetObject.FindProperty("_value");
+            return valueProperty != null;
         }
     }
 }
